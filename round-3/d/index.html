@@ -1,0 +1,3318 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sacred" data-contrast="off">
+<head>
+<meta charset="UTF-8" /><meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Eliana's Rhythm — 2027 Product Vision</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+    --font-serif: "Iowan Old Style", "New York", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --font-hebrew: "SBL Hebrew", "Ezra SIL", "Times New Roman", serif;
+    --scripture-size: 17.5px;
+    --scripture-leading: 1.68;
+
+    /* Default Theme: Sacred (Midnight Navy & Antique Gold — refined) */
+    --bg-outer: #04060A;
+    --bg-page: #080C14;
+    --bg-surface: #111622;
+    --bg-inset: #181F30;
+    --bg-elevated: #1D2538;
+    --bg-nav: rgba(12, 16, 27, 0.90);
+
+    --ink: #EDE6D8;
+    --ink-soft: #A8A3B0;
+    --ink-faint: #757180;
+
+    --accent: #D9B44A;
+    --accent-soft: rgba(217, 180, 74, 0.14);
+    --accent-ink: #080C14;
+    --spark: #E5BC4B;
+    --spark-soft: rgba(229, 188, 75, 0.15);
+    --spark-ink: #F3D172;
+
+    --border: rgba(237, 230, 216, 0.09);
+    --border-strong: rgba(237, 230, 216, 0.18);
+    --hero-border: linear-gradient(135deg, rgba(217, 180, 74, 0.45), rgba(217, 180, 74, 0.06));
+    --title-etch: 0 1px 2px rgba(0, 0, 0, 0.65);
+    --shadow-card: none;
+    --shadow-float: 0 14px 36px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Shekinah — True OLED Black & Fire Gold */
+  [data-theme="shekinah"] {
+    --bg-outer: #000000;
+    --bg-page: #000000;
+    --bg-surface: #0D0D0F;
+    --bg-inset: #151518;
+    --bg-elevated: #1C1C20;
+    --bg-nav: rgba(10, 10, 12, 0.92);
+
+    --ink: #ECE8E0;
+    --ink-soft: #A6A29A;
+    --ink-faint: #726F68;
+
+    --accent: #FFC233;
+    --accent-soft: rgba(255, 194, 51, 0.15);
+    --accent-ink: #120D00;
+    --spark: #FFC233;
+    --spark-soft: rgba(255, 194, 51, 0.16);
+    --spark-ink: #FFD56B;
+
+    --border: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.20);
+    --hero-border: linear-gradient(135deg, rgba(255, 194, 51, 0.46), rgba(255, 194, 51, 0.07));
+    --title-etch: 0 1px 2px rgba(0, 0, 0, 0.85);
+    --shadow-card: none;
+    --shadow-float: 0 14px 36px rgba(0, 0, 0, 0.72);
+  }
+
+  /* Ivory — Paper, Ink & Burnished Gold Leaf (refined) */
+  [data-theme="ivory"] {
+    --bg-outer: #E8E5DD;
+    --bg-page: #F9F8F4;
+    --bg-surface: #FFFFFF;
+    --bg-inset: #FBF6E8;
+    --bg-elevated: #F3F0E8;
+    --bg-nav: rgba(255, 255, 255, 0.92);
+
+    --ink: #22211E;
+    --ink-soft: #5E5C56;
+    --ink-faint: #89867E;
+
+    --accent: #8A6700;
+    --accent-soft: rgba(138, 103, 0, 0.10);
+    --accent-ink: #FFFFFF;
+    --spark: #9A7100;
+    --spark-soft: rgba(154, 113, 0, 0.12);
+    --spark-ink: #6E5000;
+
+    --border: rgba(34, 33, 30, 0.09);
+    --border-strong: rgba(34, 33, 30, 0.18);
+    --hero-border: linear-gradient(135deg, rgba(138, 103, 0, 0.46), rgba(138, 103, 0, 0.09));
+    --title-etch: 0 1px 0 rgba(255, 248, 224, 0.9);
+    --shadow-card: 0 2px 10px rgba(68, 60, 40, 0.05), 0 1px 2px rgba(68, 60, 40, 0.04);
+    --shadow-float: 0 12px 30px rgba(55, 48, 30, 0.15);
+  }
+
+  /* Crisp Paper — Fresh Print, Charcoal Ink & Gold Leaf */
+  [data-theme="crisp"] {
+    --bg-outer: #E2E5E9;
+    --bg-page: #F6F7F9;
+    --bg-surface: #FFFFFF;
+    --bg-inset: #F1F3F6;
+    --bg-elevated: #EAECEF;
+    --bg-nav: rgba(255, 255, 255, 0.94);
+
+    --ink: #1C1E22;
+    --ink-soft: #565B64;
+    --ink-faint: #848A94;
+
+    --accent: #84640D;
+    --accent-soft: rgba(132, 100, 13, 0.10);
+    --accent-ink: #FFFFFF;
+    --spark: #8C6808;
+    --spark-soft: rgba(140, 104, 8, 0.11);
+    --spark-ink: #6D5106;
+
+    --border: rgba(28, 30, 34, 0.09);
+    --border-strong: rgba(28, 30, 34, 0.18);
+    --hero-border: linear-gradient(135deg, rgba(132, 100, 13, 0.44), rgba(132, 100, 13, 0.08));
+    --title-etch: 0 1px 0 rgba(255, 255, 255, 0.9);
+    --shadow-card: 0 2px 10px rgba(20, 24, 32, 0.05), 0 1px 2px rgba(20, 24, 32, 0.03);
+    --shadow-float: 0 12px 30px rgba(20, 24, 32, 0.14);
+  }
+
+  /* Lapis Vellum — 2027 Proposal: Mineral Paper, Deep Lapis & Burnished Amber ✦ */
+  [data-theme="lapis"] {
+    --bg-outer: #DCE2EE;
+    --bg-page: #F2F4F9;
+    --bg-surface: #FFFFFF;
+    --bg-inset: #EBF0F8;
+    --bg-elevated: #E3E9F4;
+    --bg-nav: rgba(255, 255, 255, 0.93);
+
+    --ink: #11182B;
+    --ink-soft: #495672;
+    --ink-faint: #78849E;
+
+    --accent: #1C3E9C;
+    --accent-soft: rgba(28, 62, 156, 0.10);
+    --accent-ink: #FFFFFF;
+    --spark: #C6831E;
+    --spark-soft: rgba(198, 131, 30, 0.14);
+    --spark-ink: #8E5808;
+
+    --border: rgba(17, 24, 43, 0.09);
+    --border-strong: rgba(17, 24, 43, 0.18);
+    --hero-border: linear-gradient(135deg, rgba(28, 62, 156, 0.35), rgba(198, 131, 30, 0.25));
+    --title-etch: none;
+    --shadow-card: 0 2px 10px rgba(17, 24, 43, 0.05), 0 1px 2px rgba(17, 24, 43, 0.03);
+    --shadow-float: 0 12px 30px rgba(17, 24, 43, 0.16);
+  }
+
+  /* High Contrast Accessibility Overlay */
+  [data-contrast="on"][data-theme="sacred"],
+  [data-contrast="on"][data-theme="shekinah"] {
+    --bg-page: #000000;
+    --bg-surface: #0A0A0A;
+    --bg-inset: #141414;
+    --ink: #FFFFFF;
+    --ink-soft: #E5E5E5;
+    --ink-faint: #C0C0C0;
+    --border: rgba(255, 255, 255, 0.42);
+    --border-strong: rgba(255, 255, 255, 0.72);
+    --shadow-card: none;
+  }
+
+  [data-contrast="on"][data-theme="ivory"],
+  [data-contrast="on"][data-theme="crisp"],
+  [data-contrast="on"][data-theme="lapis"] {
+    --bg-page: #FFFFFF;
+    --bg-surface: #FFFFFF;
+    --bg-inset: #F0F0F0;
+    --ink: #000000;
+    --ink-soft: #1E1E1E;
+    --ink-faint: #404040;
+    --border: rgba(0, 0, 0, 0.45);
+    --border-strong: rgba(0, 0, 0, 0.75);
+    --shadow-card: none;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background: var(--bg-outer);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button, input, textarea {
+    font-family: inherit;
+    color: inherit;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  button { cursor: pointer; }
+
+  /* Phone-sized 390x844 frame that scrolls smoothly */
+  .phone-shell {
+    width: 100%;
+    max-width: 390px;
+    min-height: 844px;
+    margin: 0 auto;
+    background: var(--bg-page);
+    color: var(--ink);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.22s ease, color 0.22s ease;
+    box-shadow: 0 0 48px rgba(0, 0, 0, 0.24);
+  }
+
+  /* ==================== TOP BAR ==================== */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg-nav);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .brand-mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--spark-soft);
+    border: 1px solid var(--border-strong);
+    display: grid;
+    place-items: center;
+    color: var(--spark-ink);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .brand-wordmark {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: var(--title-etch);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .top-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* One-tap Theme Switcher pill right in the header */
+  .theme-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .theme-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 1px solid var(--border-strong);
+  }
+
+  .stillness-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .breath-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: breatheDot 3.8s ease-in-out infinite;
+  }
+
+  @keyframes breatheDot {
+    0%, 100% { transform: scale(0.8); opacity: 0.55; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    color: var(--ink-soft);
+  }
+
+  /* Quick Theme Bar popover */
+  .quick-theme-strip {
+    display: none;
+    padding: 9px 14px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 53px;
+    z-index: 39;
+  }
+  .quick-theme-strip.open { display: flex; }
+  .quick-theme-strip::-webkit-scrollbar { display: none; }
+
+  .qt-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-page);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .qt-chip.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+  .qt-swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(128,128,128,0.35);
+  }
+
+  /* ==================== MAIN VIEWS ==================== */
+  .views-wrap {
+    flex: 1;
+    padding-bottom: 84px;
+  }
+
+  .view { display: none; }
+  .view.active {
+    display: block;
+    animation: fadeUp 0.18s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stack {
+    padding: 14px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ==================== HOME SCREEN ==================== */
+  .home-masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 2px 0;
+  }
+
+  .liturgical-line {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .time-seg {
+    display: inline-flex;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px;
+    gap: 2px;
+  }
+
+  .time-seg button {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    color: var(--ink-faint);
+  }
+  .time-seg button.active {
+    background: var(--bg-surface);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  }
+
+  /* Continuation Ribbon (sleek bookmark instead of heavy card) */
+  .continue-ribbon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    text-align: left;
+    width: 100%;
+    transition: transform 0.12s ease;
+  }
+  .continue-ribbon:active { transform: scale(0.985); }
+
+  .continue-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+  }
+
+  .bookmark-flag {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .continue-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .continue-sub {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 1px;
+  }
+
+  /* Hero Sacred Word Card with subtle premium hairline gradient border */
+  .hero-frame {
+    border-radius: 22px;
+    padding: 1px;
+    background: var(--hero-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .hero-card {
+    border-radius: 21px;
+    background: var(--bg-surface);
+    padding: 18px 18px 16px;
+  }
+
+  .hero-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: var(--title-etch);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .hero-day-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .day-arrow {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--bg-inset);
+    color: var(--ink-soft);
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .day-arrow:disabled { opacity: 0.35; cursor: default; }
+
+  .day-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    padding: 0 4px;
+  }
+
+  .hero-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chain-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .star-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: var(--bg-inset);
+    color: var(--ink-soft);
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+  }
+  .star-btn.saved {
+    color: var(--spark-ink);
+    background: var(--spark-soft);
+  }
+
+  .verse-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .verse-ref-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  .voice-seg {
+    display: inline-flex;
+    background: var(--bg-inset);
+    border-radius: 999px;
+    padding: 2px;
+  }
+
+  .voice-seg button {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: var(--ink-soft);
+  }
+  .voice-seg button.active {
+    background: var(--bg-surface);
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+
+  /* Sacred Inset Quote Box */
+  .verse-inset {
+    background: var(--bg-inset);
+    border-radius: 14px;
+    padding: 15px 15px 14px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+  }
+
+  .eliana-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--spark-ink);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hero-quote {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.62;
+    font-style: italic;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pastoral-field-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .pastoral-field-text {
+    font-size: 14px;
+    line-height: 1.56;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .more-notes-wrap {
+    display: none;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-direction: column;
+    gap: 11px;
+  }
+  .more-notes-wrap.open { display: flex; }
+
+  .disclosure-btn {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hero-doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .btn-solid {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: 13px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border-strong);
+    border-radius: 13px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .hero-quiet-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .quiet-pill {
+    flex: 1;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  /* Active Library Path Card */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 15px 16px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .path-row {
+    display: flex;
+    align-items: stretch;
+    gap: 13px;
+  }
+
+  .book-spine {
+    width: 46px;
+    border-radius: 11px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-strong);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .book-spine span {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .book-spine strong {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+  .path-info { flex: 1; min-width: 0; }
+  .path-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 2px 0 3px;
+  }
+  .path-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin: 0 0 9px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--bg-inset);
+    overflow: hidden;
+    flex: 1;
+  }
+  .progress-bar > span {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+  }
+
+  /* Sanctuary Doors Strip (Replaces redundant 2x2 Quick Access grid) */
+  .sanctuary-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .door-tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 12px 10px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: var(--shadow-card);
+  }
+  .door-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+  }
+  .door-tile strong { font-size: 12.5px; font-weight: 700; }
+  .door-tile span { font-size: 11px; color: var(--ink-soft); line-height: 1.25; }
+
+  /* ==================== BIBLE READER (READ & STUDY) ==================== */
+  .reader-bar {
+    position: sticky;
+    top: 53px;
+    z-index: 35;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 9px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reader-bar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .ref-picker-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .ref-version {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mode-switch {
+    display: inline-flex;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2px;
+  }
+  .mode-btn {
+    padding: 4px 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .mode-btn.active {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .reader-tool-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .reader-mini-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+  .reader-mini-btn.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* Aa Controls Drawer */
+  .aa-drawer {
+    display: none;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    flex-direction: column;
+    gap: 9px;
+  }
+  .aa-drawer.open { display: flex; }
+
+  .aa-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .seg-mini {
+    display: inline-flex;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .seg-mini button {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 7px;
+    color: var(--ink-soft);
+  }
+  .seg-mini button.active {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .reader-canvas {
+    padding: 18px 18px 90px;
+  }
+
+  .chapter-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .chapter-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 3px 0 0;
+    letter-spacing: -0.02em;
+  }
+
+  /* READ MODE: Printed Bible Prose */
+  .read-prose {
+    font-family: var(--font-serif);
+    font-size: var(--scripture-size);
+    line-height: var(--scripture-leading);
+    color: var(--ink);
+  }
+
+  .read-prose.verse-by-verse .inline-verse {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .inline-verse {
+    border-radius: 6px;
+    padding: 1px 3px;
+    cursor: pointer;
+    transition: background 0.14s ease;
+  }
+  .inline-verse:hover { background: var(--accent-soft); }
+  .inline-verse.selected {
+    background: var(--accent-soft);
+    box-shadow: inset 0 -2px 0 var(--accent);
+  }
+  .inline-verse.hl-yellow { background: rgba(235, 195, 52, 0.24); }
+  .inline-verse.hl-blue { background: rgba(88, 154, 232, 0.22); }
+  .inline-verse.hl-green { background: rgba(86, 178, 118, 0.22); }
+
+  .v-num {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--accent);
+    vertical-align: super;
+    margin-right: 3px;
+    user-select: none;
+  }
+
+  .mark-spark {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--spark-ink);
+    margin-left: 2px;
+    vertical-align: super;
+  }
+
+  .chain-inline {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .note-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--spark);
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  /* Floating Verse Action Bar */
+  .verse-action-dock {
+    position: fixed;
+    bottom: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 366px;
+    z-index: 44;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    padding: 10px 12px 11px;
+    box-shadow: var(--shadow-float);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .verse-action-dock.open {
+    display: flex;
+    animation: fadeUp 0.16s ease-out;
+  }
+
+  .dock-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dock-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .dock-chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .dock-chip.primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: transparent;
+  }
+  .dock-chip.spark {
+    background: var(--spark-soft);
+    color: var(--spark-ink);
+    border-color: transparent;
+  }
+
+  /* STUDY MODE: Quiet verses + Illuminated 4-Layer Optical Lens */
+  .study-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .study-compact {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    cursor: pointer;
+  }
+  .study-compact-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .study-compact-text {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* Active 4-Layer Study Lens */
+  .study-lens-frame {
+    border-radius: 20px;
+    padding: 1px;
+    background: var(--hero-border);
+    box-shadow: var(--shadow-float);
+  }
+  .study-lens {
+    border-radius: 19px;
+    background: var(--bg-surface);
+    padding: 15px 15px 14px;
+  }
+
+  .lens-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .lens-verse-text {
+    font-family: var(--font-serif);
+    font-size: var(--scripture-size);
+    line-height: 1.58;
+    color: var(--ink);
+    margin: 0 0 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lens-tier {
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 10px 12px;
+    margin-bottom: 9px;
+  }
+  .lens-tier.eliana-tier {
+    background: var(--spark-soft);
+    border-color: var(--border-strong);
+  }
+
+  .tier-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 7px;
+  }
+
+  .tokens-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tokens-flow.rtl { direction: rtl; }
+
+  .word-chip {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink);
+    transition: border-color 0.14s ease, background 0.14s ease;
+  }
+  .word-chip.hebrew {
+    font-family: var(--font-hebrew);
+    font-size: 21px;
+    line-height: 1.9;
+  }
+  .word-chip.greek {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  .word-chip.key {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .translit-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    direction: ltr;
+  }
+  .translit-chip {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding: 2px 5px;
+    border-radius: 6px;
+  }
+  .translit-chip:hover {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  .chapter-footer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ==================== SANCTUARY (JOURNEY / LIBRARY / THRONE / JOURNAL) ==================== */
+  .subnav-pills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 12px 16px 2px;
+  }
+  .subnav-btn {
+    padding: 7px 4px;
+    border-radius: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .subnav-btn.active {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: transparent;
+  }
+
+  .subpanel { display: none; padding: 12px 16px 20px; }
+  .subpanel.active { display: block; }
+
+  .constellation-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 7px;
+    margin: 14px 0 12px;
+  }
+  .rhythm-dot {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+  }
+  .rhythm-dot.read {
+    background: var(--accent);
+    border-color: transparent;
+    opacity: 0.65;
+  }
+  .rhythm-dot.deep {
+    background: var(--spark);
+    border-color: transparent;
+    box-shadow: 0 0 8px var(--spark-soft);
+  }
+
+  .room-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 13px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-card);
+  }
+  .room-emblem {
+    width: 44px;
+    height: 52px;
+    border-radius: 11px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-strong);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .clean-input, .clean-textarea {
+    width: 100%;
+    background: var(--bg-page);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .clean-textarea { min-height: 76px; resize: vertical; }
+  .clean-input:focus, .clean-textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .saved-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 9px;
+  }
+
+  /* ==================== ELIANA STREAMING COMPANION ==================== */
+  .eliana-anchor-bar {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+  }
+
+  .anchor-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--spark-soft);
+    color: var(--spark-ink);
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .chat-stream {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .msg {
+    max-width: 88%;
+    padding: 11px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.56;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-bottom-right-radius: 4px;
+  }
+  .msg.eliana {
+    align-self: flex-start;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .ref-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12.5px;
+    margin: 0 2px;
+  }
+
+  .prompt-strip {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 4px 16px 10px;
+    scrollbar-width: none;
+  }
+  .prompt-strip::-webkit-scrollbar { display: none; }
+  .prompt-chip {
+    white-space: nowrap;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .composer-box {
+    margin: 0 16px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 6px 6px 6px 12px;
+  }
+  .composer-box input {
+    flex: 1;
+    font-size: 13.5px;
+    outline: none;
+  }
+  .send-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: grid;
+    place-items: center;
+  }
+
+  /* ==================== BOTTOM NAVIGATION ==================== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 390px;
+    z-index: 45;
+    background: var(--bg-nav);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 7px 8px 10px;
+  }
+
+  .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
+    color: var(--ink-faint);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn.eliana-tab.active { color: var(--spark-ink); }
+
+  /* ==================== BOTTOM SHEETS & OVERLAYS ==================== */
+  .sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(0, 0, 0, 0.56);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .sheet-backdrop.open { display: flex; }
+
+  .sheet-panel {
+    width: 100%;
+    max-width: 390px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--bg-surface);
+    color: var(--ink);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top: 1px solid var(--border-strong);
+    padding: 12px 18px 28px;
+    box-shadow: 0 -10px 36px rgba(0,0,0,0.32);
+    animation: slideUp 0.18s ease-out;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0.6; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--border-strong);
+    margin: 0 auto 14px;
+  }
+
+  .sheet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .close-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: var(--bg-inset);
+    color: var(--ink-soft);
+    font-size: 16px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .study-section-box {
+    padding: 12px 13px;
+    border-radius: 13px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    margin-bottom: 9px;
+  }
+
+  .theme-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 8px 0 14px;
+  }
+  .theme-card-opt {
+    padding: 10px;
+    border-radius: 13px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--bg-page);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .theme-card-opt.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .swatch-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    border: 1px solid rgba(128,128,128,0.35);
+    flex-shrink: 0;
+  }
+
+  /* Stillness Fullscreen Modal */
+  .stillness-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    max-width: 390px;
+    margin: 0 auto;
+    background: radial-gradient(circle at 50% 35%, var(--bg-inset) 0%, var(--bg-page) 100%);
+    color: var(--ink);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 44px 26px 40px;
+  }
+  .stillness-modal.open {
+    display: flex;
+    animation: fadeUp 0.22s ease;
+  }
+
+  .breath-ring {
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 72%);
+    border: 1.5px solid var(--accent);
+    display: grid;
+    place-items: center;
+    transition: transform 3.8s ease-in-out;
+  }
+  .breath-ring.inhale { transform: scale(1.16); }
+  .breath-ring.exhale { transform: scale(0.90); }
+
+  .toast {
+    position: fixed;
+    bottom: 78px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--ink);
+    color: var(--bg-page);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 99;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="phone-shell">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      <span class="brand-wordmark">Eliana's Rhythm</span>
+    </div>
+    <div class="top-actions">
+      <button class="theme-pill-btn" onclick="toggleQuickThemeBar()" title="Switch colour theme">
+        <span class="theme-dot"></span>
+        <span id="topThemeLabel">Sacred</span>
+      </button>
+      <button class="stillness-pill" onclick="openStillness()" title="Enter Stillness">
+        <span class="breath-dot"></span>
+        <span>Stillness</span>
+      </button>
+      <button class="icon-btn" onclick="openSheet('settingsSheet')" aria-label="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ONE-TAP THEME SWITCHER BAR -->
+  <div class="quick-theme-strip" id="quickThemeStrip">
+    <button class="qt-chip active" id="qt-sacred" onclick="setTheme('sacred')">
+      <span class="qt-swatch" style="background:linear-gradient(135deg,#080C14 55%,#D9B44A 55%);"></span>Sacred
+    </button>
+    <button class="qt-chip" id="qt-shekinah" onclick="setTheme('shekinah')">
+      <span class="qt-swatch" style="background:linear-gradient(135deg,#000000 55%,#FFC233 55%);"></span>Shekinah
+    </button>
+    <button class="qt-chip" id="qt-ivory" onclick="setTheme('ivory')">
+      <span class="qt-swatch" style="background:linear-gradient(135deg,#F9F8F4 55%,#8A6700 55%);"></span>Ivory
+    </button>
+    <button class="qt-chip" id="qt-crisp" onclick="setTheme('crisp')">
+      <span class="qt-swatch" style="background:linear-gradient(135deg,#F6F7F9 55%,#84640D 55%);"></span>Crisp Paper
+    </button>
+    <button class="qt-chip" id="qt-lapis" onclick="setTheme('lapis')">
+      <span class="qt-swatch" style="background:linear-gradient(135deg,#F2F4F9 50%,#1C3E9C 50%);"></span>Lapis (2027)
+    </button>
+  </div>
+
+  <main class="views-wrap">
+
+    <!-- ==================== 1. HOME ==================== -->
+    <section class="view active" id="view-home">
+      <div class="stack">
+
+        <!-- Liturgical Greeting & Time-of-Day Switcher -->
+        <div class="home-masthead">
+          <div class="liturgical-line" id="liturgicalLine">Good morning · Nov 19</div>
+          <div class="time-seg" role="group" aria-label="Time of day">
+            <button class="active" onclick="setWatch('morning', this)">Morn</button>
+            <button onclick="setWatch('midday', this)">Noon</button>
+            <button onclick="setWatch('evening', this)">Eve</button>
+          </div>
+        </div>
+
+        <!-- Beat 0: Sleek Continuation Bookmark -->
+        <button class="continue-ribbon" onclick="openReaderAt('john1', 4)">
+          <div class="continue-left">
+            <div class="bookmark-flag">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <div class="continue-title">Continue · John 1:5</div>
+              <div class="continue-sub">Last night · Study mode remembered</div>
+            </div>
+          </div>
+          <span style="font-size:15px;color:var(--ink-faint);font-weight:700;">›</span>
+        </button>
+
+        <!-- Beat 1: Sacred Word (Editorial Hero Card) -->
+        <div class="hero-frame">
+          <article class="hero-card">
+            <div class="hero-head">
+              <div>
+                <h1 class="hero-title">Sacred Word</h1>
+                <div class="hero-day-nav">
+                  <button class="day-arrow" onclick="stepDay(1)" title="Previous day">‹</button>
+                  <span class="day-label" id="homeDayLabel">Today</span>
+                  <button class="day-arrow" id="nextDayBtn" onclick="stepDay(-1)" disabled title="Next day">›</button>
+                </div>
+              </div>
+              <div class="hero-badges">
+                <button class="chain-badge" id="homeChainBtn" onclick="openHomeChain()">№14</button>
+                <button class="star-btn" id="homeStarBtn" onclick="toggleHomeStar()" aria-label="Save verse">☆</button>
+              </div>
+            </div>
+
+            <div class="verse-meta-row">
+              <span class="verse-ref-title" id="homeVerseRef">John 1:5</span>
+              <div class="voice-seg">
+                <button class="active" id="hvElianaBtn" onclick="setHomeVoice('eliana')">✦ Eliana</button>
+                <button id="hvBsbBtn" onclick="setHomeVoice('bsb')">BSB</button>
+              </div>
+            </div>
+
+            <div class="verse-inset">
+              <div class="eliana-tag" id="homeVoiceTag">✦ Eliana Bible</div>
+              <p class="hero-quote" id="homeVerseText">
+                “That light keeps shining right inside the dark — and the dark could neither snuff it out nor grasp its secret.”
+              </p>
+            </div>
+
+            <div class="pastoral-field-label">Carry It With You</div>
+            <p class="pastoral-field-text" id="homeCarryText">
+              Light does not wait for the room to cooperate before it begins to shine. Bring one honest corner of your morning into His presence.
+            </p>
+
+            <div class="more-notes-wrap" id="homeMoreNotes">
+              <div>
+                <div class="pastoral-field-label">Notice This</div>
+                <p class="pastoral-field-text" id="homeNoticeText">
+                  John shifts from past tense (“was” in vv. 1–4) into present tense here: <em>phainei</em> — the light is actively shining right now.
+                </p>
+              </div>
+              <div>
+                <div class="pastoral-field-label">Why It Matters</div>
+                <p class="pastoral-field-text" id="homeWhyText">
+                  Darkness does not need to disappear before hope is real. Even small fidelity outlasts heavy nights.
+                </p>
+              </div>
+            </div>
+
+            <button class="disclosure-btn" id="homeMoreBtn" onclick="toggleHomeMore()">
+              More — Notice This · Why It Matters ▾
+            </button>
+
+            <div class="hero-doors">
+              <button class="btn-outline" onclick="openHomeInBible()">Open in Bible</button>
+              <button class="btn-solid" onclick="openHomeDeeper()">✦ Ascend · Chain 14</button>
+            </div>
+
+            <div class="hero-quiet-row">
+              <button class="quiet-pill" onclick="prayHomeVerse()">Pray this</button>
+              <button class="quiet-pill" onclick="journalHomeVerse()">Journal</button>
+              <button class="quiet-pill" onclick="askElianaFromHome()">✦ Ask</button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Beat 2: Active Library Path -->
+        <article class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span class="eyebrow">Your Study Path</span>
+            <button style="font-size:11.5px;font-weight:700;color:var(--accent);" onclick="openSanctuary('library')">All Rooms ›</button>
+          </div>
+          <div class="path-row">
+            <div class="book-spine">
+              <span>Day</span>
+              <strong>14</strong>
+              <span>of 40</span>
+            </div>
+            <div class="path-info">
+              <div style="font-size:11px;font-weight:700;color:var(--accent);">Aliyah, The Ascent · Chain 14</div>
+              <h2 class="path-title">Light That Cannot Be Extinguished</h2>
+              <p class="path-desc">4 linked passages from Genesis 1 to John 1</p>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="progress-bar"><span style="width:35%;"></span></div>
+                <button style="font-size:12px;font-weight:700;color:var(--accent);" onclick="openRoomSheet('aliyah')">Continue ›</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat 3: Quiet Sanctuary Doors (Focused, zero duplication of Bible/Library) -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px;">
+            <span class="eyebrow">Quiet Sanctuary</span>
+          </div>
+          <div class="sanctuary-strip">
+            <button class="door-tile" onclick="openSanctuary('throne')">
+              <div class="door-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M12 21s-7-4.5-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-7 10-7 10z"/></svg>
+              </div>
+              <strong>Throne Room</strong>
+              <span>Prayer &amp; saved</span>
+            </button>
+            <button class="door-tile" onclick="openSanctuary('journal')">
+              <div class="door-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </div>
+              <strong>Journal</strong>
+              <span>Notes &amp; prompts</span>
+            </button>
+            <button class="door-tile" onclick="openStillness()">
+              <div class="door-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              </div>
+              <strong>Stillness</strong>
+              <span>60s guided pause</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 2. BIBLE READER (READ & STUDY) ==================== -->
+    <section class="view" id="view-bible">
+      <div class="reader-bar">
+        <div class="reader-bar-top">
+          <button class="ref-picker-btn" onclick="cyclePassage()">
+            <span id="readerRefLabel">John 1</span>
+            <span class="ref-version" id="readerTransLabel">BSB</span>
+            <span style="font-size:10px;color:var(--ink-faint);">▾</span>
+          </button>
+
+          <div class="mode-switch" role="tablist" aria-label="Bible reading mode">
+            <button class="mode-btn active" id="btnModeRead" onclick="setReaderMode('read')">Read</button>
+            <button class="mode-btn" id="btnModeStudy" onclick="setReaderMode('study')">Study</button>
+          </div>
+
+          <div class="reader-tool-icons">
+            <button class="reader-mini-btn" id="aaBtn" onclick="toggleAaDrawer()" title="Typography & voice">Aa</button>
+            <button class="reader-mini-btn" onclick="openSheet('searchSheet')" title="Search Scripture">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Aa Drawer (Font size, Spacing, Layout, Top Voice) -->
+        <div class="aa-drawer" id="aaDrawer">
+          <div class="aa-row">
+            <span style="font-size:11.5px;font-weight:600;color:var(--ink-soft);">Text Size</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="seg-mini" style="padding:4px 10px;font-size:12px;font-weight:700;" onclick="stepFontSize(-1.5)">A−</button>
+              <span id="aaPreview" style="font-family:var(--font-serif);font-size:17.5px;">Aa</span>
+              <button class="seg-mini" style="padding:4px 10px;font-size:12px;font-weight:700;" onclick="stepFontSize(1.5)">A+</button>
+            </div>
+          </div>
+
+          <div class="aa-row">
+            <span style="font-size:11.5px;font-weight:600;color:var(--ink-soft);">Spacing</span>
+            <div class="seg-mini">
+              <button class="active" onclick="setLeading(1.52, this)">Normal</button>
+              <button onclick="setLeading(1.75, this)">Open</button>
+              <button onclick="setLeading(2.0, this)">Airy</button>
+            </div>
+          </div>
+
+          <div class="aa-row" id="aaReadLayoutRow">
+            <span style="font-size:11.5px;font-weight:600;color:var(--ink-soft);">Layout</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="seg-mini">
+                <button class="active" id="btnFlowing" onclick="setVerseByVerse(false)">Flowing</button>
+                <button id="btnVerseByVerse" onclick="setVerseByVerse(true)">Verse by verse</button>
+              </div>
+              <button class="seg-mini" id="btnMarks" style="padding:4px 8px;font-size:11px;font-weight:700;color:var(--spark-ink);" onclick="toggleStudyMarks()">✦ On</button>
+            </div>
+          </div>
+
+          <div class="aa-row">
+            <span style="font-size:11.5px;font-weight:600;color:var(--ink-soft);">Translation</span>
+            <div class="seg-mini">
+              <button class="active" onclick="setTranslation('BSB', this)">BSB</button>
+              <button onclick="setTranslation('KJV', this)">KJV</button>
+              <button onclick="setTranslation('ASV', this)">ASV</button>
+              <button onclick="setTranslation('Eliana', this)">✦ Eliana</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reader-canvas" id="readerCanvas"></div>
+    </section>
+
+    <!-- ==================== 3. SANCTUARY (JOURNEY · LIBRARY · THRONE · JOURNAL) ==================== -->
+    <section class="view" id="view-sanctuary">
+      <div class="subnav-pills">
+        <button class="subnav-btn active" id="sTab-journey" onclick="switchSanctuary('journey')">Journey</button>
+        <button class="subnav-btn" id="sTab-library" onclick="switchSanctuary('library')">Library</button>
+        <button class="subnav-btn" id="sTab-throne" onclick="switchSanctuary('throne')">Throne</button>
+        <button class="subnav-btn" id="sTab-journal" onclick="switchSanctuary('journal')">Journal</button>
+      </div>
+
+      <!-- Journey (Streak-free) -->
+      <div class="subpanel active" id="sPanel-journey">
+        <div class="card" style="margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div class="eyebrow">Rhythm Without Streaks</div>
+              <div style="font-size:19px;font-weight:700;margin-top:2px;">19 quiet mornings</div>
+            </div>
+            <span class="chain-badge">Last 30 days</span>
+          </div>
+          <div class="constellation-grid" id="constellationGrid"></div>
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft);">
+            <span>3 chains walked · 11 journal notes</span>
+            <span>● Read &nbsp; <span style="color:var(--spark-ink);">●</span> Study</span>
+          </div>
+        </div>
+
+        <div class="eyebrow" style="margin:0 2px 8px;">Saved Verses</div>
+        <div id="savedVersesList"></div>
+      </div>
+
+      <!-- Library Rooms -->
+      <div class="subpanel" id="sPanel-library">
+        <div style="margin:2px 2px 10px;">
+          <div class="eyebrow">Library Shelf</div>
+          <div style="font-size:13px;color:var(--ink-soft);margin-top:2px;">Each book opens its own quiet room.</div>
+        </div>
+
+        <button class="room-card" onclick="openRoomSheet('eliana')">
+          <div class="room-emblem" style="color:var(--spark-ink);">✦</div>
+          <div style="flex:1;min-width:0;">
+            <strong style="display:block;font-size:14.5px;margin-bottom:2px;">Eliana's Journal</strong>
+            <span style="display:block;font-size:12px;color:var(--ink-soft);line-height:1.35;">Day 42 · “When the Room Feels Small” · One day at a time</span>
+          </div>
+          <span style="color:var(--ink-faint);font-weight:700;">›</span>
+        </button>
+
+        <button class="room-card" onclick="openRoomSheet('aliyah')">
+          <div class="room-emblem">⛓</div>
+          <div style="flex:1;min-width:0;">
+            <strong style="display:block;font-size:14.5px;margin-bottom:2px;">Aliyah, The Ascent</strong>
+            <span style="display:block;font-size:12px;color:var(--ink-soft);line-height:1.35;">Day 14 of 40 · Studies built from Scripture Chains</span>
+          </div>
+          <span style="color:var(--ink-faint);font-weight:700;">›</span>
+        </button>
+
+        <button class="room-card" onclick="openRoomSheet('foundations')">
+          <div class="room-emblem">📜</div>
+          <div style="flex:1;min-width:0;">
+            <strong style="display:block;font-size:14.5px;margin-bottom:2px;">The Foundations</strong>
+            <span style="display:block;font-size:12px;color:var(--ink-soft);line-height:1.35;">Chapter 3 · What Scripture is &amp; how it reached us</span>
+          </div>
+          <span style="color:var(--ink-faint);font-weight:700;">›</span>
+        </button>
+      </div>
+
+      <!-- Throne Room (Prayer) -->
+      <div class="subpanel" id="sPanel-throne">
+        <div class="card" style="margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <strong style="font-size:14.5px;">Compose a Prayer</strong>
+            <span style="font-size:11px;font-weight:700;color:var(--spark-ink);">✦ Shaped from what you share</span>
+          </div>
+          <textarea class="clean-textarea" id="prayerInput" placeholder="What are you carrying today? (e.g., 'Need steadiness before a hard conversation...')"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="btn-solid" style="flex:1;" onclick="composePrayer()">Write Prayer</button>
+            <button class="btn-outline" id="savePrayerBtn" style="display:none;" onclick="savePrayer()">Save</button>
+          </div>
+          <div id="prayerPreview" style="display:none;margin-top:11px;padding:12px;border-radius:12px;background:var(--bg-inset);font-family:var(--font-serif);font-size:15px;line-height:1.6;"></div>
+        </div>
+
+        <input class="clean-input" id="prayerSearch" placeholder="Search curated & saved prayers..." oninput="renderPrayers()" style="margin-bottom:10px;" />
+        <div id="prayersList"></div>
+      </div>
+
+      <!-- Journal -->
+      <div class="subpanel" id="sPanel-journal">
+        <div class="card" style="margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+            <strong style="font-size:14.5px;">New Reflection</strong>
+            <span class="chain-badge" id="journalVerseTag">John 1:5</span>
+          </div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:7px;">
+            <em>Guided prompt:</em> Where do you need quiet light to outlast the noise this week?
+          </div>
+          <textarea class="clean-textarea" id="journalInput" placeholder="Write freely..."></textarea>
+          <button class="btn-solid" style="width:100%;margin-top:8px;" onclick="saveJournalEntry()">Save Entry</button>
+        </div>
+
+        <input class="clean-input" id="journalSearch" placeholder="Search journal entries or verses..." oninput="renderJournal()" style="margin-bottom:10px;" />
+        <div id="journalList"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. ELIANA (STREAMING COMPANION) ==================== -->
+    <section class="view" id="view-eliana">
+      <div class="eliana-anchor-bar">
+        <div class="anchor-chip" id="elianaAnchorChip">✦ Anchored to John 1:5 · Study Context</div>
+        <div style="font-size:17px;font-weight:700;">Ask Eliana</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">Tap any Scripture reference in a reply to open it directly in the Reader.</div>
+      </div>
+
+      <div class="chat-stream" id="chatStream">
+        <div class="msg user">Why does John say the darkness has not “overcome” the light?</div>
+        <div class="msg eliana">
+          <div style="font-size:11px;font-weight:700;color:var(--spark-ink);margin-bottom:4px;">✦ Eliana</div>
+          <div>
+            The Greek verb <em>katelaben</em> (Strong's G2638) carries a deliberate double edge: it means both <strong>overpower / extinguish</strong> and <strong>comprehend / grasp</strong>. Even when darkness does not understand the light, it cannot put it out.
+            <br><br>
+            Follow that thread in <button class="ref-link" onclick="openReaderAt('psalm100', 0)">Psalm 100:1</button> and <button class="ref-link" onclick="openReaderAt('john1', 0)">John 1:1</button>.
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-strip">
+        <button class="prompt-chip" onclick="sendPresetChat('What does Hiphil imperative plural mean in Psalm 100:1?')">Psalm 100 grammar</button>
+        <button class="prompt-chip" onclick="sendPresetChat('Walk me through Chain 14 on light.')">Explain Chain 14</button>
+        <button class="prompt-chip" onclick="sendPresetChat('Turn John 1:5 into a short morning prayer.')">Pray John 1:5</button>
+      </div>
+
+      <div class="composer-box">
+        <input type="text" id="chatInput" placeholder="Ask about a verse, Hebrew/Greek word, or life..." onkeydown="if(event.key==='Enter')sendChat()" />
+        <button class="send-btn" onclick="sendChat()" aria-label="Send">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING VERSE ACTION BAR (READ MODE) -->
+  <div class="verse-action-dock" id="verseActionDock">
+    <div class="dock-head">
+      <span style="font-size:12px;font-weight:700;color:var(--accent);" id="dockRefLabel">John 1:5 selected</span>
+      <button style="font-size:15px;font-weight:700;color:var(--ink-faint);" onclick="clearReadSelection()">×</button>
+    </div>
+    <div class="dock-chips">
+      <button class="dock-chip primary" onclick="openFullStudyFromDock()">Full Study</button>
+      <button class="dock-chip spark" onclick="setReaderMode('study')">✦ Study Lens</button>
+      <button class="dock-chip" onclick="cycleDockHighlight()">Highlight</button>
+      <button class="dock-chip" onclick="openNoteForDock()">Note</button>
+      <button class="dock-chip" onclick="openCompareForDock()">Compare</button>
+      <button class="dock-chip" onclick="askElianaFromDock()">✦ Ask</button>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" id="nav-bible" onclick="switchTab('bible')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <span>Bible</span>
+    </button>
+    <button class="nav-btn" id="nav-sanctuary" onclick="switchTab('sanctuary')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m14.5 9.5-5 2-2 5 5-2 2-5z"/></svg>
+      <span>Sanctuary</span>
+    </button>
+    <button class="nav-btn eliana-tab" id="nav-eliana" onclick="switchTab('eliana')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/></svg>
+      <span>Eliana</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ==================== WORD SHEET (HEBREW / GREEK) ==================== -->
+<div class="sheet-backdrop" id="wordSheet" onclick="if(event.target===this)closeSheet('wordSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge" id="wsStrongs">Strong's G5316</span>
+        <h2 style="font-family:var(--font-serif);font-size:30px;margin:6px 0 2px;" id="wsWord">φαίνει</h2>
+        <div style="font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--ink-soft);" id="wsTranslit">phainei</div>
+      </div>
+      <button class="close-btn" onclick="closeSheet('wordSheet')">×</button>
+    </div>
+    <div style="font-size:13.5px;font-weight:600;margin-bottom:6px;" id="wsGrammar">Present active indicative · 3rd person singular</div>
+    <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:12px;" id="wsGloss">BSB gloss: “shines”</div>
+
+    <div class="study-section-box">
+      <div style="font-size:11px;font-weight:700;color:var(--spark-ink);margin-bottom:4px;" id="wsEssayTitle">✦ Eliana word study</div>
+      <p style="margin:0;font-size:13.5px;line-height:1.55;" id="wsMeaning"></p>
+    </div>
+
+    <div class="eyebrow" style="margin:12px 0 7px;">Other uses in Scripture</div>
+    <div id="wsOccurrences" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+</div>
+
+<!-- ==================== 5-SECTION VERSE STUDY SHEET ==================== -->
+<div class="sheet-backdrop" id="verseStudySheet" onclick="if(event.target===this)closeSheet('verseStudySheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge" id="vssRef">ELIANA · FULL STUDY</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;" id="vssTitle">John 1:5</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('verseStudySheet')">×</button>
+    </div>
+    <div id="vssBody"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+      <button class="btn-outline" onclick="closeSheet('verseStudySheet');askElianaFromDock()">✦ Ask Eliana</button>
+      <button class="btn-solid" onclick="sendStudyToJournal()">Send to Journal ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAIN SHEET ==================== -->
+<div class="sheet-backdrop" id="chainSheet" onclick="if(event.target===this)closeSheet('chainSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge" id="csBadge">Chain 14 · 4 Passages</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;" id="csTitle">Light That Cannot Be Extinguished</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('chainSheet')">×</button>
+    </div>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0 0 12px;" id="csIntro"></p>
+    <div id="csLinks"></div>
+  </div>
+</div>
+
+<!-- ==================== COMPARE TRANSLATIONS SHEET ==================== -->
+<div class="sheet-backdrop" id="compareSheet" onclick="if(event.target===this)closeSheet('compareSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge">Compare Voices</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;" id="cmpTitle">John 1:5</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('compareSheet')">×</button>
+    </div>
+    <div id="cmpBody"></div>
+  </div>
+</div>
+
+<!-- ==================== VERSE NOTE SHEET ==================== -->
+<div class="sheet-backdrop" id="noteSheet" onclick="if(event.target===this)closeSheet('noteSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge">Margin Note</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;" id="noteSheetRef">John 1:5</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('noteSheet')">×</button>
+    </div>
+    <textarea class="clean-textarea" id="noteSheetInput" placeholder="Write a quiet note on this verse..."></textarea>
+    <button class="btn-solid" style="width:100%;margin-top:10px;" onclick="saveVerseNote()">Save Note</button>
+  </div>
+</div>
+
+<!-- ==================== LIBRARY ROOM PREVIEW SHEET ==================== -->
+<div class="sheet-backdrop" id="roomSheet" onclick="if(event.target===this)closeSheet('roomSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge" id="rmBadge">Library Room</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;" id="rmTitle">Aliyah, The Ascent</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('roomSheet')">×</button>
+    </div>
+    <div id="rmBody" style="font-size:14px;line-height:1.65;"></div>
+  </div>
+</div>
+
+<!-- ==================== SEARCH SHEET ==================== -->
+<div class="sheet-backdrop" id="searchSheet" onclick="if(event.target===this)closeSheet('searchSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge">Search Scripture</span>
+        <h2 style="font-family:var(--font-serif);font-size:19px;margin:6px 0 0;">Jump to a reference or phrase</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('searchSheet')">×</button>
+    </div>
+    <input class="clean-input" id="bibleSearchInput" placeholder="Try 'light', 'joyful', or 'Psalm 100:1'..." oninput="runBibleSearch()" />
+    <div id="bibleSearchResults" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+<!-- ==================== SETTINGS & THEMES SHEET ==================== -->
+<div class="sheet-backdrop" id="settingsSheet" onclick="if(event.target===this)closeSheet('settingsSheet')">
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div>
+        <span class="chain-badge">Appearance &amp; Settings</span>
+        <h2 style="font-family:var(--font-serif);font-size:20px;margin:6px 0 0;">Themes &amp; Rhythm</h2>
+      </div>
+      <button class="close-btn" onclick="closeSheet('settingsSheet')">×</button>
+    </div>
+
+    <div class="eyebrow">Shipped Themes (Refined) &amp; 2027 Proposal</div>
+    <div class="theme-card-grid">
+      <button class="theme-card-opt active" id="th-sacred" onclick="setTheme('sacred')">
+        <span class="swatch-circle" style="background:linear-gradient(135deg,#080C14 50%,#D9B44A 50%);"></span>
+        <div><strong style="display:block;font-size:12.5px;">Sacred</strong><span style="font-size:10.5px;color:var(--ink-soft);">Antique gold</span></div>
+      </button>
+      <button class="theme-card-opt" id="th-shekinah" onclick="setTheme('shekinah')">
+        <span class="swatch-circle" style="background:linear-gradient(135deg,#000000 50%,#FFC233 50%);"></span>
+        <div><strong style="display:block;font-size:12.5px;">Shekinah</strong><span style="font-size:10.5px;color:var(--ink-soft);">OLED fire gold</span></div>
+      </button>
+      <button class="theme-card-opt" id="th-ivory" onclick="setTheme('ivory')">
+        <span class="swatch-circle" style="background:linear-gradient(135deg,#F9F8F4 50%,#8A6700 50%);"></span>
+        <div><strong style="display:block;font-size:12.5px;">Ivory</strong><span style="font-size:10.5px;color:var(--ink-soft);">Paper &amp; gilt</span></div>
+      </button>
+      <button class="theme-card-opt" id="th-crisp" onclick="setTheme('crisp')">
+        <span class="swatch-circle" style="background:linear-gradient(135deg,#F6F7F9 50%,#84640D 50%);"></span>
+        <div><strong style="display:block;font-size:12.5px;">Crisp Paper</strong><span style="font-size:10.5px;color:var(--ink-soft);">Fresh print</span></div>
+      </button>
+      <button class="theme-card-opt" id="th-lapis" onclick="setTheme('lapis')" style="grid-column:span 2;">
+        <span class="swatch-circle" style="background:linear-gradient(135deg,#F2F4F9 50%,#1C3E9C 50%);"></span>
+        <div><strong style="display:block;font-size:12.5px;">Lapis Vellum (2027 Proposal)</strong><span style="font-size:10.5px;color:var(--ink-soft);">Mineral vellum, lapis ink &amp; amber ✦</span></div>
+      </button>
+    </div>
+
+    <div class="study-section-box" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <strong style="display:block;font-size:13.5px;">High Contrast</strong>
+        <span style="font-size:11.5px;color:var(--ink-soft);">Sharp borders &amp; maximum ink contrast</span>
+      </div>
+      <input type="checkbox" id="hcToggle" style="width:18px;height:18px;accent-color:var(--accent);" onchange="toggleHighContrast(this.checked)" />
+    </div>
+
+    <div class="study-section-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <strong style="font-size:13.5px;">Scripture Text Size</strong>
+        <span id="settingsSizeLbl" style="font-size:12px;font-weight:700;color:var(--accent);">17.5px</span>
+      </div>
+      <input type="range" min="15" max="22" step="0.5" value="17.5" style="width:100%;accent-color:var(--accent);" oninput="setFontSizeExact(parseFloat(this.value))" />
+    </div>
+
+    <div class="study-section-box" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <strong style="display:block;font-size:13.5px;">Morning &amp; Evening Reminders</strong>
+        <span style="font-size:11.5px;color:var(--ink-soft);">7:30 AM · 9:15 PM · Gentle chime</span>
+      </div>
+      <span style="font-size:12px;font-weight:700;color:var(--accent);">On</span>
+    </div>
+
+    <div class="study-section-box" style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <strong style="display:block;font-size:13.5px;">Backup &amp; Account</strong>
+        <span style="font-size:11.5px;color:var(--ink-soft);">Synced across iPhone &amp; Android</span>
+      </div>
+      <span style="font-size:12px;font-weight:700;color:var(--accent);">Synced</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STILLNESS GUIDED PAUSE ==================== -->
+<div class="stillness-modal" id="stillnessModal">
+  <div style="text-align:center;">
+    <div class="eyebrow" style="color:var(--accent);">Stillness · Guided Pause</div>
+    <h2 style="font-family:var(--font-serif);font-size:25px;margin:8px 0 4px;">Be still, and know</h2>
+    <div style="font-size:13px;color:var(--ink-soft);">Psalm 46:10 · Follow the breath ring</div>
+  </div>
+
+  <div class="breath-ring" id="breathRing">
+    <div style="text-align:center;">
+      <div id="breathCue" style="font-size:15px;font-weight:700;">Breathe in</div>
+      <div id="breathTimer" style="font-size:12px;color:var(--ink-soft);margin-top:3px;">0:60</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;width:100%;">
+    <p style="font-family:var(--font-serif);font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-soft);margin:0 0 22px;">
+      “Nothing you carry has to be solved in the next sixty seconds.”
+    </p>
+    <button class="btn-solid" style="width:100%;padding:13px;" onclick="closeStillness()">Return to Rhythm</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+  /* ==================== APP STATE ==================== */
+  const state = {
+    theme: 'sacred',
+    tab: 'home',
+    readerMode: 'read', // 'read' or 'study' — remembered!
+    chapterKey: 'john1',
+    translation: 'BSB',
+    fontSize: 17.5,
+    verseByVerse: false,
+    showMarks: true,
+    readSelectedIndex: null,
+    studyFocusIndex: 4,
+    homeDayIdx: 0,
+    homeVoice: 'eliana',
+    savedRefs: new Set(['John 1:5', 'Psalm 100:1']),
+    highlights: { 'john1:5': 'hl-yellow' },
+    notes: { 'john1:5': 'Present tense — phainei keeps shining inside the dark.' },
+    stillnessTimer: null
+  };
+
+  /* ==================== HOME CALENDAR DAYS ==================== */
+  const homeDays = [
+    {
+      label: 'Today',
+      ref: 'John 1:5',
+      chapterKey: 'john1',
+      verseIdx: 4,
+      chain: 14,
+      chainId: 'chain14',
+      eliana: 'That light keeps shining right inside the dark — and the dark could neither snuff it out nor grasp its secret.',
+      bsb: 'The light shines in the darkness, and the darkness has not overcome it.',
+      carry: 'Light does not wait for the room to cooperate before it begins to shine. Bring one honest corner of your morning into His presence.',
+      notice: 'John shifts from past tense (“was” in vv. 1–4) into present tense here: phainei — the light is actively shining right now.',
+      why: 'Darkness does not need to disappear before hope is real. Even small fidelity outlasts heavy nights.'
+    },
+    {
+      label: 'Yesterday',
+      ref: 'Psalm 100:1',
+      chapterKey: 'psalm100',
+      verseIdx: 0,
+      chain: 3,
+      chainId: 'chain03',
+      eliana: 'Raise a jubilant, unguarded shout to the LORD — every corner of the earth!',
+      bsb: 'Make a joyful noise to the LORD, all the earth.',
+      carry: 'Gladness is not something you wait to earn after everything goes right. Begin your steps with thankfulness.',
+      notice: 'Hari’u is a Hiphil imperative plural — an invitation to cause a festive sound to ring out together.',
+      why: 'Worship shifts the weight off your shoulders by reminding you whose world you are walking through.'
+    },
+    {
+      label: 'Tue, Nov 17',
+      ref: 'John 1:4',
+      chapterKey: 'john1',
+      verseIdx: 3,
+      chain: null,
+      chainId: 'chain14',
+      eliana: 'Inside Him was self-giving life, and that very life became the lamp for every human soul.',
+      bsb: 'In Him was life, and that life was the light of men.',
+      carry: 'Before He asks anything from you, He offers His own life to illuminate your path.',
+      notice: 'Zōē (life) precedes phōs (light): illumination flows out of living union with Christ.',
+      why: 'Tired souls do not first need brighter rules; they need nearness to the Source of life.'
+    }
+  ];
+
+  /* ==================== SCRIPTURE DATA (GREEK & HEBREW) ==================== */
+  const chapters = {
+    john1: {
+      title: 'John 1',
+      subtitle: 'New Testament · Koine Greek',
+      rtl: false,
+      chainId: 'chain14',
+      verses: [
+        {
+          v: 1,
+          BSB: 'In the beginning was the Word, and the Word was with God, and the Word was God.',
+          KJV: 'In the beginning was the Word, and the Word was with God, and the Word was God.',
+          ASV: 'In the beginning was the Word, and the Word was with God, and the Word was God.',
+          Eliana: 'Before time began, the Living Word was already there — face to face with God, sharing God’s very own being.',
+          translit: ['En', 'archē', 'ēn', 'ho', 'logos,', 'kai', 'pros', 'ton', 'theon'],
+          tokens: [
+            { t: 'Ἐν', k: 'en' }, { t: 'ἀρχῇ', k: 'arche', key: true }, { t: 'ἦν', k: 'en_v' },
+            { t: 'ὁ', k: 'ho' }, { t: 'λόγος,', k: 'logos', key: true }, { t: 'καὶ', k: 'kai' },
+            { t: 'πρὸς', k: 'pros', key: true }, { t: 'τὸν', k: 'ho' }, { t: 'θεόν', k: 'theos' }
+          ],
+          keyWord: { token: 'λόγος (G3056)', summary: 'Living expression & divine coherence — God making Himself known.' }
+        },
+        {
+          v: 2,
+          BSB: 'He was with God in the beginning.',
+          KJV: 'The same was in the beginning with God.',
+          ASV: 'The same was in the beginning with God.',
+          Eliana: 'From the very first breath of eternity, He stood face to face with the Father.',
+          translit: ['Houtos', 'ēn', 'en', 'archē', 'pros', 'ton', 'theon'],
+          tokens: [
+            { t: 'οὗτος', k: 'houtos' }, { t: 'ἦν', k: 'en_v' }, { t: 'ἐν', k: 'en' },
+            { t: 'ἀρχῇ', k: 'arche' }, { t: 'πρὸς', k: 'pros', key: true },
+            { t: 'τὸν', k: 'ho' }, { t: 'θεόν.', k: 'theos' }
+          ],
+          keyWord: { token: 'πρὸς (G4314)', summary: 'Preposition with accusative — active, face-to-face closeness.' }
+        },
+        {
+          v: 3,
+          BSB: 'Through Him all things were made, and without Him nothing was made that has been made.',
+          KJV: 'All things were made by him; and without him was not any thing made that was made.',
+          ASV: 'All things were made through him; and without him was not anything made that hath been made.',
+          Eliana: 'Every atom and star came into being through His hands; nothing exists outside His craft.',
+          translit: ['Panta', 'di’', 'autou', 'egeneto,', 'kai', 'chōris', 'autou', 'oude', 'hen'],
+          tokens: [
+            { t: 'πάντα', k: 'panta' }, { t: 'δι’', k: 'dia' }, { t: 'αὐτοῦ', k: 'autos' },
+            { t: 'ἐγένετο,', k: 'egeneto', key: true }, { t: 'χωρὶς', k: 'choris' },
+            { t: 'αὐτοῦ', k: 'autos' }, { t: 'οὐδὲ', k: 'oude' }, { t: 'ἕν.', k: 'hen' }
+          ],
+          keyWord: { token: 'ἐγένετο (G1096)', summary: 'Aorist middle — came into existence through His agency.' }
+        },
+        {
+          v: 4,
+          BSB: 'In Him was life, and that life was the light of men.',
+          KJV: 'In him was life; and the life was the light of men.',
+          ASV: 'In him was life; and the life was the light of men.',
+          Eliana: 'Inside Him was self-giving life, and that very life became the lamp for every human soul.',
+          translit: ['En', 'autō', 'zōē', 'ēn,', 'kai', 'to', 'phōs', 'tōn', 'anthrōpōn'],
+          tokens: [
+            { t: 'ἐν', k: 'en' }, { t: 'αὐτῷ', k: 'autos' }, { t: 'ζωὴ', k: 'zoe', key: true },
+            { t: 'ἦν,', k: 'en_v' }, { t: 'τὸ', k: 'ho' }, { t: 'φῶς', k: 'phos', key: true },
+            { t: 'τῶν', k: 'ho' }, { t: 'ἀνθρώπων', k: 'anthropos' }
+          ],
+          keyWord: { token: 'ζωή (G2222)', summary: 'Abundant, uncreated life that spills over as light.' }
+        },
+        {
+          v: 5,
+          BSB: 'The light shines in the darkness, and the darkness has not overcome it.',
+          KJV: 'And the light shineth in darkness; and the darkness comprehended it not.',
+          ASV: 'And the light shineth in the darkness; and the darkness apprehended it not.',
+          Eliana: 'That light keeps shining right inside the dark — and the dark could neither snuff it out nor grasp its secret.',
+          chainTag: '№14',
+          translit: ['Kai', 'to', 'phōs', 'en', 'tē', 'skotia', 'phainei,', 'ou', 'katelaben'],
+          tokens: [
+            { t: 'καὶ', k: 'kai' }, { t: 'τὸ', k: 'ho' }, { t: 'φῶς', k: 'phos', key: true },
+            { t: 'ἐν', k: 'en' }, { t: 'τῇ', k: 'ho' }, { t: 'σκοτίᾳ', k: 'skotia' },
+            { t: 'φαίνει,', k: 'phainei', key: true }, { t: 'οὐ', k: 'ou' },
+            { t: 'κατέλαβεν.', k: 'katelaben', key: true }
+          ],
+          keyWord: { token: 'φαίνει (G5316)', summary: 'Present active indicative — continues shining right now.' }
+        }
+      ]
+    },
+    psalm100: {
+      title: 'Psalm 100',
+      subtitle: 'Old Testament · Biblical Hebrew',
+      rtl: true,
+      chainId: 'chain03',
+      verses: [
+        {
+          v: 1,
+          BSB: 'Make a joyful noise to the LORD, all the earth.',
+          KJV: 'Make a joyful noise unto the LORD, all ye lands.',
+          ASV: 'Make a joyful noise unto Jehovah, all ye lands.',
+          Eliana: 'Raise a jubilant, unguarded shout to the LORD — every corner of the earth!',
+          chainTag: '№03',
+          translit: ['hari’u', 'l’YHWH', 'kol-', 'ha’aretz'],
+          tokens: [
+            { t: 'הָרִיעוּ', k: 'hariu', key: true }, { t: 'לַיהוָה', k: 'yhwh' },
+            { t: 'כָּל־', k: 'kol' }, { t: 'הָאָרֶץ׃', k: 'eretz' }
+          ],
+          keyWord: { token: 'הָרִיעוּ (H7321)', summary: 'Hiphil imperative plural — raise a triumphant, festive shout.' }
+        },
+        {
+          v: 2,
+          BSB: 'Serve the LORD with gladness; come into His presence with joyful songs.',
+          KJV: 'Serve the LORD with gladness: come before his presence with singing.',
+          ASV: 'Serve Jehovah with gladness: come before his presence with singing.',
+          Eliana: 'Serve the LORD out of gladness, not duty; enter His presence carrying a ringing song.',
+          translit: ['ivdu', 'et-YHWH', 'b’simchah', 'bo’u', 'l’fanav', 'birnanah'],
+          tokens: [
+            { t: 'עִבְדוּ', k: 'ivdu', key: true }, { t: 'אֶת־יְהוָה', k: 'yhwh' },
+            { t: 'בְּשִׂמְחָה', k: 'simchah', key: true }, { t: 'בֹּאוּ', k: 'bou' },
+            { t: 'לְפָנָיו', k: 'panav' }, { t: 'בִּרְנָנָה׃', k: 'renanah' }
+          ],
+          keyWord: { token: 'בְּשִׂמְחָה (H8057)', summary: 'With gladness — wholehearted delight in belonging to God.' }
+        },
+        {
+          v: 3,
+          BSB: 'Know that the LORD is God. It is He who made us, and we are His; we are His people, and the sheep of His pasture.',
+          KJV: 'Know ye that the LORD he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture.',
+          ASV: 'Know ye that Jehovah, he is God: it is he that hath made us, and we are his; we are his people, and the sheep of his pasture.',
+          Eliana: 'Know from experience that the LORD is God; He shaped us and we are His — the flock He personally tends.',
+          translit: ['d’u', 'ki-YHWH', 'hu', 'Elohim', 'am-mo', 'v’tzon', 'mar’ito'],
+          tokens: [
+            { t: 'דְּעוּ', k: 'deu', key: true }, { t: 'כִּי־יְהוָה', k: 'yhwh' },
+            { t: 'הוּא', k: 'hu' }, { t: 'אֱלֹהִים', k: 'elohim' },
+            { t: 'עַמּוֹ', k: 'am' }, { t: 'וְצֹאן', k: 'tzon' }, { t: 'מַרְעִיתוֹ׃', k: 'marit' }
+          ],
+          keyWord: { token: 'דְּעוּ (H3045)', summary: 'Qal imperative plural — settled, experiential knowing.' }
+        }
+      ]
+    }
+  };
+
+  /* ==================== WORD LEXICON ==================== */
+  const lexicon = {
+    phainei: {
+      strongs: "Strong's G5316", word: 'φαίνει', translit: 'phainei',
+      grammar: 'Present active indicative · 3rd person singular', gloss: 'shines',
+      homeRef: 'John 1:5',
+      meaning: 'To shine, give light, become visible. Notice John switches from past tense (“was”) in vv. 1–4 to present tense here: the light is shining right now.',
+      occurrences: ['John 1:5', 'John 5:35', '1 John 2:8', '2 Peter 1:19']
+    },
+    katelaben: {
+      strongs: "Strong's G2638", word: 'κατέλαβεν', translit: 'katelaben',
+      grammar: 'Aorist active indicative · 3rd person singular', gloss: 'overcome / grasp',
+      homeRef: 'John 1:5',
+      meaning: 'To seize, overtake, extinguish, or mentally comprehend. Darkness failed either to conquer the light or to grasp its mystery.',
+      occurrences: ['John 1:5', 'John 12:35', 'Philippians 3:12']
+    },
+    phos: {
+      strongs: "Strong's G5457", word: 'φῶς', translit: 'phōs',
+      grammar: 'Noun · Nominative neuter singular', gloss: 'light',
+      homeRef: 'John 1:4',
+      meaning: 'Radiance, spiritual and moral illumination; truth that exposes shadow without losing warmth.',
+      occurrences: ['John 1:4', 'John 1:5', 'John 8:12', '1 John 1:5']
+    },
+    logos: {
+      strongs: "Strong's G3056", word: 'λόγος', translit: 'logos',
+      grammar: 'Noun · Nominative masculine singular', gloss: 'Word',
+      homeRef: 'John 1:1',
+      meaning: 'Spoken word, living expression, the coherent mind and self-disclosure of God made personal.',
+      occurrences: ['John 1:1', 'John 1:14', 'Hebrews 4:12']
+    },
+    arche: {
+      strongs: "Strong's G746", word: 'ἀρχῇ', translit: 'archē',
+      grammar: 'Noun · Dative feminine singular', gloss: 'beginning',
+      homeRef: 'John 1:1',
+      meaning: 'Origin, first beginning — intentionally echoing Genesis 1:1 in the Greek Septuagint.',
+      occurrences: ['John 1:1', 'John 1:2', '1 John 1:1']
+    },
+    pros: {
+      strongs: "Strong's G4314", word: 'πρὸς', translit: 'pros',
+      grammar: 'Preposition with accusative', gloss: 'with / toward',
+      homeRef: 'John 1:1',
+      meaning: 'Oriented toward, face-to-face with — dynamic relational communion rather than mere proximity.',
+      occurrences: ['John 1:1', 'John 1:2']
+    },
+    hariu: {
+      strongs: "Strong's H7321", word: 'הָרִיעוּ', translit: "hari'u",
+      grammar: 'Hiphil imperative plural (masculine)', gloss: 'make a joyful noise',
+      homeRef: 'Psalm 100:1',
+      meaning: 'To raise a triumphant shout, blow a joyful trumpet blast, or ring out together when a king arrives.',
+      occurrences: ['Psalm 100:1', 'Psalm 95:1', 'Psalm 47:1']
+    },
+    simchah: {
+      strongs: "Strong's H8057", word: 'בְּשִׂמְחָה', translit: "b'simchah",
+      grammar: 'Preposition בְּ + Noun feminine singular', gloss: 'with gladness',
+      homeRef: 'Psalm 100:2',
+      meaning: 'Heartfelt gladness and cheer — serving God from overflowing joy rather than anxious obligation.',
+      occurrences: ['Psalm 100:2', 'Isaiah 55:12', 'Nehemiah 8:10']
+    },
+    deu: {
+      strongs: "Strong's H3045", word: 'דְּעוּ', translit: "d'u",
+      grammar: 'Qal imperative plural', gloss: 'know',
+      homeRef: 'Psalm 100:3',
+      meaning: 'Know deeply through relationship and lived experience — settled trust born of walking with God.',
+      occurrences: ['Psalm 100:3', 'Psalm 46:10', 'Deuteronomy 7:9']
+    }
+  };
+
+  /* ==================== THEME & SETTINGS ==================== */
+  function setTheme(name) {
+    state.theme = name;
+    document.documentElement.setAttribute('data-theme', name);
+    const labels = { sacred: 'Sacred', shekinah: 'Shekinah', ivory: 'Ivory', crisp: 'Crisp', lapis: 'Lapis' };
+    document.getElementById('topThemeLabel').textContent = labels[name] || name;
+    document.querySelectorAll('.qt-chip').forEach(c => c.classList.toggle('active', c.id === 'qt-' + name));
+    document.querySelectorAll('.theme-card-opt').forEach(c => c.classList.toggle('active', c.id === 'th-' + name));
+  }
+
+  function toggleQuickThemeBar() {
+    document.getElementById('quickThemeStrip').classList.toggle('open');
+  }
+
+  function toggleHighContrast(on) {
+    document.documentElement.setAttribute('data-contrast', on ? 'on' : 'off');
+    showToast(on ? 'High contrast enabled' : 'High contrast off');
+  }
+
+  function setFontSizeExact(px) {
+    state.fontSize = Math.max(15, Math.min(22, px));
+    document.documentElement.style.setProperty('--scripture-size', state.fontSize + 'px');
+    document.getElementById('aaPreview').style.fontSize = state.fontSize + 'px';
+    document.getElementById('settingsSizeLbl').textContent = state.fontSize + 'px';
+  }
+
+  function stepFontSize(delta) {
+    setFontSizeExact(state.fontSize + delta);
+  }
+
+  /* ==================== NAVIGATION ==================== */
+  function switchTab(tab, forcedMode) {
+    state.tab = tab;
+    if (forcedMode) state.readerMode = forcedMode;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + tab).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('nav-' + tab).classList.add('active');
+    if (tab !== 'bible') {
+      document.getElementById('verseActionDock').classList.remove('open');
+    } else {
+      renderReader();
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openReaderAt(chKey, verseIdx, mode) {
+    state.chapterKey = chKey;
+    state.studyFocusIndex = verseIdx;
+    state.readSelectedIndex = null;
+    switchTab('bible', mode || state.readerMode);
+  }
+
+  /* ==================== HOME INTERACTIONS ==================== */
+  function setWatch(watch, btn) {
+    document.querySelectorAll('.time-seg button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const map = {
+      morning: 'Good morning · Nov 19',
+      midday: 'Peace at midday · Nov 19',
+      evening: 'Rest in Him · Nov 19'
+    };
+    document.getElementById('liturgicalLine').textContent = map[watch];
+  }
+
+  function renderHomeDay() {
+    const d = homeDays[state.homeDayIdx];
+    document.getElementById('homeDayLabel').textContent = d.label;
+    document.getElementById('nextDayBtn').disabled = state.homeDayIdx === 0;
+    document.getElementById('homeVerseRef').textContent = d.ref;
+    const chainBtn = document.getElementById('homeChainBtn');
+    if (d.chain) {
+      chainBtn.style.display = 'inline-block';
+      chainBtn.textContent = '№' + d.chain;
+    } else {
+      chainBtn.style.display = 'none';
+    }
+    const isSaved = state.savedRefs.has(d.ref);
+    const star = document.getElementById('homeStarBtn');
+    star.textContent = isSaved ? '★' : '☆';
+    star.classList.toggle('saved', isSaved);
+
+    document.getElementById('homeVerseText').textContent = '“' + (state.homeVoice === 'eliana' ? d.eliana : d.bsb) + '”';
+    document.getElementById('homeVoiceTag').textContent = state.homeVoice === 'eliana' ? '✦ Eliana Bible' : 'BSB Translation';
+    document.getElementById('homeCarryText').textContent = d.carry;
+    document.getElementById('homeNoticeText').textContent = d.notice;
+    document.getElementById('homeWhyText').textContent = d.why;
+  }
+
+  function stepDay(delta) {
+    const next = Math.max(0, Math.min(homeDays.length - 1, state.homeDayIdx + delta));
+    state.homeDayIdx = next;
+    renderHomeDay();
+  }
+
+  function setHomeVoice(v) {
+    state.homeVoice = v;
+    document.getElementById('hvElianaBtn').classList.toggle('active', v === 'eliana');
+    document.getElementById('hvBsbBtn').classList.toggle('active', v === 'bsb');
+    renderHomeDay();
+  }
+
+  function toggleHomeMore() {
+    const wrap = document.getElementById('homeMoreNotes');
+    const open = wrap.classList.toggle('open');
+    document.getElementById('homeMoreBtn').textContent = open
+      ? 'Less ▴'
+      : 'More — Notice This · Why It Matters ▾';
+  }
+
+  function toggleHomeStar() {
+    const ref = homeDays[state.homeDayIdx].ref;
+    if (state.savedRefs.has(ref)) {
+      state.savedRefs.delete(ref);
+      showToast('Removed from Saved');
+    } else {
+      state.savedRefs.add(ref);
+      showToast('Saved ' + ref);
+    }
+    renderHomeDay();
+    renderSavedVerses();
+  }
+
+  function openHomeChain() { openChainSheet(homeDays[state.homeDayIdx].chainId); }
+  function openHomeInBible() {
+    const d = homeDays[state.homeDayIdx];
+    openReaderAt(d.chapterKey, d.verseIdx);
+  }
+  function openHomeDeeper() {
+    const d = homeDays[state.homeDayIdx];
+    if (d.chain) openRoomSheet('aliyah');
+    else openVerseStudySheet(d.chapterKey, d.verseIdx);
+  }
+  function prayHomeVerse() {
+    const d = homeDays[state.homeDayIdx];
+    document.getElementById('prayerInput').value = `Anchor my heart in ${d.ref}: “${d.eliana}”`;
+    openSanctuary('throne');
+  }
+  function journalHomeVerse() {
+    const d = homeDays[state.homeDayIdx];
+    document.getElementById('journalVerseTag').textContent = d.ref;
+    openSanctuary('journal');
+  }
+  function askElianaFromHome() {
+    const d = homeDays[state.homeDayIdx];
+    document.getElementById('elianaAnchorChip').textContent = `✦ Anchored to ${d.ref} · Study Context`;
+    switchTab('eliana');
+  }
+
+  /* ==================== BIBLE READER (READ & STUDY) ==================== */
+  function setReaderMode(mode) {
+    state.readerMode = mode;
+    if (mode === 'study' && state.readSelectedIndex !== null) {
+      state.studyFocusIndex = state.readSelectedIndex;
+    }
+    document.getElementById('verseActionDock').classList.remove('open');
+    renderReader();
+  }
+
+  function cyclePassage() {
+    state.chapterKey = state.chapterKey === 'john1' ? 'psalm100' : 'john1';
+    state.studyFocusIndex = state.chapterKey === 'john1' ? 4 : 0;
+    state.readSelectedIndex = null;
+    renderReader();
+  }
+
+  function toggleAaDrawer() {
+    document.getElementById('aaDrawer').classList.toggle('open');
+    document.getElementById('aaBtn').classList.toggle('active');
+  }
+
+  function setLeading(val, btn) {
+    document.documentElement.style.setProperty('--scripture-leading', val);
+    btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function setVerseByVerse(on) {
+    state.verseByVerse = on;
+    document.getElementById('btnFlowing').classList.toggle('active', !on);
+    document.getElementById('btnVerseByVerse').classList.toggle('active', on);
+    renderReader();
+  }
+
+  function toggleStudyMarks() {
+    state.showMarks = !state.showMarks;
+    document.getElementById('btnMarks').textContent = state.showMarks ? '✦ On' : '✦ Off';
+    renderReader();
+  }
+
+  function setTranslation(tr, btn) {
+    state.translation = tr;
+    btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderReader();
+  }
+
+  function renderReader() {
+    const ch = chapters[state.chapterKey];
+    const isStudy = state.readerMode === 'study';
+    document.getElementById('readerRefLabel').textContent = ch.title;
+    document.getElementById('readerTransLabel').textContent = state.translation === 'Eliana' ? '✦ Eliana' : state.translation;
+    document.getElementById('btnModeRead').classList.toggle('active', !isStudy);
+    document.getElementById('btnModeStudy').classList.toggle('active', isStudy);
+    document.getElementById('aaReadLayoutRow').style.display = isStudy ? 'none' : 'flex';
+
+    let html = `
+      <div class="chapter-header">
+        <div>
+          <div class="eyebrow" style="color:var(--accent);">${ch.subtitle}</div>
+          <h2 class="chapter-title">${ch.title}</h2>
+        </div>
+        <span style="font-size:11.5px;color:var(--ink-faint);">${isStudy ? 'Tap any word' : 'Tap any verse'}</span>
+      </div>
+    `;
+
+    if (!isStudy) {
+      const spans = ch.verses.map((v, i) => {
+        const key = state.chapterKey + ':' + v.v;
+        const hl = state.highlights[key] || '';
+        const sel = state.readSelectedIndex === i ? 'selected' : '';
+        const mark = state.showMarks ? `<span class="mark-spark">✦</span>` : '';
+        const chain = v.chainTag ? `<span class="chain-inline" onclick="event.stopPropagation();openChainSheet('${ch.chainId}')">${v.chainTag}</span>` : '';
+        const noteDot = state.notes[key] ? `<span class="note-dot" title="Has note"></span>` : '';
+        return `<span class="inline-verse ${hl} ${sel}" onclick="selectReadVerse(${i})"><sup class="v-num">${v.v}</sup>${v[state.translation]}${mark}${chain}${noteDot}</span> `;
+      }).join('');
+
+      html += `<div class="read-prose ${state.verseByVerse ? 'verse-by-verse' : ''}"><p style="margin:0;">${spans}</p></div>`;
+
+      const dock = document.getElementById('verseActionDock');
+      if (state.readSelectedIndex !== null) {
+        const selV = ch.verses[state.readSelectedIndex];
+        document.getElementById('dockRefLabel').textContent = `${ch.title}:${selV.v} selected`;
+        dock.classList.add('open');
+      } else {
+        dock.classList.remove('open');
+      }
+    } else {
+      document.getElementById('verseActionDock').classList.remove('open');
+      html += `<div class="study-stack">` + ch.verses.map((v, i) => {
+        if (i !== state.studyFocusIndex) {
+          return `
+            <div class="study-compact" onclick="focusStudyVerse(${i})">
+              <div class="study-compact-head">
+                <span style="font-size:11.5px;font-weight:700;color:var(--accent);">${ch.title}:${v.v}</span>
+                <span style="font-size:11px;color:var(--ink-faint);">Open 4-layer lens ›</span>
+              </div>
+              <p class="study-compact-text">${v[state.translation]}</p>
+            </div>
+          `;
+        }
+
+        const tokensHtml = v.tokens.map(tok =>
+          `<button class="word-chip ${ch.rtl ? 'hebrew' : 'greek'} ${tok.key ? 'key' : ''}" onclick="openWordSheet('${tok.k}', '${tok.t}', '${ch.title}:${v.v}')">${tok.t}</button>`
+        ).join('');
+
+        const translitHtml = v.translit.map((tr, ti) => {
+          const tok = v.tokens[ti] || v.tokens[0];
+          return `<button class="translit-chip" onclick="openWordSheet('${tok.k}', '${tok.t}', '${ch.title}:${v.v}')">${tr}</button>`;
+        }).join('');
+
+        return `
+          <div class="study-lens-frame">
+            <div class="study-lens">
+              <div class="lens-head">
+                <span style="font-size:12px;font-weight:700;color:var(--accent);">${ch.title}:${v.v} · ${state.translation}</span>
+                <button class="chain-badge" onclick="openChainSheet('${ch.chainId}')">${v.chainTag || '⛓ Linked Chain'}</button>
+              </div>
+
+              <p class="lens-verse-text">${v[state.translation]}</p>
+
+              <div class="lens-tier">
+                <div class="tier-label">
+                  <span>1 · Original (${ch.rtl ? 'Hebrew · RTL' : 'Greek'})</span>
+                  <span style="color:var(--accent);text-transform:none;letter-spacing:0;">Tap any word</span>
+                </div>
+                <div class="tokens-flow ${ch.rtl ? 'rtl' : ''}">${tokensHtml}</div>
+              </div>
+
+              <div class="lens-tier">
+                <div class="tier-label">
+                  <span>2 · Tappable Transliteration</span>
+                  <span>LTR</span>
+                </div>
+                <div class="translit-flow">${translitHtml}</div>
+              </div>
+
+              <div class="lens-tier eliana-tier">
+                <div class="tier-label" style="color:var(--spark-ink);"><span>3 · ✦ Eliana's Rendering</span></div>
+                <p style="margin:0;font-size:14.5px;line-height:1.55;">${v.Eliana}</p>
+              </div>
+
+              <div class="lens-tier" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">
+                <div>
+                  <div class="tier-label" style="margin-bottom:3px;"><span>4 · Key Word</span></div>
+                  <strong style="font-size:13.5px;display:block;">${v.keyWord.token}</strong>
+                  <span style="font-size:12px;color:var(--ink-soft);">${v.keyWord.summary}</span>
+                </div>
+                <button class="chain-badge" style="white-space:nowrap;" onclick="openWordSheet('${v.tokens.find(t=>t.key)?.k || 'phainei'}', '${v.keyWord.token}', '${ch.title}:${v.v}')">Word Sheet</button>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <button class="btn-solid" onclick="openVerseStudySheet('${state.chapterKey}', ${i})">Full Study</button>
+                <button class="btn-outline" onclick="askElianaFromVerse('${ch.title}:${v.v}')">✦ Ask Eliana</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('') + `</div>`;
+    }
+
+    const otherLabel = state.chapterKey === 'john1' ? 'Psalm 100 (Hebrew)' : 'John 1 (Greek)';
+    html += `
+      <div class="chapter-footer-nav">
+        <button class="btn-outline" style="padding:8px 12px;font-size:12px;" onclick="cyclePassage()">‹ ${otherLabel}</button>
+        <button class="btn-outline" style="padding:8px 12px;font-size:12px;" onclick="cyclePassage()">${otherLabel} ›</button>
+      </div>
+    `;
+
+    document.getElementById('readerCanvas').innerHTML = html;
+  }
+
+  function selectReadVerse(i) {
+    state.readSelectedIndex = state.readSelectedIndex === i ? null : i;
+    renderReader();
+  }
+
+  function clearReadSelection() {
+    state.readSelectedIndex = null;
+    renderReader();
+  }
+
+  function focusStudyVerse(i) {
+    state.studyFocusIndex = i;
+    renderReader();
+  }
+
+  function cycleDockHighlight() {
+    if (state.readSelectedIndex === null) return;
+    const ch = chapters[state.chapterKey];
+    const v = ch.verses[state.readSelectedIndex];
+    const key = state.chapterKey + ':' + v.v;
+    const order = ['', 'hl-yellow', 'hl-blue', 'hl-green'];
+    const next = order[(order.indexOf(state.highlights[key] || '') + 1) % order.length];
+    if (next) state.highlights[key] = next; else delete state.highlights[key];
+    renderReader();
+    showToast(next ? 'Verse highlighted' : 'Highlight cleared');
+  }
+
+  function openFullStudyFromDock() {
+    const idx = state.readSelectedIndex ?? state.studyFocusIndex;
+    openVerseStudySheet(state.chapterKey, idx);
+  }
+
+  function openCompareForDock() {
+    const ch = chapters[state.chapterKey];
+    const v = ch.verses[state.readSelectedIndex ?? state.studyFocusIndex];
+    document.getElementById('cmpTitle').textContent = `${ch.title}:${v.v}`;
+    document.getElementById('cmpBody').innerHTML = ['BSB', 'KJV', 'ASV', 'Eliana'].map(tr => `
+      <div class="study-section-box">
+        <div class="eyebrow" style="color:${tr === 'Eliana' ? 'var(--spark-ink)' : 'var(--accent)'};margin-bottom:4px;">${tr === 'Eliana' ? '✦ Eliana Bible' : tr}</div>
+        <p style="margin:0;font-family:var(--font-serif);font-size:15px;line-height:1.55;">${v[tr]}</p>
+      </div>
+    `).join('');
+    openSheet('compareSheet');
+  }
+
+  function openNoteForDock() {
+    const ch = chapters[state.chapterKey];
+    const v = ch.verses[state.readSelectedIndex ?? state.studyFocusIndex];
+    const key = state.chapterKey + ':' + v.v;
+    document.getElementById('noteSheetRef').textContent = `${ch.title}:${v.v}`;
+    document.getElementById('noteSheetInput').value = state.notes[key] || '';
+    openSheet('noteSheet');
+  }
+
+  function saveVerseNote() {
+    const ch = chapters[state.chapterKey];
+    const v = ch.verses[state.readSelectedIndex ?? state.studyFocusIndex];
+    const key = state.chapterKey + ':' + v.v;
+    const val = document.getElementById('noteSheetInput').value.trim();
+    if (val) state.notes[key] = val; else delete state.notes[key];
+    closeSheet('noteSheet');
+    renderReader();
+    showToast('Margin note saved');
+  }
+
+  function askElianaFromDock() {
+    const ch = chapters[state.chapterKey];
+    const v = ch.verses[state.readSelectedIndex ?? state.studyFocusIndex];
+    askElianaFromVerse(`${ch.title}:${v.v}`);
+  }
+
+  function askElianaFromVerse(ref) {
+    document.getElementById('elianaAnchorChip').textContent = `✦ Anchored to ${ref} · Study Context`;
+    switchTab('eliana');
+  }
+
+  /* ==================== WORD SHEET, CHAINS & 5-PART STUDY ==================== */
+  function openWordSheet(key, fallback, currentRef) {
+    const ch = chapters[state.chapterKey];
+    const item = lexicon[key] || {
+      strongs: ch.rtl ? "Strong's Hebrew" : "Strong's Greek",
+      word: fallback,
+      translit: 'Lexical form',
+      grammar: ch.rtl ? 'Biblical Hebrew morphology' : 'Koine Greek morphology',
+      gloss: 'on-device lexicon',
+      homeRef: currentRef,
+      meaning: 'Tap highlighted words for full cross-reference essays; Berean morphology is always available offline on your device.',
+      occurrences: [currentRef]
+    };
+
+    document.getElementById('wsStrongs').textContent = item.strongs;
+    document.getElementById('wsWord').textContent = item.word;
+    document.getElementById('wsTranslit').textContent = item.translit;
+    document.getElementById('wsGrammar').textContent = item.grammar;
+    document.getElementById('wsGloss').textContent = `BSB gloss: “${item.gloss}”`;
+    document.getElementById('wsEssayTitle').textContent = item.homeRef && item.homeRef !== currentRef
+      ? `✦ Eliana word study — from ${item.homeRef}`
+      : '✦ Eliana word study';
+    document.getElementById('wsMeaning').textContent = item.meaning;
+    document.getElementById('wsOccurrences').innerHTML = item.occurrences.map(r =>
+      `<button class="chain-badge" onclick="closeSheet('wordSheet');jumpToOccurrence('${r}')">${r} ›</button>`
+    ).join('');
+    openSheet('wordSheet');
+  }
+
+  function jumpToOccurrence(ref) {
+    if (ref.startsWith('Psalm 100')) openReaderAt('psalm100', 0, 'study');
+    else openReaderAt('john1', ref.includes(':1') && !ref.includes(':14') ? 0 : 4, 'study');
+    showToast('Opened ' + ref);
+  }
+
+  const chains = {
+    chain14: {
+      badge: 'Chain 14 · 4 Passages',
+      title: 'Light That Cannot Be Extinguished',
+      intro: 'Follow this golden thread across Scripture: whenever shadow gathers, God’s spoken light arrives first and refuses to yield.',
+      links: [
+        { ref: 'Genesis 1:3', text: '“Let there be light,” and there was light.' },
+        { ref: 'Psalm 27:1', text: 'The LORD is my light and my salvation — whom shall I fear?' },
+        { ref: 'Isaiah 60:1', text: 'Arise, shine, for your light has come.' },
+        { ref: 'John 1:5', text: 'The light shines in the darkness, and the darkness has not overcome it.', ch: 'john1', idx: 4 }
+      ]
+    },
+    chain03: {
+      badge: 'Chain 03 · 3 Passages',
+      title: 'The Glad Cry of the Earth',
+      intro: 'Hiphil imperatives calling creation and worshipers alike into unguarded celebration.',
+      links: [
+        { ref: 'Psalm 47:1', text: 'Clap your hands, all peoples; shout to God with loud songs of joy.' },
+        { ref: 'Psalm 95:1', text: 'Come, let us sing for joy to the LORD; let us shout aloud to the Rock.' },
+        { ref: 'Psalm 100:1', text: 'Make a joyful noise to the LORD, all the earth.', ch: 'psalm100', idx: 0 }
+      ]
+    }
+  };
+
+  function openChainSheet(id) {
+    const c = chains[id] || chains.chain14;
+    document.getElementById('csBadge').textContent = c.badge;
+    document.getElementById('csTitle').textContent = c.title;
+    document.getElementById('csIntro').textContent = c.intro;
+    document.getElementById('csLinks').innerHTML = c.links.map((l, idx) => `
+      <div class="study-section-box" style="cursor:${l.ch ? 'pointer' : 'default'};" onclick="${l.ch ? `closeSheet('chainSheet');openReaderAt('${l.ch}',${l.idx})` : ''}">
+        <div class="eyebrow" style="color:var(--accent);margin-bottom:4px;">${idx + 1} · ${l.ref}</div>
+        <p style="margin:0;font-family:var(--font-serif);font-size:15px;line-height:1.5;">${l.text}</p>
+      </div>
+    `).join('');
+    openSheet('chainSheet');
+  }
+
+  let lastStudyRef = 'John 1:5';
+  function openVerseStudySheet(chKey, vIdx) {
+    const ch = chapters[chKey];
+    const v = ch.verses[vIdx] || ch.verses[0];
+    lastStudyRef = `${ch.title}:${v.v}`;
+    document.getElementById('vssRef').textContent = 'ELIANA · FULL STUDY';
+    document.getElementById('vssTitle').textContent = lastStudyRef;
+    const isHeb = ch.rtl;
+    const sections = [
+      { k: '1 · Scripture', t: v.tokens.map(x => x.t).join(' '), italic: v.translit.join(' ') },
+      { k: '2 · Fresh Rendering ✦', t: `“${v.Eliana}”` },
+      { k: '3 · Deeper Lens', t: isHeb
+        ? 'The imperative verb calls a whole community outward: praise is not nervous silence, it is glad alignment with the King who made us.'
+        : 'John steps from past-tense eternity into present tense (phainei): the light keeps shining right inside uncomprehending dark.' },
+      { k: '4 · Everyday Insight', t: 'God rarely waits for circumstances to brighten before He arrives; His presence is the lamp inside ordinary hours.' },
+      { k: '5 · Take-Home Practice', t: `Read ${lastStudyRef} slowly twice before checking messages, then carry one honest line into your journal.` }
+    ];
+    document.getElementById('vssBody').innerHTML = sections.map(s => `
+      <div class="study-section-box">
+        <div class="eyebrow" style="color:var(--accent);margin-bottom:5px;">${s.k}</div>
+        <p style="margin:0;font-size:14px;line-height:1.56;">${s.t}</p>
+        ${s.italic ? `<p style="margin:5px 0 0;font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--ink-soft);">${s.italic}</p>` : ''}
+      </div>
+    `).join('');
+    openSheet('verseStudySheet');
+  }
+
+  function sendStudyToJournal() {
+    closeSheet('verseStudySheet');
+    document.getElementById('journalVerseTag').textContent = lastStudyRef;
+    openSanctuary('journal');
+  }
+
+  /* ==================== SANCTUARY (JOURNEY · LIBRARY · THRONE · JOURNAL) ==================== */
+  function switchSanctuary(which) {
+    ['journey', 'library', 'throne', 'journal'].forEach(k => {
+      document.getElementById('sTab-' + k).classList.toggle('active', k === which);
+      document.getElementById('sPanel-' + k).classList.toggle('active', k === which);
+    });
+  }
+
+  function openSanctuary(which) {
+    switchTab('sanctuary');
+    switchSanctuary(which);
+  }
+
+  function initConstellation() {
+    const pattern = [
+      1,2,1,0,1,2,1,1,0,2,
+      1,1,2,1,0,1,2,2,1,0,
+      1,2,0,1,1,2,1,2,2,2
+    ];
+    document.getElementById('constellationGrid').innerHTML = pattern.map(p =>
+      `<div class="rhythm-dot ${p === 2 ? 'deep' : p === 1 ? 'read' : ''}"></div>`
+    ).join('');
+  }
+
+  function renderSavedVerses() {
+    const list = Array.from(state.savedRefs);
+    document.getElementById('savedVersesList').innerHTML = list.map(ref => `
+      <div class="saved-card" style="cursor:pointer;" onclick="jumpToOccurrence('${ref}')">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong style="font-size:13px;color:var(--accent);">${ref}</strong>
+          <span style="color:var(--spark-ink);font-size:14px;">★</span>
+        </div>
+        <div style="font-family:var(--font-serif);font-size:14px;color:var(--ink-soft);margin-top:4px;">Tap to open in Bible Reader ›</div>
+      </div>
+    `).join('');
+  }
+
+  const prayersData = [
+    { id: 1, title: 'Morning Anchor', tag: 'Curated', fav: true, body: 'Lord, be the steady lamp ahead of my next step today — quiet the urge to hurry.' },
+    { id: 2, title: 'For Eliana', tag: 'Saved', fav: true, body: 'Keep her heart bright, curious, and anchored in kindness that outlasts noise.' },
+    { id: 3, title: 'Before Hard Conversations', tag: 'Curated', fav: false, body: 'Give me ears slower than my tongue and patience deeper than my pride.' }
+  ];
+
+  function renderPrayers() {
+    const q = (document.getElementById('prayerSearch')?.value || '').toLowerCase();
+    const filtered = prayersData.filter(p => p.title.toLowerCase().includes(q) || p.body.toLowerCase().includes(q));
+    document.getElementById('prayersList').innerHTML = filtered.map(p => `
+      <div class="saved-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <strong style="font-size:13.5px;">${p.title} <span style="font-size:11px;font-weight:600;color:var(--ink-faint);">· ${p.tag}</span></strong>
+          <button style="font-size:16px;color:${p.fav ? 'var(--spark-ink)' : 'var(--ink-faint)'};" onclick="togglePrayerFav(${p.id})">${p.fav ? '★' : '☆'}</button>
+        </div>
+        <div style="font-size:13px;line-height:1.5;color:var(--ink-soft);">${p.body}</div>
+      </div>
+    `).join('');
+  }
+
+  function togglePrayerFav(id) {
+    const p = prayersData.find(x => x.id === id);
+    if (p) p.fav = !p.fav;
+    renderPrayers();
+  }
+
+  let composedPrayer = '';
+  function composePrayer() {
+    const raw = document.getElementById('prayerInput').value.trim() || 'quiet steadiness for what lies ahead';
+    composedPrayer = `Father of light, You already see what I am holding around ${raw.replace(/\.$/, '')}. Meet me inside this hour with unhurried grace, quiet my mind, and teach me to trust what You are growing in the unseen. Amen.`;
+    const box = document.getElementById('prayerPreview');
+    box.textContent = composedPrayer;
+    box.style.display = 'block';
+    document.getElementById('savePrayerBtn').style.display = 'inline-flex';
+  }
+
+  function savePrayer() {
+    if (!composedPrayer) return;
+    prayersData.unshift({ id: Date.now(), title: 'Personal Prayer · Today', tag: 'Saved', fav: true, body: composedPrayer });
+    document.getElementById('prayerInput').value = '';
+    document.getElementById('prayerPreview').style.display = 'none';
+    document.getElementById('savePrayerBtn').style.display = 'none';
+    renderPrayers();
+    showToast('Saved to Throne Room');
+  }
+
+  const journalData = [
+    { ref: 'John 1:5', date: 'Today · Morning', text: 'Noticed phainei is present tense — the light keeps shining before conditions improve.' },
+    { ref: 'Psalm 100:1', date: 'Nov 16', text: 'Gladness as a starting posture rather than a reward after everything goes right.' }
+  ];
+
+  function renderJournal() {
+    const q = (document.getElementById('journalSearch')?.value || '').toLowerCase();
+    const list = journalData.filter(j => j.text.toLowerCase().includes(q) || j.ref.toLowerCase().includes(q));
+    document.getElementById('journalList').innerHTML = list.map(j => `
+      <div class="saved-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <span class="chain-badge">${j.ref}</span>
+          <span style="font-size:11px;color:var(--ink-faint);">${j.date}</span>
+        </div>
+        <div style="font-size:13.5px;line-height:1.55;">${j.text}</div>
+      </div>
+    `).join('');
+  }
+
+  function saveJournalEntry() {
+    const txt = document.getElementById('journalInput').value.trim();
+    if (!txt) return showToast('Write a short reflection first');
+    const ref = document.getElementById('journalVerseTag').textContent;
+    journalData.unshift({ ref, date: 'Just now', text: txt });
+    document.getElementById('journalInput').value = '';
+    renderJournal();
+    showToast('Reflection saved');
+  }
+
+  function openRoomSheet(room) {
+    const rooms = {
+      eliana: {
+        badge: "Eliana's Journal · Day 42",
+        title: 'When the Room Feels Small',
+        body: `<p style="font-family:var(--font-serif);font-size:16px;">“Faith rarely asks us to pretend the room is bigger than it is. Most days it simply places one clear lamp on the table.”</p><p>Paired with <strong>Psalm 27:1</strong> — a quiet devotional page read one day at a time.</p>`
+      },
+      aliyah: {
+        badge: 'Aliyah, The Ascent · Day 14',
+        title: 'Light That Cannot Be Extinguished',
+        body: `<p><strong>Aliyah</strong> ascends through Scripture along numbered Chains — letting Genesis, the Psalms, the Prophets, and the Gospels answer one another.</p><button class="btn-solid" style="width:100%;margin-top:8px;" onclick="closeSheet('roomSheet');openChainSheet('chain14')">Open Chain 14 Passages ›</button>`
+      },
+      foundations: {
+        badge: 'The Foundations · Chapter 3',
+        title: 'How the Manuscripts Reached Us',
+        body: `<p>Before verse numbers or printed bindings, Scripture lived in scrolls copied by hand across centuries. Understanding how Biblical Hebrew and Koine Greek reached us turns word study into gratitude.</p>`
+      }
+    }[room];
+    document.getElementById('rmBadge').textContent = rooms.badge;
+    document.getElementById('rmTitle').textContent = rooms.title;
+    document.getElementById('rmBody').innerHTML = rooms.body;
+    openSheet('roomSheet');
+  }
+
+  /* ==================== SEARCH & CHAT ==================== */
+  function runBibleSearch() {
+    const q = document.getElementById('bibleSearchInput').value.trim().toLowerCase();
+    const box = document.getElementById('bibleSearchResults');
+    if (!q) { box.innerHTML = ''; return; }
+    const hits = [];
+    Object.entries(chapters).forEach(([chKey, ch]) => {
+      ch.verses.forEach((v, idx) => {
+        const ref = `${ch.title}:${v.v}`;
+        if (ref.toLowerCase().includes(q) || v.BSB.toLowerCase().includes(q) || v.Eliana.toLowerCase().includes(q)) {
+          hits.push({ chKey, idx, ref, text: v.BSB });
+        }
+      });
+    });
+    box.innerHTML = hits.length
+      ? hits.map(h => `<div class="saved-card" style="cursor:pointer;" onclick="closeSheet('searchSheet');openReaderAt('${h.chKey}',${h.idx})"><strong style="font-size:12.5px;color:var(--accent);">${h.ref}</strong><div style="font-size:13px;margin-top:3px;">${h.text}</div></div>`).join('')
+      : `<div style="font-size:13px;color:var(--ink-soft);">Try “light”, “joyful”, “Psalm 100”, or “John 1”.</div>`;
+  }
+
+  function sendPresetChat(q) {
+    document.getElementById('chatInput').value = q;
+    sendChat();
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const q = input.value.trim();
+    if (!q) return;
+    input.value = '';
+    const stream = document.getElementById('chatStream');
+    const userDiv = document.createElement('div');
+    userDiv.className = 'msg user';
+    userDiv.textContent = q;
+    stream.appendChild(userDiv);
+
+    const botDiv = document.createElement('div');
+    botDiv.className = 'msg eliana';
+    botDiv.innerHTML = `<div class="bot-status" style="font-size:11px;font-weight:700;color:var(--spark-ink);margin-bottom:4px;">✦ Eliana · Streaming</div><div class="bot-body"></div>`;
+    stream.appendChild(botDiv);
+    const body = botDiv.querySelector('.bot-body');
+
+    let words, refBtn;
+    if (q.toLowerCase().includes('psalm') || q.toLowerCase().includes('hiphil')) {
+      words = "In Hebrew, a Hiphil imperative plural is an active, shared invitation — literally 'cause a joyful sound to ring out together.'".split(' ');
+      refBtn = ` <button class="ref-link" onclick="openReaderAt('psalm100', 0, 'study')">Psalm 100:1</button>`;
+    } else if (q.toLowerCase().includes('pray')) {
+      words = "Lord Jesus, Living Word, keep shining inside the places I cannot untangle on my own today. Amen.".split(' ');
+      refBtn = ` <button class="ref-link" onclick="openReaderAt('john1', 4)">John 1:5</button>`;
+    } else {
+      words = "Scripture answers itself across centuries. Following Chain 14 from Genesis 1 into John's prologue shows light that speaks first and stays steady.".split(' ');
+      refBtn = ` <button class="ref-link" onclick="openReaderAt('john1', 4, 'study')">John 1:5</button>`;
+    }
+
+    let i = 0;
+    const t = setInterval(() => {
+      if (i < words.length) {
+        body.textContent += (i === 0 ? '' : ' ') + words[i++];
+      } else {
+        clearInterval(t);
+        body.insertAdjacentHTML('beforeend', refBtn);
+        botDiv.querySelector('.bot-status').textContent = '✦ Eliana';
+      }
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }, 45);
+  }
+
+  /* ==================== STILLNESS & MODALS ==================== */
+  function openStillness() {
+    const modal = document.getElementById('stillnessModal');
+    const ring = document.getElementById('breathRing');
+    modal.classList.add('open');
+    let sec = 60;
+    let tick = 0;
+    ring.className = 'breath-ring inhale';
+    document.getElementById('breathCue').textContent = 'Breathe in';
+    document.getElementById('breathTimer').textContent = '0:60';
+    clearInterval(state.stillnessTimer);
+    state.stillnessTimer = setInterval(() => {
+      sec = Math.max(0, sec - 1);
+      tick = (tick + 1) % 10;
+      if (tick < 4) {
+        ring.className = 'breath-ring inhale';
+        document.getElementById('breathCue').textContent = 'Breathe in';
+      } else if (tick < 6) {
+        document.getElementById('breathCue').textContent = 'Rest';
+      } else {
+        ring.className = 'breath-ring exhale';
+        document.getElementById('breathCue').textContent = 'Release';
+      }
+      document.getElementById('breathTimer').textContent = '0:' + (sec < 10 ? '0' + sec : sec);
+      if (sec === 0) closeStillness();
+    }, 1000);
+  }
+
+  function closeStillness() {
+    clearInterval(state.stillnessTimer);
+    document.getElementById('stillnessModal').classList.remove('open');
+  }
+
+  function openSheet(id) { document.getElementById(id).classList.add('open'); }
+  function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+
+  /* Init */
+  renderHomeDay();
+  initConstellation();
+  renderSavedVerses();
+  renderPrayers();
+  renderJournal();
+</script>
+</body>
+</html>
+<!--
+Vision: Elevate the real app's strengths while resolving its visual clutter — replacing Home's redundant 2x2 Quick Access grid and stranded buttons with a calm, editorial rhythm (Bookmark Ribbon -> Border-Etched Sacred Word -> Active Study Path -> Quiet Sanctuary Doors).
+In the Bible reader, Read remains pure printed-Bible prose with a sleek floating Verse Action Bar, while Study transforms the focused verse into a 4-layer optical lens with tappable Greek/Hebrew tokens, Strong's word sheets, Chains, and the 5-part Full Study.
+Journey, Library Rooms, Throne Room, and Journal unify cleanly under Sanctuary, with one-tap switching across the four refined shipped themes (Sacred, Shekinah, Ivory, Crisp Paper) plus our Lapis Vellum 2027 proposal.
+-->

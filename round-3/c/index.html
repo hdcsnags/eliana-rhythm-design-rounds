@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eliana's Rhythm: One Thread</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#000;font-family:-apple-system,BlinkMacSystemFont,"Avenir Next","Segoe UI",Roboto,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,[tabindex]:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
+svg{display:block}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- Four themes, one for each hour. Night is the shipped Shekinah, kept. ---------- */
+#app{--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua","Noto Serif",Georgia,serif;
+  --heb:"SBL Hebrew","Ezra SIL","Noto Serif Hebrew","Times New Roman","Arial Hebrew",serif;--s:1}
+#app[data-theme=dawn]{--bg:#F5EDE3;--page:#FCF7F0;--ink:#2A1E22;--mute:#6C5B5C;--line:rgba(42,30,34,.15);--acc:#AE3A1C;--on:#FFF8F0;--gold:#8C6210;--sun:#F29B4B;--wash:rgba(174,58,28,.08);
+  --sky:linear-gradient(180deg,#F1C2A0 0%,#F6DCC7 34%,#F5EDE3 68%)}
+#app[data-theme=day]{--bg:#F5F6F2;--page:#FFFFFF;--ink:#0E1A2C;--mute:#4F5D6E;--line:rgba(14,26,44,.14);--acc:#1C3DA8;--on:#FFFFFF;--gold:#86650F;--sun:#F2B01E;--wash:rgba(28,61,168,.07);
+  --sky:linear-gradient(180deg,#C5DAF4 0%,#E4EDF6 36%,#F5F6F2 68%)}
+#app[data-theme=dusk]{--bg:#15112A;--page:#201A3B;--ink:#F6EADC;--mute:#B9ADC0;--line:rgba(246,234,220,.16);--acc:#F2A679;--on:#1A1230;--gold:#EBC06C;--sun:#F58A52;--wash:rgba(242,166,121,.10);
+  --sky:linear-gradient(180deg,#5A2E63 0%,#2E1D52 34%,#15112A 68%)}
+#app[data-theme=night]{--bg:#000000;--page:#0D0D0D;--ink:#E8E4DC;--mute:#A6A29A;--line:rgba(232,228,220,.16);--acc:#FFC233;--on:#1A1200;--gold:#FFC233;--sun:#F3EAD0;--wash:rgba(255,194,51,.09);
+  --sky:radial-gradient(1.3px 1.3px at 12% 6%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 30% 15%,#fff 50%,transparent 52%),radial-gradient(1.4px 1.4px at 61% 4%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 79% 12%,#fff 50%,transparent 52%),radial-gradient(1.2px 1.2px at 91% 22%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 46% 24%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 7% 27%,#fff 50%,transparent 52%),linear-gradient(180deg,#0A1026 0%,#04060F 34%,#000 68%)}
+#app.hc{--mute:var(--ink);--line:var(--ink)}
+
+#app{position:relative;height:100vh;height:100dvh;max-width:430px;margin:0 auto;background:var(--bg);color:var(--ink);overflow:hidden;transition:background .6s,color .6s}
+
+/* Mockup control: not part of the app */
+#mock{position:absolute;top:0;left:0;right:0;height:38px;z-index:40;display:flex;align-items:center;gap:6px;padding:0 10px;background:#111;color:#bbb;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#mock span{margin-right:auto}
+#mock button{height:28px;padding:0 10px;border-radius:14px;display:flex;align-items:center;gap:6px;color:#ddd;font-size:11px;letter-spacing:.04em;text-transform:none;font-weight:600}
+#mock button i{width:10px;height:10px;border-radius:50%;display:block}
+#mock button[aria-pressed=true]{background:#fff;color:#000}
+
+.screen{position:absolute;top:38px;left:0;right:0;bottom:70px;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch}
+#app[data-tab=today] #today,#app[data-tab=bible] #bible,#app[data-tab=rooms] #rooms,#app[data-tab=journey] #journey{display:block}
+.pad{padding:18px 22px 48px}
+.eyebrow{font-size:11.5px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.eyebrow.q{color:var(--mute)}
+.mute{color:var(--mute)}
+h1{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.12;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.2}
+.star{color:var(--gold)}
+.heb{font-family:var(--heb);direction:rtl;unicode-bidi:isolate}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:24px;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.acc{background:var(--acc);color:var(--on)}
+.icbtn{width:44px;height:44px;display:grid;place-items:center;border-radius:22px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.rule{height:1px;background:var(--line);margin:30px 0 22px}
+
+/* ---------- Today ---------- */
+#today{background:var(--sky)}
+.top{display:flex;justify-content:space-between;align-items:center;margin:-4px -8px 6px 0}
+.mark{font-family:var(--serif);font-size:21px;letter-spacing:.01em}
+.mark small{font-family:inherit;font-style:italic;font-size:13px;color:var(--mute);margin-left:8px}
+.hours{display:grid;grid-template-columns:repeat(4,1fr);position:relative;margin:14px 0 30px}
+.hours::before{content:"";position:absolute;left:12.5%;right:12.5%;top:9px;height:1px;background:var(--line)}
+.hours button{display:flex;flex-direction:column;align-items:center;gap:8px;min-height:48px;font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--mute);position:relative}
+.hours i{width:9px;height:9px;margin:5px 0;border-radius:50%;background:var(--bg);border:1.5px solid var(--mute);transition:all .5s}
+.hours button[aria-pressed=true]{color:var(--ink)}
+.hours button[aria-pressed=true] i{width:19px;height:19px;margin:0;background:var(--sun);border-color:var(--sun);box-shadow:0 0 22px 2px var(--sun)}
+.word{display:block;width:100%;text-align:center;font-size:92px;line-height:1.25;color:var(--ink);margin-top:2px}
+.wordsub{text-align:center;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--mute);margin-bottom:22px}
+.wordsub b{font-style:normal;font-weight:600;color:var(--acc);font-family:-apple-system,system-ui,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-left:8px}
+.verse{font-family:var(--serif);font-size:calc(29px*var(--s));line-height:1.2;letter-spacing:-.012em;text-wrap:balance}
+.ref{font-size:13px;font-weight:600;color:var(--mute);margin:10px 0 18px}
+.render{font-family:var(--serif);font-size:calc(17px*var(--s));line-height:1.5;padding-left:26px;position:relative;margin-bottom:22px}
+.render::before{content:"✦";position:absolute;left:0;top:0;color:var(--gold)}
+.carry{margin-top:24px;font-size:15px;line-height:1.55}
+.carry b{display:block;margin-bottom:5px}
+
+/* The thread: the one line that runs through the whole app */
+.thread{position:relative;padding-left:34px}
+.thread::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;width:1.5px;background:linear-gradient(var(--gold),var(--gold)) no-repeat,var(--line);background-size:100% var(--done,0%)}
+.knot{position:relative;display:block;width:100%;padding:13px 0;min-height:64px}
+.knot::before{content:"";position:absolute;left:-31px;top:19px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:1.5px solid var(--mute)}
+.knot.kept::before{background:var(--gold);border-color:var(--gold)}
+.knot.now::before{width:17px;height:17px;left:-34px;top:16px;background:var(--sun);border-color:var(--sun);box-shadow:0 0 18px 1px var(--sun)}
+.knot .k{font-size:11.5px;font-weight:650;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.knot.now .k{color:var(--acc)}
+.knot .t{display:block;font-family:var(--serif);font-size:20px;line-height:1.25;margin:3px 0 2px}
+.knot .d{display:block;font-size:14px;color:var(--mute);line-height:1.4}
+.knot .go{display:none;margin-top:12px}
+.knot.now .go{display:inline-flex}
+.doors{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:12px}
+.doors button{display:flex;align-items:center;gap:12px;min-height:62px;padding:0 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;font-weight:600}
+.doors .ic{color:var(--acc)}
+.foot{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mute);line-height:1.5;margin-top:26px;text-align:center}
+
+/* ---------- Bible ---------- */
+.bhead{position:sticky;top:0;z-index:3;background:var(--bg);padding:8px 14px 10px 22px;border-bottom:1px solid var(--line);transition:background .6s}
+.bhead .r1{display:flex;align-items:center;gap:6px}
+.bookbtn{font-family:var(--serif);font-size:22px;display:flex;align-items:center;gap:6px;min-height:44px;margin-right:auto}
+.chip{min-height:34px;padding:0 13px;border-radius:17px;border:1.5px solid var(--line);font-size:13px;font-weight:650;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg{display:grid;grid-template-columns:1fr 1fr;border-radius:21px;border:1.5px solid var(--line);padding:2px;margin:4px 8px 0 0}
+.seg button{min-height:36px;border-radius:18px;font-size:14px;font-weight:650;text-align:center;color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.layers{display:none;gap:6px;overflow-x:auto;margin:10px -14px 0 -22px;padding:0 22px 2px;scrollbar-width:none}
+.layers::-webkit-scrollbar{display:none}
+#bible[data-mode=study] .layers{display:flex}
+#bible[data-mode=study] #read,#bible[data-mode=read] #study{display:none}
+#read{padding:26px 26px 130px}
+.chno{font-family:var(--serif);text-align:center;margin-bottom:22px}
+.chno small{display:block;font-family:-apple-system,system-ui,sans-serif;font-size:11.5px;font-weight:650;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+.chno b{display:block;font-weight:400;font-size:64px;line-height:1.05}
+#read p{font-family:var(--serif);font-size:calc(19.5px*var(--s));line-height:1.72;margin-bottom:20px;hanging-punctuation:first}
+#read p:first-of-type::first-letter{font-size:3.3em;float:left;line-height:.86;padding:5px 8px 0 0;color:var(--acc)}
+#read .v{cursor:pointer;padding:2px 0;border-radius:3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+#read .v sup{font-family:-apple-system,system-ui,sans-serif;font-size:10.5px;font-weight:700;color:var(--acc);margin-right:3px;vertical-align:top;position:relative;top:3px}
+#read .v.sel{background:var(--wash);box-shadow:0 2px 0 var(--acc)}
+.chain{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px 0 6px;margin:0 3px;border-radius:11px;border:1.5px solid var(--gold);color:var(--gold);font-family:-apple-system,system-ui,sans-serif;font-size:11px;font-weight:700;vertical-align:2px}
+.chain i{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.next{display:flex;justify-content:space-between;align-items:center;width:100%;border-top:1px solid var(--line);padding-top:18px;margin-top:10px;font-family:var(--serif);font-size:18px;min-height:56px}
+#actbar{position:absolute;left:12px;right:12px;bottom:82px;z-index:6;background:var(--ink);color:var(--bg);border-radius:22px;padding:10px 6px 6px;transform:translateY(160%);transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#actbar.show{transform:none}
+#actbar .lbl{font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;opacity:.7;padding:0 12px 4px}
+#actbar .acts{display:grid;grid-template-columns:repeat(5,1fr)}
+#actbar button{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:54px;justify-content:center;font-size:11.5px;font-weight:600;border-radius:14px}
+
+#study{padding:6px 22px 120px}
+.sv{position:relative;padding:22px 0 22px 34px;border-bottom:1px solid var(--line)}
+.sv::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:1.5px;background:var(--line)}
+.sv .n{position:absolute;left:-3px;top:22px;width:24px;height:24px;border-radius:50%;background:var(--bg);border:1.5px solid var(--gold);color:var(--gold);font-size:11.5px;font-weight:700;display:grid;place-items:center}
+.sv .rend{font-family:var(--serif);font-size:calc(20px*var(--s));line-height:1.42}
+.sv .rend::before{content:"✦ ";color:var(--gold);font-size:.8em}
+.sv .cmp{font-size:13px;color:var(--mute);margin-top:6px;line-height:1.45}
+.sv .orig{font-size:calc(28px*var(--s));line-height:1.75;margin-top:14px;display:flex;flex-wrap:wrap;gap:0 10px;direction:rtl}
+.sv .orig button{font-family:var(--heb);border-bottom:1.5px dotted var(--mute);line-height:1.5;min-height:44px}
+.sv .orig button.on{color:var(--acc);border-bottom:1.5px solid var(--acc)}
+.sv .orig.plain{display:block;font-family:var(--heb)}
+.sv .tr{font-family:var(--serif);font-style:italic;font-size:calc(15px*var(--s));color:var(--mute);line-height:1.5;margin-top:4px}
+.sv .key{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:calc(15px*var(--s));line-height:1.55}
+.sv .key .kw{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.sv .key .kw .heb{font-size:24px;color:var(--acc)}
+.sv .key .kw i{font-family:var(--serif);color:var(--mute)}
+.sv .more{display:flex;gap:18px;margin-top:6px}
+.sv .more button{min-height:44px;font-size:14.5px;font-weight:650;color:var(--acc);display:flex;align-items:center;gap:4px}
+#study[data-orig=off] .orig,#study[data-sound=off] .tr,#study[data-rend=off] .rend,#study[data-key=off] .key{display:none}
+#study[data-rend=off] .cmp{font-family:var(--serif);font-size:calc(19px*var(--s));color:var(--ink);margin-top:0}
+
+/* ---------- Rooms ---------- */
+.shelf{display:flex;gap:14px;overflow-x:auto;margin:14px -22px 0;padding:4px 22px 18px;scrollbar-width:none;border-bottom:6px solid var(--line)}
+.shelf::-webkit-scrollbar{display:none}
+.book{flex:none;width:138px}
+.cover{height:196px;border-radius:3px 9px 9px 3px;padding:16px 14px 14px 20px;display:flex;flex-direction:column;position:relative;box-shadow:0 10px 20px -10px rgba(0,0,0,.5);overflow:hidden}
+.cover::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:1px;background:currentColor;opacity:.25}
+.cover .g{font-size:34px;line-height:1;font-family:var(--serif)}
+.cover b{margin-top:auto;font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.15}
+.cover small{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-top:6px}
+.c1{background:#5A1C22;color:#F3D9A4}.c2{background:#18276B;color:#E9EDFA}.c3{background:#E6DDCB;color:#2A2420}
+.c4{background:transparent;color:var(--mute);border:1.5px dashed var(--line);box-shadow:none}
+.book p{font-size:13px;color:var(--mute);margin-top:10px;line-height:1.4}
+.book p b{display:block;color:var(--ink);font-weight:600}
+.room{padding:26px 0 4px}
+.room h2{margin:6px 0 4px}
+.room>p{font-size:15px;color:var(--mute);line-height:1.5;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:14px;width:100%;min-height:58px;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+.li:first-of-type{border-top:1px solid var(--line)}
+.li span{margin-left:auto;font-size:13px;color:var(--mute)}
+.li .ic{color:var(--acc)}
+.breath{width:132px;height:132px;border-radius:50%;margin:16px auto 14px;border:1.5px solid var(--line);display:grid;place-items:center;position:relative}
+.breath::before{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--sun);opacity:.2;animation:breathe 9s ease-in-out infinite}
+.breath span{position:relative;font-family:var(--serif);font-style:italic;font-size:15px}
+@keyframes breathe{0%,100%{transform:scale(.5)}45%,55%{transform:scale(1.25)}}
+
+/* ---------- Journey ---------- */
+#weave{width:100%;margin:18px 0 6px}
+#weave path{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;opacity:.75}
+#weave circle{fill:var(--bg);stroke:var(--mute);stroke-width:1.2}
+#weave circle.k{fill:var(--gold);stroke:var(--gold)}
+#weave circle.t{fill:var(--sun);stroke:var(--sun)}
+#weave text{font-size:10px;fill:var(--mute);text-anchor:middle;font-weight:600;letter-spacing:.08em}
+.tally{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:14px 0 6px}
+.tally div{padding:14px 0;text-align:center;font-size:12.5px;color:var(--mute)}
+.tally div+div{border-left:1px solid var(--line)}
+.tally b{display:block;font-family:var(--serif);font-weight:400;font-size:30px;color:var(--ink);line-height:1.1}
+.back{padding:14px 0;border-bottom:1px solid var(--line);display:block;width:100%}
+.back .k{font-size:11.5px;font-weight:650;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.back q{display:block;font-family:var(--serif);font-size:17px;line-height:1.45;margin-top:4px;quotes:none}
+.back em{display:block;font-style:normal;font-size:13px;color:var(--acc);font-weight:600;margin-top:5px}
+
+/* ---------- Tab bar with Eliana at its centre ---------- */
+#tabs{position:absolute;left:0;right:0;bottom:0;height:70px;z-index:8;display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;background:var(--bg);border-top:1px solid var(--line);transition:background .6s}
+#tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:600;color:var(--mute);letter-spacing:.02em}
+#tabs button[aria-current=page]{color:var(--ink)}
+#tabs button[aria-current=page] .ic{color:var(--acc)}
+#tabs .el{position:relative}
+#tabs .el b{width:56px;height:56px;margin-top:-22px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-size:24px;font-weight:400;box-shadow:0 6px 18px rgba(0,0,0,.28),0 0 0 5px var(--bg)}
+#app[data-theme=night] #tabs .el b,#app[data-theme=dusk] #tabs .el b{background:var(--gold);color:var(--on)}
+#tabs .el span{color:var(--ink)}
+
+/* ---------- Sheets and pages ---------- */
+#scrim{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .3s}
+#scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;max-height:86%;overflow-y:auto;background:var(--page);color:var(--ink);border-radius:26px 26px 0 0;padding:10px 22px 30px;transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.sheet.show{transform:none}
+.sheet.tall{height:86%;display:flex;flex-direction:column}
+.grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 10px}
+.shead{display:flex;align-items:center;justify-content:space-between;margin-right:-10px;min-height:44px}
+.bigw{display:block;text-align:center;font-size:76px;line-height:1.3}
+.wtr{text-align:center;font-family:var(--serif);font-style:italic;font-size:19px}
+.tags{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0 18px}
+.tags span{font-size:12px;font-weight:650;padding:5px 11px;border-radius:13px;border:1.5px solid var(--line)}
+.tags span:first-child{border-color:var(--gold);color:var(--gold)}
+.sheet h3{font-size:11.5px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:20px 0 8px}
+.sheet p{font-size:16px;line-height:1.6}
+.use{display:flex;gap:12px;width:100%;padding:11px 0;border-top:1px solid var(--line);min-height:48px;align-items:baseline}
+.use b{flex:none;width:104px;font-size:13.5px;font-weight:650;color:var(--acc)}
+.use span{font-family:var(--serif);font-size:16px;line-height:1.4}
+.cknot{position:relative;padding:0 0 20px 34px}
+.cknot::before{content:"";position:absolute;left:8px;top:8px;bottom:-8px;width:1.5px;background:var(--gold)}
+.cknot:last-of-type::before{display:none}
+.cknot::after{content:"";position:absolute;left:3px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--gold)}
+.cknot b{font-size:13.5px;font-weight:650;color:var(--acc)}
+.cknot span{display:block;font-family:var(--serif);font-size:17px;line-height:1.45;margin-top:2px}
+.swatches{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{border-radius:16px;padding:14px;min-height:92px;border:2px solid transparent;display:flex;flex-direction:column;justify-content:space-between}
+.sw[aria-pressed=true]{border-color:var(--acc)}
+.sw b{font-family:var(--serif);font-weight:500;font-size:19px}
+.sw small{font-size:12px;opacity:.75}
+.sw i{display:block;width:26px;height:4px;border-radius:2px}
+.set{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;border-bottom:1px solid var(--line);font-size:16px;width:100%}
+.set small{display:block;font-size:13px;color:var(--mute)}
+.tog{width:50px;height:30px;border-radius:15px;background:var(--line);position:relative;flex:none;transition:background .2s}
+.tog::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:var(--page);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.tog[aria-checked=true]{background:var(--acc)}
+.tog[aria-checked=true]::after{transform:translateX(20px)}
+input[type=range]{width:150px;accent-color:var(--acc)}
+#chat{flex:1;overflow-y:auto;padding:6px 0 12px}
+.ctx{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;padding:6px 12px;border-radius:14px;background:var(--wash);color:var(--acc);margin-bottom:14px}
+.me{margin:0 0 14px auto;max-width:82%;background:var(--ink);color:var(--page);padding:11px 15px;border-radius:18px 18px 4px 18px;font-size:15.5px;line-height:1.45;width:fit-content}
+.her{font-family:var(--serif);font-size:17px;line-height:1.6;padding-left:24px;position:relative;margin-bottom:14px;min-height:27px}
+.her::before{content:"✦";position:absolute;left:0;color:var(--gold)}
+.her button{color:var(--acc);font-weight:600;border-bottom:1px solid currentColor;font-family:-apple-system,system-ui,sans-serif;font-size:14.5px}
+.sugg{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.ask{display:flex;gap:8px;align-items:center;border:1.5px solid var(--line);border-radius:26px;padding:4px 4px 4px 18px}
+.ask input{flex:1;min-width:0;border:0;background:none;color:inherit;font:inherit;font-size:16px;min-height:44px;outline:none}
+.ask button{width:44px;height:44px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center}
+textarea{width:100%;min-height:150px;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:none;color:inherit;font-family:var(--serif);font-size:18px;line-height:1.6;padding:14px 0;resize:none;outline-offset:4px;margin:12px 0 16px}
+.page{position:absolute;top:38px;left:0;right:0;bottom:0;z-index:15;background:var(--bg);overflow-y:auto;transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+.page.show{transform:none}
+.phead{position:sticky;top:0;background:var(--bg);z-index:2;padding:6px 12px 0 8px;border-bottom:1px solid var(--line)}
+.phead .r1{display:flex;align-items:center;gap:4px;font-weight:650}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative;padding:4px 0 10px}
+.steps::before{content:"";position:absolute;left:10%;right:10%;top:9px;height:1.5px;background:var(--line)}
+.steps button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;font-weight:650;letter-spacing:.04em;color:var(--mute);position:relative;min-height:44px}
+.steps i{width:11px;height:11px;border-radius:50%;background:var(--bg);border:1.5px solid var(--gold)}
+.steps button:first-child i{background:var(--gold)}
+.sec{padding:26px 0 4px;scroll-margin-top:110px}
+.sec p{font-size:calc(16.5px*var(--s));line-height:1.65;margin-top:10px}
+.sec .grk{font-family:var(--serif);font-size:calc(25px*var(--s));line-height:1.6;margin-top:12px}
+.sec .big{font-family:var(--serif);font-size:calc(24px*var(--s));line-height:1.35;margin-top:10px}
+.practice{border:1.5px solid var(--gold);border-radius:20px;padding:20px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><path d="M3 17h18M6.5 17a5.5 5.5 0 0 1 11 0M12 5v3M4.6 9.6l2 2M19.4 9.6l-2 2M8 21h8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.500-.5 6.500 0 8.500 1.500 2-1.500 5-2 8.500-1.500V5C17 4.500 14 5 12 6.500zM12 6.500v13"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path d="M6 21V8a6 6 0 0 1 12 0v13M3 21h18M14.500 13.500v1.500"/></symbol>
+  <symbol id="i-path" viewBox="0 0 24 24"><path d="M5 20c0-4 4-4 7-6s3-4 7-10"/><circle cx="5" cy="20" r="1.6"/><circle cx="12" cy="14" r="1.6"/><circle cx="19" cy="4" r="1.6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.500M12 18.500V21M3 12h2.500M18.500 12H21M5.600 5.600l1.800 1.800M16.600 16.600l1.800 1.800M5.600 18.400l1.800-1.800M16.600 7.400l1.800-1.800"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.500l2.600 5.400 5.900.800-4.300 4.100 1 5.900L12 16.900l-5.200 2.800 1-5.900L3.500 9.700l5.900-.800z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16.500 4.500l3 3L8 19l-4 1zM14 7l3 3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 4l9 5-9 5-9-5 9-5zM3 14l9 5 9-5"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.200"/><circle cx="18" cy="18" r="2.200"/><path d="M7.600 7.600l8.800 8.800"/></symbol>
+  <symbol id="i-hands" viewBox="0 0 24 24"><path d="M12 21V9M12 9c0-3-1-5-2.500-6C8 5 7.500 8 8 11l-3 4 3 6M12 9c0-3 1-5 2.500-6 1.500 2 2 5 1.500 8l3 4-3 6"/></symbol>
+  <symbol id="i-still" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><circle cx="12" cy="12" r="3.500"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.500-4.500"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+</svg>
+
+<div id="app" data-theme="dawn" data-tab="today">
+
+  <div id="mock" role="group" aria-label="Mockup theme switch">
+    <span>Theme</span>
+    <button data-theme="dawn"><i style="background:#AE3A1C"></i>Dawn</button>
+    <button data-theme="day"><i style="background:#1C3DA8"></i>Day</button>
+    <button data-theme="dusk"><i style="background:#F2A679"></i>Dusk</button>
+    <button data-theme="night"><i style="background:#FFC233"></i>Night</button>
+  </div>
+
+  <!-- ================= TODAY ================= -->
+  <main class="screen" id="today">
+    <div class="pad">
+      <div class="top">
+        <div class="mark">Eliana<small>God has answered</small></div>
+        <button class="icbtn" data-sheet="s-set" aria-label="Settings and themes"><svg class="ic"><use href="#i-gear"/></svg></button>
+      </div>
+      <div class="eyebrow q" id="greet">Good morning · Thursday, 19 November</div>
+
+      <div class="hours" role="group" aria-label="The hour">
+        <button data-theme="dawn"><i></i>Dawn</button>
+        <button data-theme="day"><i></i>Day</button>
+        <button data-theme="dusk"><i></i>Dusk</button>
+        <button data-theme="night"><i></i>Night</button>
+      </div>
+
+      <div class="eyebrow" style="text-align:center">Today's word</div>
+      <button class="word heb" data-word="harpu" aria-label="Harpu, open the word">הַרְפּוּ</button>
+      <div class="wordsub">har·pū, “let go”<b>Tap the word</b></div>
+
+      <p class="verse">Be still, and know that I am God.</p>
+      <div class="ref">Psalm 46:10 · BSB</div>
+      <p class="render">Let your hands fall. Then you will know that I am God.</p>
+      <div class="row">
+        <button class="btn" data-open="vstudy">Open the study</button>
+        <button class="btn ghost" data-eliana="Psalm 46:10"><span class="star">✦</span> Ask Eliana</button>
+        <button class="icbtn" aria-label="Save verse" data-save><svg class="ic"><use href="#i-star"/></svg></button>
+      </div>
+      <p class="carry"><b class="eyebrow">Carry it with you</b>The command is plural, and it is given in the middle of a battle. Notice one thing today that you are gripping, and open your hand.</p>
+
+      <div class="rule"></div>
+      <div class="eyebrow q" style="margin-bottom:6px">The day's rhythm</div>
+      <div class="thread" id="beats">
+        <div class="knot" data-h="dawn">
+          <span class="k">Dawn · Receive</span>
+          <span class="t">Psalm 46:10</span>
+          <span class="d">Read it once, slowly. That is the whole of the morning.</span>
+          <button class="btn acc go" data-open="vstudy">Sit with it</button>
+        </div>
+        <div class="knot" data-h="day">
+          <span class="k">Day · Read</span>
+          <span class="t">Continue Genesis 1</span>
+          <span class="d">You stopped at verse 3, in Read. A chain begins there.</span>
+          <button class="btn acc go" data-go="bible">Keep reading</button>
+        </div>
+        <div class="knot" data-h="dusk">
+          <span class="k">Dusk · Study</span>
+          <span class="t">Aliyah №3 · Out of Egypt</span>
+          <span class="d">Matthew 2:13–18 · Hosea 11 · Exodus 4:22. About twelve minutes.</span>
+          <button class="btn acc go" data-go="rooms">Open the study</button>
+        </div>
+        <div class="knot" data-h="night">
+          <span class="k">Night · Rest</span>
+          <span class="t">Stillness, then a prayer</span>
+          <span class="d">Three quiet minutes, and the Throne Room after.</span>
+          <button class="btn acc go" data-go="rooms">Be still</button>
+        </div>
+      </div>
+
+      <div class="rule"></div>
+      <div class="eyebrow q">Rooms</div>
+      <div class="doors">
+        <button data-go="rooms"><svg class="ic"><use href="#i-book"/></svg>Library</button>
+        <button data-go="rooms"><svg class="ic"><use href="#i-hands"/></svg>Throne Room</button>
+        <button data-sheet="s-journal"><svg class="ic"><use href="#i-pen"/></svg>Journal</button>
+        <button data-go="rooms"><svg class="ic"><use href="#i-still"/></svg>Stillness</button>
+      </div>
+      <p class="foot">Nothing here is counted against you.<br>The day begins whenever you open it.</p>
+    </div>
+  </main>
+
+  <!-- ================= BIBLE ================= -->
+  <main class="screen" id="bible" data-mode="read">
+    <div class="bhead">
+      <div class="r1">
+        <button class="bookbtn">Genesis 1 <svg class="ic" style="width:18px;height:18px"><use href="#i-down"/></svg></button>
+        <button class="chip" id="trans" aria-label="Translation, tap to change">BSB</button>
+        <button class="icbtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+        <button class="icbtn" data-sheet="s-set" aria-label="Text size" style="font-family:var(--serif);font-size:19px">Aa</button>
+      </div>
+      <div class="seg" role="group" aria-label="Reading mode">
+        <button data-mode="read" aria-pressed="true">Read</button>
+        <button data-mode="study" aria-pressed="false">Study</button>
+      </div>
+      <div class="layers" role="group" aria-label="Layers shown">
+        <button class="chip" data-layer="rend" aria-pressed="true"><span>✦</span> Rendering</button>
+        <button class="chip" data-layer="orig" aria-pressed="true">Hebrew</button>
+        <button class="chip" data-layer="sound" aria-pressed="true">Sound</button>
+        <button class="chip" data-layer="key" aria-pressed="true">Key word</button>
+      </div>
+    </div>
+
+    <div id="read">
+      <div class="chno"><small>Genesis</small><b>1</b></div>
+      <div id="readtext"></div>
+      <button class="next"><span><span class="eyebrow q" style="display:block">Next</span>Genesis 2</span><svg class="ic"><use href="#i-chev"/></svg></button>
+    </div>
+
+    <div id="study">
+      <div class="sv">
+        <div class="n">1</div>
+        <p class="rend">In the beginning God created the heavens and the earth.</p>
+        <p class="cmp" data-cmp="0"></p>
+        <div class="orig">
+          <button data-word="reshit">בְּרֵאשִׁית</button><button data-word="bara">בָּרָא</button><button data-word="elohim">אֱלֹהִים</button><button data-word="et">אֵת</button><button data-word="shamayim">הַשָּׁמַיִם</button><button data-word="et">וְאֵת</button><button data-word="erets">הָאָרֶץ</button>
+        </div>
+        <p class="tr">bə·rê·šîṯ bā·rā ’ĕ·lō·hîm ’êṯ haš·šā·ma·yim wə·’êṯ hā·’ā·reṣ</p>
+        <div class="key">
+          <div class="kw"><span class="heb">בָּרָא</span><i>bā·rā</i></div>
+          A Qal perfect, third person masculine singular: a simple, completed act, stated as plain fact. In Scripture this verb has only ever one subject.
+          <div class="more"><button data-word="bara">The word</button><button data-open="vstudy">Read the full study <svg class="ic" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></div>
+        </div>
+      </div>
+      <div class="sv">
+        <div class="n">2</div>
+        <p class="rend">Now the earth was formless and empty, darkness lay over the face of the deep, and the breath of God hovered over the face of the waters.</p>
+        <p class="cmp" data-cmp="1"></p>
+        <p class="orig plain heb">וְהָאָרֶץ הָיְתָה תֹהוּ וָבֹהוּ וְחֹשֶׁךְ עַל־פְּנֵי תְהוֹם וְרוּחַ אֱלֹהִים מְרַחֶפֶת עַל־פְּנֵי הַמָּיִם</p>
+        <p class="tr">wə·hā·’ā·reṣ hā·yə·ṯāh ṯō·hū wā·ḇō·hū …</p>
+        <div class="key">
+          <div class="kw"><span class="heb">רוּחַ</span><i>rū·aḥ</i></div>
+          Breath, wind, spirit: one Hebrew word carries all three, and the rendering keeps the first.
+          <div class="more"><button data-open="vstudy">Read the full study <svg class="ic" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></div>
+        </div>
+      </div>
+      <div class="sv">
+        <div class="n">3</div>
+        <p class="rend">And God said, “Let light be,” and light was.</p>
+        <p class="cmp" data-cmp="2"></p>
+        <div class="orig">
+          <button data-word="amar">וַיֹּאמֶר</button><button data-word="elohim">אֱלֹהִים</button><button data-word="yehi">יְהִי</button><button data-word="or">אוֹר</button><button data-word="vayhi">וַיְהִי</button><button data-word="or">אוֹר</button>
+        </div>
+        <p class="tr">way·yō·mer ’ĕ·lō·hîm yə·hî ’ō·wr way·hî ’ō·wr</p>
+        <div class="key">
+          <div class="kw"><span class="heb">יְהִי</span><i>yə·hî</i></div>
+          Two words in Hebrew, and the answer echoes the command almost letter for letter. The rendering keeps it that short.
+          <div class="more"><button data-sheet="s-chain"><span class="chain" style="margin:0 6px 0 0"><i></i>12</span>Follow the chain</button><button data-open="vstudy">Full study <svg class="ic" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="actbar" role="toolbar" aria-label="Verse actions">
+    <div class="lbl" id="actlbl">Genesis 1:3</div>
+    <div class="acts">
+      <button data-act="study"><svg class="ic"><use href="#i-layers"/></svg>Study</button>
+      <button data-act="chain"><svg class="ic"><use href="#i-link"/></svg>Chain</button>
+      <button data-act="ask"><span style="font-size:20px;line-height:22px">✦</span>Ask</button>
+      <button data-act="journal"><svg class="ic"><use href="#i-pen"/></svg>Journal</button>
+      <button data-act="save"><svg class="ic"><use href="#i-star"/></svg>Save</button>
+    </div>
+  </div>
+
+  <!-- ================= ROOMS ================= -->
+  <main class="screen" id="rooms">
+    <div class="pad">
+      <div class="eyebrow">The Library</div>
+      <h1 style="margin-top:6px">A shelf, and three rooms beside it.</h1>
+      <div class="shelf">
+        <button class="book"><div class="cover c1"><span class="g">E</span><b>Eliana's Journal</b><small>Michael W Thomas</small></div><p><b>Day 12 next</b>A devotional, one day at a time</p></button>
+        <button class="book"><div class="cover c2"><span class="g">№</span><b>Aliyah<br>The Ascent</b><small>A book of discoveries</small></div><p><b>№3 · Out of Egypt</b>Studies built from the chains</p></button>
+        <button class="book"><div class="cover c3"><span class="g">✦</span><b>The Foundations</b><small>For every reader</small></div><p><b>Not yet opened</b>How the words reached you</p></button>
+        <div class="book"><div class="cover c4"><b style="font-size:16px;font-style:italic">More books will join the shelf</b></div></div>
+      </div>
+
+      <section class="room">
+        <div class="eyebrow">Throne Room</div>
+        <h2>Come as you are, and pray.</h2>
+        <p>Tell Eliana what you are carrying and she will help you find words, or pray with ones already written.</p>
+        <button class="li" data-eliana="A prayer"><svg class="ic"><use href="#i-hands"/></svg>Help me find the words<svg class="ic" style="margin-left:auto;color:var(--mute)"><use href="#i-chev"/></svg></button>
+        <button class="li"><svg class="ic"><use href="#i-sun"/></svg>Prayers for the morning<span>Curated</span></button>
+        <button class="li"><svg class="ic"><use href="#i-star"/></svg>My prayers<span>12 saved · 4 favourites</span></button>
+      </section>
+
+      <section class="room">
+        <div class="eyebrow">Journal</div>
+        <h2>Put what is on your heart into words.</h2>
+        <button class="li" data-sheet="s-journal"><svg class="ic"><use href="#i-pen"/></svg>Write freely<svg class="ic" style="margin-left:auto;color:var(--mute)"><use href="#i-chev"/></svg></button>
+        <button class="li" data-sheet="s-journal"><svg class="ic"><use href="#i-path"/></svg>Help me start<span>A guided prompt</span></button>
+        <button class="li"><svg class="ic"><use href="#i-search"/></svg>Past entries<span>31 entries</span></button>
+      </section>
+
+      <section class="room">
+        <div class="eyebrow">Stillness</div>
+        <h2>Make room to pause.</h2>
+        <div class="breath"><span>breathe</span></div>
+        <div class="row" style="justify-content:center"><button class="btn">Begin · 3 minutes</button></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= JOURNEY ================= -->
+  <main class="screen" id="journey">
+    <div class="pad">
+      <div class="eyebrow">Journey</div>
+      <h1 style="margin-top:6px">The thread so far.</h1>
+      <p class="mute" style="font-size:15px;line-height:1.5;margin-top:8px">A filled knot is a day you came. Where you did not, the thread simply carries on. It never breaks, and nothing is counted.</p>
+      <svg id="weave" viewBox="0 0 346 236" role="img" aria-label="The last four weeks drawn as one unbroken thread"></svg>
+      <div class="tally">
+        <div><b>14</b>chapters opened</div>
+        <div><b>6</b>pages written</div>
+        <div><b>9</b>prayers prayed</div>
+      </div>
+      <div class="eyebrow q" style="margin:26px 0 4px">Look back</div>
+      <button class="back"><span class="k">Tuesday · Genesis 1:3</span><q>Light came before the sun did. I keep waiting for the circumstances first.</q><em>Journal · tied to a verse</em></button>
+      <button class="back"><span class="k">Sunday · Psalm 46</span><q>Read the whole psalm aloud. The refuge comes before the stillness.</q><em>Reading · chain 7</em></button>
+      <button class="back"><span class="k">Last Friday · Throne Room</span><q>A prayer for the house, and for patience with it.</q><em>Saved prayer</em></button>
+    </div>
+  </main>
+
+  <!-- ================= TABS ================= -->
+  <nav id="tabs" aria-label="Main">
+    <button data-go="today"><svg class="ic"><use href="#i-sun"/></svg>Today</button>
+    <button data-go="bible"><svg class="ic"><use href="#i-book"/></svg>Bible</button>
+    <button class="el" data-eliana="" aria-label="Ask Eliana"><b>✦</b><span>Eliana</span></button>
+    <button data-go="rooms"><svg class="ic"><use href="#i-door"/></svg>Rooms</button>
+    <button data-go="journey"><svg class="ic"><use href="#i-path"/></svg>Journey</button>
+  </nav>
+
+  <!-- ================= VERSE STUDY PAGE ================= -->
+  <section class="page" id="vstudy" aria-label="Verse study">
+    <div class="phead">
+      <div class="r1">
+        <button class="icbtn" data-close-page aria-label="Back"><svg class="ic"><use href="#i-back"/></svg></button>
+        <span style="margin-right:auto">Psalm 46:10</span>
+        <button class="chip" data-close-page data-go="bible">Open in Bible</button>
+        <button class="icbtn" aria-label="Save" data-save><svg class="ic"><use href="#i-star"/></svg></button>
+      </div>
+      <div class="steps">
+        <button data-sec="sec1"><i></i>Scripture</button>
+        <button data-sec="sec2"><i></i>Rendering</button>
+        <button data-sec="sec3"><i></i>Lens</button>
+        <button data-sec="sec4"><i></i>Insight</button>
+        <button data-sec="sec5"><i></i>Practice</button>
+      </div>
+    </div>
+    <div class="pad">
+      <div class="sec" id="sec1" style="padding-top:8px">
+        <div class="eyebrow">Scripture</div>
+        <p class="grk heb" style="font-family:var(--heb);text-align:right">הַרְפּוּ וּדְעוּ כִּי־אָנֹכִי אֱלֹהִים</p>
+        <p class="mute" style="font-family:var(--serif);font-style:italic">har·pū ū·ḏə·‘ū kî ’ā·nō·ḵî ’ĕ·lō·hîm</p>
+      </div>
+      <div class="sec" id="sec2">
+        <div class="eyebrow"><span class="star">✦</span> Fresh rendering</div>
+        <p class="big">Let your hands fall. Then you will know that I am God.</p>
+      </div>
+      <div class="sec" id="sec3">
+        <div class="eyebrow">Deeper lens</div>
+        <p>The first word is a Hiphil imperative plural of <i>rāp̄āh</i>, to slacken or let drop. It is spoken to a crowd, and the psalm around it is full of war. It reads less like an invitation to calm and more like an order to put the weapons down.</p>
+      </div>
+      <div class="sec" id="sec4">
+        <div class="eyebrow">Everyday insight</div>
+        <p>Stillness here is not the absence of noise. It is the moment you stop holding the thing up yourself and find that it does not fall.</p>
+      </div>
+      <div class="sec" id="sec5">
+        <div class="eyebrow">Take-home practice</div>
+        <div class="practice">
+          <p style="margin:0 0 16px;font-family:var(--serif);font-size:19px;line-height:1.45">Name one thing you are gripping. Open your hand, literally, and say the verse once.</p>
+          <div class="row"><button class="btn acc" data-sheet="s-journal">Write it in the journal</button><button class="btn ghost" data-eliana="Psalm 46:10"><span class="star">✦</span> Ask</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SHEETS ================= -->
+  <div id="scrim"></div>
+
+  <section class="sheet" id="s-word" aria-label="Word">
+    <div class="grab"></div>
+    <div class="shead"><span class="eyebrow">The word</span><button class="icbtn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <span class="bigw heb" id="w-w"></span>
+    <div class="wtr" id="w-t"></div>
+    <div class="tags" id="w-tags"></div>
+    <h3>Meaning</h3><p id="w-m"></p>
+    <h3>Other uses in Scripture</h3><div id="w-u"></div>
+    <div class="row" style="margin-top:18px"><button class="btn ghost" data-eliana="this word"><span class="star">✦</span> Ask Eliana about this word</button></div>
+  </section>
+
+  <section class="sheet" id="s-chain" aria-label="Chain">
+    <div class="grab"></div>
+    <div class="shead"><span class="eyebrow">Chain 12 · four passages</span><button class="icbtn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <h2 style="margin:2px 0 18px">Light, from the first word to the face of Christ</h2>
+    <div class="cknot"><b>Genesis 1:3</b><span>And God said, “Let there be light,” and there was light.</span></div>
+    <div class="cknot"><b>Psalm 119:105</b><span>Your word is a lamp to my feet and a light to my path.</span></div>
+    <div class="cknot"><b>John 1:4–5</b><span>In Him was life, and that life was the light of men.</span></div>
+    <div class="cknot"><b>2 Corinthians 4:6</b><span>For God, who said, “Let light shine out of darkness,” made His light shine in our hearts.</span></div>
+    <div class="row"><button class="btn">Read the chain</button><button class="btn ghost">Its Aliyah study</button></div>
+  </section>
+
+  <section class="sheet tall" id="s-eliana" aria-label="Eliana">
+    <div class="grab"></div>
+    <div class="shead"><span class="mark"><span class="star">✦</span> Eliana</span><button class="icbtn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div id="chat">
+      <span class="ctx" id="ctx">With you in Psalm 46:10</span>
+      <div class="me">Why does your rendering say “let your hands fall”?</div>
+      <div class="her" id="stream" aria-live="polite"></div>
+    </div>
+    <div class="sugg"><button class="chip">Pray this verse</button><button class="chip">Where else is this word?</button><button class="chip">Explain simply</button></div>
+    <div class="ask"><input aria-label="Ask Eliana" placeholder="Ask, or say what is on your mind"><button aria-label="Send"><svg class="ic"><use href="#i-up"/></svg></button></div>
+  </section>
+
+  <section class="sheet" id="s-journal" aria-label="Journal entry">
+    <div class="grab"></div>
+    <div class="shead"><span class="eyebrow">Journal · Thursday evening</span><button class="icbtn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <span class="ctx" id="jctx">Tied to Psalm 46:10</span>
+    <h2>What are you holding that you could set down?</h2>
+    <textarea aria-label="Your entry" placeholder="Begin anywhere."></textarea>
+    <div class="row"><button class="btn" data-close>Keep this page</button><button class="btn ghost">Another prompt</button></div>
+  </section>
+
+  <section class="sheet" id="s-set" aria-label="Settings">
+    <div class="grab"></div>
+    <div class="shead"><span class="eyebrow">Appearance</span><button class="icbtn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="swatches">
+      <button class="sw" data-theme="dawn" style="background:#F5EDE3;color:#2A1E22"><i style="background:#AE3A1C"></i><span><b>Dawn</b><br><small>Vellum and rubric red</small></span></button>
+      <button class="sw" data-theme="day" style="background:#FFFFFF;color:#0E1A2C;box-shadow:inset 0 0 0 1px rgba(14,26,44,.14)"><i style="background:#1C3DA8"></i><span><b>Day</b><br><small>Paper and lapis</small></span></button>
+      <button class="sw" data-theme="dusk" style="background:#201A3B;color:#F6EADC"><i style="background:#F2A679"></i><span><b>Dusk</b><br><small>Plum and ember</small></span></button>
+      <button class="sw" data-theme="night" style="background:#000;color:#E8E4DC;box-shadow:inset 0 0 0 1px rgba(232,228,220,.2)"><i style="background:#FFC233"></i><span><b>Night</b><br><small>Shekinah, kept</small></span></button>
+    </div>
+    <div class="set" style="margin-top:8px"><span>Follow the hour<small>The app wears the time of day</small></span><button class="tog" role="switch" aria-checked="false" id="follow" aria-label="Follow the hour"></button></div>
+    <div class="set"><span>Text size</span><input type="range" min="85" max="130" value="100" id="size" aria-label="Text size"></div>
+    <div class="set"><span>High contrast</span><button class="tog" role="switch" aria-checked="false" id="hc" aria-label="High contrast"></button></div>
+    <button class="set"><span>Reminders<small>Morning 7:00 · Evening 8:30</small></span><svg class="ic mute"><use href="#i-chev"/></svg></button>
+    <button class="set"><span>Backup and account</span><svg class="ic mute"><use href="#i-chev"/></svg></button>
+  </section>
+</div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},$$=function(s){return [].slice.call(document.querySelectorAll(s))};
+var app=$('#app'),ORDER=['dawn','day','dusk','night'];
+var GREET={dawn:'Good morning',day:'Good afternoon',dusk:'Good evening',night:'Peace tonight'};
+
+function setTheme(t){
+  app.dataset.theme=t;
+  $$('[data-theme]').forEach(function(b){if(b!==app)b.setAttribute('aria-pressed',b.dataset.theme===t)});
+  $('#greet').textContent=GREET[t]+' · Thursday, 19 November';
+  var i=ORDER.indexOf(t);
+  $$('#beats .knot').forEach(function(k,n){k.classList.toggle('kept',n<i);k.classList.toggle('now',n===i)});
+  $('#beats').style.setProperty('--done',[0,30,58,84][i]+'%');
+}
+function go(tab){
+  app.dataset.tab=tab;hideBar();
+  $$('#tabs button[data-go]').forEach(function(b){if(b.dataset.go===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+}
+
+/* ----- Read mode: four translations of the same page ----- */
+var T={
+BSB:["In the beginning God created the heavens and the earth.","Now the earth was formless and void, and darkness was over the surface of the deep. And the Spirit of God was hovering over the surface of the waters.","And God said, “Let there be light,” and there was light.","And God saw that the light was good, and He separated the light from the darkness.","God called the light “day,” and the darkness He called “night.” And there was evening, and there was morning, the first day.","And God said, “Let there be an expanse between the waters, to separate the waters from the waters.”","So God made the expanse and separated the waters beneath it from the waters above. And it was so.","God called the expanse “sky.” And there was evening, and there was morning, the second day."],
+KJV:["In the beginning God created the heaven and the earth.","And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.","And God said, Let there be light: and there was light.","And God saw the light, that it was good: and God divided the light from the darkness.","And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.","And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.","And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so.","And God called the firmament Heaven. And the evening and the morning were the second day."],
+ASV:["In the beginning God created the heavens and the earth.","And the earth was waste and void; and darkness was upon the face of the deep: and the Spirit of God moved upon the face of the waters.","And God said, Let there be light: and there was light.","And God saw the light, that it was good: and God divided the light from the darkness.","And God called the light Day, and the darkness he called Night. And there was evening and there was morning, one day.","And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.","And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so.","And God called the firmament Heaven. And there was evening and there was morning, a second day."],
+"✦ Eliana":["In the beginning God created the heavens and the earth.","Now the earth was formless and empty, darkness lay over the face of the deep, and the breath of God hovered over the face of the waters.","And God said, “Let light be,” and light was.","God saw the light, that it was good, and God parted the light from the darkness.","God named the light Day, and the darkness he named Night. Evening came, and morning came: day one.","And God said, “Let there be a vault in the midst of the waters, and let it part water from water.”","So God made the vault, and parted the waters under it from the waters over it. And so it was.","God named the vault Sky. Evening came, and morning came: a second day."]};
+var TR=Object.keys(T),ti=0,PARAS=[[1,2],[3,4,5],[6,7,8]];
+function renderRead(){
+  var t=T[TR[ti]];
+  $('#readtext').innerHTML=PARAS.map(function(p){return '<p>'+p.map(function(n){
+    return '<span class="v" tabindex="0" role="button" data-v="'+n+'">'+(n>1?'<sup>'+n+'</sup>':'')+t[n-1]+'</span>'+(n===3?'<button class="chain" data-sheet="s-chain" aria-label="Chain 12"><i></i>12</button>':'');
+  }).join(' ')+'</p>'}).join('');
+  $('#trans').innerHTML=TR[ti].replace('✦','<span class="star">✦</span>');
+  var name=TR[ti]==='✦ Eliana'?'BSB':TR[ti],src=T[name],el=T['✦ Eliana'];
+  $$('[data-cmp]').forEach(function(c){var i=+c.dataset.cmp;c.textContent=src[i]===el[i]?'The '+name+' reads the same':name+': '+src[i]});
+}
+function setMode(m){
+  $('#bible').dataset.mode=m;hideBar();
+  $$('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===m)});
+}
+function hideBar(){$('#actbar').classList.remove('show');$$('#read .v.sel').forEach(function(v){v.classList.remove('sel')})}
+
+/* ----- Words ----- */
+var W={
+harpu:{w:'הַרְפּוּ',t:'har·pū',s:'H7503',g:'Hiphil imperative plural',gl:'be still',m:'From rāp̄āh: to sink, slacken, let drop. In the Hiphil it means to let go of something you are holding. The plural speaks to everyone at once.',u:[['Psalm 37:8','Refrain from anger and abandon wrath.'],['Deuteronomy 31:6','He will never leave you nor forsake you.'],['Proverbs 4:13','Hold on to instruction; do not let go.']]},
+reshit:{w:'בְּרֵאשִׁית',t:'bə·rê·šîṯ',s:'H7225',g:'Preposition, noun feminine singular',gl:'in the beginning',m:'The first, the chief, the best part of a thing. The Hebrew name of the whole book is this one word.',u:[['Proverbs 8:22','The LORD created me as His first course.'],['Psalm 111:10','The fear of the LORD is the beginning of wisdom.'],['Jeremiah 26:1','At the beginning of the reign of Jehoiakim.']]},
+bara:{w:'בָּרָא',t:'bā·rā',s:'H1254',g:'Qal perfect, 3rd masculine singular',gl:'created',m:'To create. A completed act, stated as plain fact. In Scripture the subject of this verb is only ever God.',u:[['Genesis 1:27','So God created man in His own image.'],['Psalm 51:10','Create in me a clean heart, O God.'],['Isaiah 40:26','Lift up your eyes on high: who created all these?'],['Isaiah 65:17','I will create new heavens and a new earth.']]},
+elohim:{w:'אֱלֹהִים',t:'’ĕ·lō·hîm',s:'H430',g:'Noun, masculine plural',gl:'God',m:'Plural in form, and here it takes a singular verb. The grammar itself is worth a pause.',u:[['Deuteronomy 6:4','The LORD our God, the LORD is One.'],['Psalm 46:10','Be still, and know that I am God.']]},
+et:{w:'אֵת',t:'’êṯ',s:'H853',g:'Direct object marker',gl:'(untranslated)',m:'A small word that points at what the verb acts on. English has nothing like it, so no translation shows it.',u:[['Genesis 1:16','God made the two great lights.']]},
+shamayim:{w:'הַשָּׁמַיִם',t:'haš·šā·ma·yim',s:'H8064',g:'Article, noun masculine plural',gl:'the heavens',m:'Sky, heavens. Always plural in Hebrew, which is why some translations say heaven and others heavens.',u:[['Psalm 19:1','The heavens declare the glory of God.'],['Isaiah 55:9','As the heavens are higher than the earth.']]},
+erets:{w:'הָאָרֶץ',t:'hā·’ā·reṣ',s:'H776',g:'Article, noun feminine singular',gl:'the earth',m:'Earth, land, ground. The same word names the whole world and one promised country.',u:[['Psalm 24:1','The earth is the LORD’s, and the fullness thereof.'],['Genesis 12:1','Go to the land I will show you.']]},
+amar:{w:'וַיֹּאמֶר',t:'way·yō·mer',s:'H559',g:'Qal consecutive imperfect, 3rd masculine singular',gl:'and He said',m:'To say. Creation in this chapter happens by speech, ten times over.',u:[['Psalm 33:9','For He spoke, and it came to be.']]},
+yehi:{w:'יְהִי',t:'yə·hî',s:'H1961',g:'Qal jussive, 3rd masculine singular',gl:'let there be',m:'From hāyāh, to be. A jussive: a wish with the force of a command.',u:[['Genesis 1:6','Let there be an expanse.'],['Psalm 33:22','May Your loving devotion rest on us.']]},
+vayhi:{w:'וַיְהִי',t:'way·hî',s:'H1961',g:'Qal consecutive imperfect, 3rd masculine singular',gl:'and there was',m:'The same verb as the command, answering it. What was asked for is what came.',u:[['Genesis 1:7','And it was so.']]},
+or:{w:'אוֹר',t:'’ō·wr',s:'H216',g:'Noun, common singular',gl:'light',m:'Light, daylight, the light of a face. It comes three days before the sun does.',u:[['Psalm 27:1','The LORD is my light and my salvation.'],['Psalm 119:105','A lamp to my feet and a light to my path.'],['Isaiah 9:2','The people walking in darkness have seen a great light.'],['Isaiah 60:1','Arise, shine, for your light has come.']]}
+};
+function openWord(k,btn){
+  var d=W[k];if(!d)return;
+  $$('.orig button.on').forEach(function(b){b.classList.remove('on')});
+  if(btn&&btn.parentNode.classList.contains('orig'))btn.classList.add('on');
+  $('#w-w').textContent=d.w;$('#w-t').textContent=d.t+' · “'+d.gl+'”';
+  $('#w-tags').innerHTML='<span>Strong’s '+d.s+'</span><span>'+d.g+'</span>';
+  $('#w-m').textContent=d.m;
+  $('#w-u').innerHTML=d.u.map(function(u){return '<button class="use"><b>'+u[0]+'</b><span>'+u[1]+'</span></button>'}).join('');
+  openSheet('s-word');
+}
+
+/* ----- Sheets ----- */
+function openSheet(id){closeSheet();$('#scrim').classList.add('show');var s=$('#'+id);s.classList.add('show');s.scrollTop=0}
+function closeSheet(){$('#scrim').classList.remove('show');$$('.sheet.show').forEach(function(s){s.classList.remove('show')});clearInterval(timer)}
+var timer;
+var ANSWER=['The','Hebrew','verb','is','<i>rāp̄āh</i>,','and','its','plain','sense','is','to','slacken','a','grip.','“Be','still”','is','a','faithful','translation,','but','it','can','sound','like','a','mood.','The','psalm','is','about','a','city','under','attack','(see','<button>Psalm 46:1–3</button>),','so','I','kept','the','picture','of','hands','opening.','The','same','verb','turns','up','in','<button>Psalm 37:8</button>','and','<button>Proverbs 4:13</button>.'];
+function eliana(ctx){
+  var c=ctx||(app.dataset.tab==='bible'?(sel?'Genesis 1:'+sel:'Genesis 1'):'Psalm 46:10');
+  $('#ctx').textContent='With you in '+c;
+  openSheet('s-eliana');
+  var out=$('#stream'),i=0;out.innerHTML='';
+  timer=setInterval(function(){out.innerHTML=ANSWER.slice(0,++i).join(' ');$('#chat').scrollTop=9999;if(i>=ANSWER.length)clearInterval(timer)},55);
+}
+
+/* ----- Journey: one unbroken thread through four weeks ----- */
+(function(){
+  var kept=[1,1,0,1,1,1,0, 1,0,0,1,1,0,1, 1,1,1,0,1,1,1, 0,1,1,2],days='MTWTFSS',h='',d='',pts=[];
+  for(var r=0;r<4;r++)for(var c=0;c<7;c++){var cc=r%2?6-c:c;pts.push([25+cc*49.300,40+r*56])}
+  pts.forEach(function(p,i){
+    if(i===0){d='M'+p[0]+' '+p[1];return}
+    var q=pts[i-1];
+    if(q[1]===p[1])d+=' Q'+((q[0]+p[0])/2)+' '+(p[1]+(i%2?-9:9))+' '+p[0]+' '+p[1];
+    else{var x=p[0]+(p[0]>170?24:-24);d+=' C'+x+' '+q[1]+' '+x+' '+p[1]+' '+p[0]+' '+p[1]}
+  });
+  for(var c2=0;c2<7;c2++)h+='<text x="'+(25+c2*49.300)+'" y="14">'+days[c2]+'</text>';
+  h+='<path d="'+d+'"/>';
+  pts.forEach(function(p,i){var k=kept[i];if(k===undefined)h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.500" style="opacity:.4"/>';else h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(k===2?8:k?5.500:4)+'" class="'+(k===2?'t':k?'k':'')+'"/>'});
+  $('#weave').innerHTML=h;
+})();
+
+/* ----- Events ----- */
+var sel=null;
+document.addEventListener('click',function(e){
+  var t=e.target.closest('button,.v,#scrim');if(!t)return;
+  if(t.id==='scrim'||t.hasAttribute('data-close')){closeSheet();return}
+  if(t.id==='trans'){ti=(ti+1)%TR.length;renderRead();hideBar();return}
+  if(t.id==='follow'||t.id==='hc'){
+    var on=t.getAttribute('aria-checked')!=='true';t.setAttribute('aria-checked',on);
+    if(t.id==='hc')app.classList.toggle('hc',on);
+    else if(on){var h=new Date().getHours();setTheme(h<5?'night':h<11?'dawn':h<17?'day':h<21?'dusk':'night')}
+    return}
+  if(t.hasAttribute('data-save')){var u=t.querySelector('svg');u.style.fill=u.style.fill?'':'var(--gold)';u.style.color=u.style.fill?'var(--gold)':'';return}
+  if(t.dataset.theme&&t!==app){setTheme(t.dataset.theme);$('#follow').setAttribute('aria-checked',false);return}
+  if(t.dataset.mode){setMode(t.dataset.mode);return}
+  if(t.dataset.layer){var p=t.getAttribute('aria-pressed')!=='true';t.setAttribute('aria-pressed',p);$('#study').dataset[t.dataset.layer]=p?'on':'off';return}
+  if(t.dataset.word){openWord(t.dataset.word,t);return}
+  if(t.hasAttribute('data-eliana')){eliana(t.dataset.eliana);return}
+  if(t.dataset.sec){document.getElementById(t.dataset.sec).scrollIntoView({behavior:'smooth'});return}
+  if(t.hasAttribute('data-close-page')){$$('.page.show').forEach(function(p){p.classList.remove('show')});if(t.dataset.go)go(t.dataset.go);return}
+  if(t.dataset.open){closeSheet();var pg=$('#'+t.dataset.open);pg.scrollTop=0;pg.classList.add('show');return}
+  if(t.dataset.sheet){if(t.dataset.sheet==='s-journal')$('#jctx').textContent='Tied to '+(app.dataset.tab==='bible'&&sel?'Genesis 1:'+sel:'Psalm 46:10');openSheet(t.dataset.sheet);return}
+  if(t.dataset.act){
+    var a=t.dataset.act;
+    if(a==='study'){setMode('study');$('#bible').scrollTop=0}
+    else if(a==='chain')openSheet('s-chain');
+    else if(a==='ask')eliana('Genesis 1:'+sel);
+    else if(a==='journal'){$('#jctx').textContent='Tied to Genesis 1:'+sel;openSheet('s-journal')}
+    else hideBar();
+    return}
+  if(t.dataset.go){$$('.page.show').forEach(function(p){p.classList.remove('show')});go(t.dataset.go);return}
+  if(t.classList.contains('v')){
+    var was=t.classList.contains('sel');hideBar();
+    if(!was){t.classList.add('sel');sel=t.dataset.v;$('#actlbl').textContent='Genesis 1:'+sel+' · '+TR[ti].replace('✦ ','');$('#actbar').classList.add('show')}
+  }
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeSheet();hideBar()}
+  if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('v')){e.preventDefault();e.target.click()}
+});
+$('#size').addEventListener('input',function(e){app.style.setProperty('--s',e.target.value/100)});
+renderRead();setTheme('dawn');go('today');
+})();
+</script>
+</body>
+</html>
+<!-- Vision: one thread. What the shipped app lacks is a centre: every screen is a stack of equal gold cards. Here the day is one page
+     hung on a single gold thread (dawn receive, day read, dusk study, night rest), and the same thread becomes the Study margin, the
+     chains and a Journey that never breaks. The original word is the hero image, Eliana's ✦ sits at the centre of the tab bar, at hand
+     everywhere, and the four themes are the four hours: vellum and rubric red, paper and lapis, plum and ember, and Shekinah kept for night. -->
