@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Eliana's Rhythm: Fable isolated run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#F2B632;--bg:#000;--bar:#0d0d0d;--card:#141414;--line:#1f1f1f;--soft:#a8a8a8;--text:#e2e2e2;--serif:'Gentium Book Plus',Georgia,serif}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:#1b1b1f;color:#fff;font:15px/1.4 Roboto,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#phone{position:relative;width:100%;max-width:430px;height:100dvh;background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+@media (min-width:520px){#phone{height:min(900px,calc(100dvh - 32px));border-radius:28px;border:1px solid #333}}
+#note{flex:none;background:#2a2109;color:var(--gold);font-size:12px;font-weight:500;text-align:center;padding:5px 8px}
+#note a{color:#fff}
+.screen{flex:1;min-height:0;display:none;flex-direction:column}
+.screen.on{display:flex}
+.scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.caps{font-size:11px;font-weight:700;letter-spacing:1.2px}
+.gold{color:var(--gold)}.soft{color:var(--soft)}
+.card{background:var(--card);border-radius:16px}
+.primary{height:48px;border-radius:24px;background:var(--gold);color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.outline{height:44px;padding:0 18px;border-radius:22px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:14px}
+.link{height:44px;padding:0 6px;color:var(--gold);font-weight:500;font-size:14px}
+.icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex:none}
+svg{flex:none}
+
+/* nav */
+nav{flex:none;height:72px;display:flex;background:var(--bar);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--soft)}
+nav button.on{color:var(--gold);font-weight:700}
+
+/* home */
+#home .scroll{padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.hero{position:relative;text-align:center;padding-top:4px}
+.hero h1{font-size:32px;line-height:1.1;color:var(--gold)}
+.hero .icon{position:absolute;right:-6px;top:0}
+.word{border:1px solid #3a2f12;border-radius:20px;padding:16px 18px 6px;display:flex;flex-direction:column;gap:10px}
+.verse{font-family:var(--serif);font-size:21px;line-height:1.42}
+.row{display:flex;align-items:center;justify-content:space-between}
+.rhythm{padding:12px 14px 12px 16px;display:flex;align-items:center;gap:12px}
+.steps{display:flex;align-items:center;gap:8px}
+.steps i{width:14px;height:1px;background:#555}
+.cont{height:60px;padding:0 12px 0 16px;display:flex;align-items:center;gap:12px;width:100%;text-align:left;flex:none}
+
+/* reader */
+.top{flex:none;height:56px;display:flex;align-items:center;padding:0 4px 0 16px;background:var(--bar)}
+.top .title{height:44px;display:flex;align-items:center;gap:8px;color:var(--gold);font-size:19px;font-weight:700}
+.chip-v{font-size:11px;font-weight:700;letter-spacing:.8px;color:#d0d0d0;border:1px solid #555;border-radius:6px;padding:2px 6px}
+.under{flex:none;background:var(--bar);padding:8px 16px 10px;display:flex;flex-direction:column;gap:8px}
+.seg{height:44px;border-radius:22px;background:#1c1c1c;padding:3px;display:flex}
+.seg button{flex:1;border-radius:19px;color:#d0d0d0;font-weight:500}
+.seg button.on{background:var(--gold);color:#000;font-weight:700}
+.layers{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none}
+.layers::-webkit-scrollbar{display:none}
+.layers button{height:44px;display:flex;align-items:center;flex:none}
+.layers button span{height:32px;padding:0 11px;border-radius:16px;border:1px solid #555;color:#d0d0d0;font-size:13px;font-weight:700;display:flex;align-items:center;white-space:nowrap}
+.layers button.on span{background:var(--gold);border-color:var(--gold);color:#000}
+.layers .sep{width:1px;height:22px;background:#444;flex:none;margin:0 2px}
+.text{padding:16px 18px 24px;font-family:var(--serif);font-size:18.5px;line-height:1.55;color:#f2f2f2;display:flex;flex-direction:column;gap:14px}
+.text sup{font:700 11px Roboto,sans-serif;color:var(--gold);margin-right:3px}
+.text h2{font:700 12px Roboto,sans-serif;letter-spacing:1.4px;color:var(--soft);margin-top:6px}
+.arrive{background:#1d1706;border-radius:12px;padding:10px 12px;margin:0 -12px;display:flex;flex-direction:column;gap:8px}
+.arrive .row{font-family:Roboto,sans-serif}
+.pill{height:32px;padding:0 12px;border:1px solid var(--gold);border-radius:16px;font:700 12px Roboto,sans-serif;color:var(--gold);display:inline-flex;align-items:center;gap:6px}
+.pill.fill{background:var(--gold);color:#000}
+.passes{border-left:2px solid var(--gold);padding-left:12px;margin-left:-14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.foot{flex:none;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-top:1px solid var(--line)}
+.foot button{display:flex;align-items:center;gap:6px}
+
+/* study */
+#studyBody{padding:14px 16px 24px;display:flex;flex-direction:column;gap:22px}
+#studyBody.one{gap:0;padding-top:6px}
+.v{display:flex;flex-direction:column;gap:12px}
+.v .n{font-size:14px;font-weight:700;color:var(--gold)}
+.rend{font-family:var(--serif);font-size:19px;line-height:1.45}
+.words{display:flex;flex-wrap:wrap;gap:6px}
+.words button{min-height:44px;padding:4px 9px;border-radius:10px;border:1px solid #333;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.words button b{font:400 18px/1.2 var(--serif)}
+.words button small{font-size:11px;font-style:italic;color:#b4b4b4}
+.words button.key{border-color:var(--gold)}.words button.key b{color:var(--gold)}
+.words button.sel{border-color:var(--gold);background:#2a2109}.words button.sel b{color:var(--gold)}
+.sound{font-family:var(--serif);font-size:15px;font-style:italic;line-height:1.45;color:#c4c4c4}
+.kw{padding:12px 14px 4px;display:flex;flex-direction:column;gap:6px;border-radius:14px}
+.kw .g{font-family:var(--serif);font-size:20px;color:var(--gold)}
+.kw p{font-size:14.5px;line-height:1.5;color:var(--text)}
+.kw .more{height:44px;display:flex;align-items:center;justify-content:space-between;color:var(--gold);font-weight:700;font-size:14px;width:100%}
+.rowv{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);text-align:left;width:100%;min-height:60px}
+.rowv .n{width:20px;font-size:13px;font-weight:700;color:var(--gold);padding-top:3px;flex:none}
+.rowv .t{flex:1;font-family:var(--serif);font-size:16.5px;line-height:1.4;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.open{background:var(--card);border:1px solid #3a2f12;border-radius:16px;padding:14px;margin:8px -6px}
+
+/* journey + chat */
+.head{flex:none;height:56px;display:flex;align-items:center;padding:0 16px;background:var(--bar);font-size:21px;font-weight:700;color:var(--gold)}
+#journey .scroll{padding:16px;display:flex;flex-direction:column;gap:12px}
+.big{border:1px solid #3a2f12;padding:16px 18px;text-align:left;width:100%;display:flex;flex-direction:column;gap:4px}
+.big b{font-size:21px;color:var(--gold)}.big span{color:var(--text)}
+.item{padding:12px 14px;display:flex;align-items:center;gap:10px;text-align:left;width:100%;min-height:60px}
+.item div{flex:1}.item b{display:block;font-size:15px}.item span{font-size:12px;color:var(--soft)}
+#chat .scroll{padding:16px;display:flex;flex-direction:column}
+.intro{padding:28px 24px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.starts{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;flex:none;scrollbar-width:none}
+.starts button{flex:none;height:44px;padding:0 14px;border:1px solid #555;border-radius:10px;font-weight:500}
+.compose{flex:none;margin:0 16px 12px;padding:8px 8px 8px 16px;display:flex;align-items:center;gap:8px;color:var(--soft)}
+.compose div{flex:1}
+.mic{width:44px;height:44px;border-radius:22px;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center}
+
+/* sheet + toast */
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.55);display:none}
+#sheet{position:absolute;left:0;right:0;bottom:0;background:#171717;border-top:1px solid #3a2f12;border-radius:24px 24px 0 0;padding:10px 20px 24px;display:none;flex-direction:column;gap:10px}
+#sheet .grab{align-self:center;width:40px;height:4px;border-radius:2px;background:#555;margin-bottom:6px}
+.refs{display:flex;flex-wrap:wrap;gap:6px}
+.refs span{font-size:12px;font-weight:500;color:#d0d0d0;border:1px solid #444;border-radius:12px;padding:4px 10px}
+.refs span.here{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.sheet-on #dim{display:block}.sheet-on #sheet{display:flex}
+#toast{position:absolute;left:16px;right:16px;bottom:88px;background:#2b2b2b;color:#fff;border-radius:10px;padding:12px 14px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="phone">
+  <div id="note">Mockup, not the app · Fable isolated run · <a href="../">all rounds</a></div>
+
+  <!-- HOME -->
+  <section class="screen on" id="home">
+    <div class="scroll">
+      <div class="hero">
+        <h1>Eliana</h1>
+        <div style="font-size:14px">God has answered</div>
+        <div class="caps gold" style="margin-top:4px">GOOD EVENING · TUESDAY, NOVEMBER 17</div>
+        <button class="icon" aria-label="Settings" data-toast="Settings: unchanged from the app today.">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+        </button>
+      </div>
+
+      <div class="card word">
+        <div class="row">
+          <div>
+            <div class="caps soft">SACRED WORD · TODAY</div>
+            <div class="gold" style="font-size:16px;font-weight:700;margin-top:4px">John 3:16</div>
+          </div>
+          <button class="icon" aria-label="Save this verse" style="margin-right:-10px" data-toast="Saved.">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d0d0d0" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.8 6.3.8-4.6 4.4 1.2 6.3L12 17.2 6.4 20.3l1.2-6.3L3 9.6l6.3-.8z"/></svg>
+          </button>
+        </div>
+        <p class="verse">"For God loved the world in this way: he gave his one-and-only Son, so that everyone who believes in him would not perish but have eternal life."</p>
+        <div class="soft" style="font-size:11px">Eliana Bible</div>
+        <div style="height:1px;background:#2a2a2a"></div>
+        <div class="caps gold">CARRY IT WITH YOU</div>
+        <p style="font-size:14.5px;line-height:1.45;color:var(--text)">[Today's short application sits here, three lines at most, with the rest one tap away.]</p>
+        <button class="primary" style="margin-top:4px" data-go="study">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>Deeper insight</button>
+        <div class="row">
+          <button class="link" data-go="read3">Read in the Bible</button>
+          <button class="link" data-toast="Pray this: opens the Throne Room, unchanged.">Pray this</button>
+          <button class="link" data-toast="Journal: opens the Sacred Journal, unchanged.">Journal</button>
+        </div>
+      </div>
+
+      <div class="card rhythm">
+        <div style="flex:1">
+          <div class="steps caps"><span class="soft">WORD</span><i></i><span class="soft">WRITE</span><i></i><span class="gold">REST · NOW</span></div>
+          <div style="margin-top:6px">The day is quieting. Come and rest.</div>
+        </div>
+        <button class="outline" data-toast="Begin: opens Sacred Stillness, unchanged.">Begin</button>
+      </div>
+
+      <button class="card cont" data-go="read10">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F2B632" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h5v17H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-5v17h5a2 2 0 0 1 2 2z"/></svg>
+        <div style="flex:1"><div class="caps soft">CONTINUE READING</div><div>John 10 · verse 14</div></div>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2B632" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- BIBLE -->
+  <section class="screen" id="bible">
+    <div class="top">
+      <button class="title" data-toast="Opens the book and chapter picker, unchanged."><span id="chTitle">John 3</span><span class="chip-v">BSB</span>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div style="flex:1"></div>
+      <button class="icon" aria-label="Text size" style="font-size:17px;font-weight:700" data-toast="Text size and reading style.">Aa</button>
+      <button class="icon" aria-label="Search" data-toast="Search, unchanged.">
+        <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+      <button class="icon" aria-label="More" data-toast="More: listen, and full screen.">
+        <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button>
+    </div>
+    <div class="under">
+      <div class="seg"><button id="segRead" class="on" data-mode="read">Read</button><button id="segStudy" data-mode="study">Study</button></div>
+      <div class="layers" id="layers" hidden>
+        <span class="caps soft" style="margin-right:2px">SHOW</span>
+        <button data-layer="rend" class="on"><span>Rendering</span></button>
+        <button data-layer="greek" class="on"><span>Greek</span></button>
+        <button data-layer="sound" class="on"><span>Sound</span></button>
+        <button data-layer="key" class="on"><span>Key word</span></button>
+        <i class="sep"></i>
+        <button data-layer="one"><span>One verse at a time</span></button>
+      </div>
+    </div>
+
+    <div class="scroll" id="readPane">
+      <div class="text" id="john3">
+        <p><sup>14</sup>Just as Moses lifted up the snake in the wilderness, so the Son of Man must be lifted up, <sup>15</sup>that everyone who believes in Him may have eternal life.</p>
+        <h2>FOR GOD SO LOVED</h2>
+        <div class="arrive">
+          <div class="row"><span class="caps gold">TODAY'S WORD</span>
+            <button class="pill" data-mode="study"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>Study this verse</button></div>
+          <p style="color:#fff"><sup>16</sup>For God so loved the world that He gave His one and only Son, that everyone who believes in Him shall not perish but have eternal life.</p>
+        </div>
+        <p><sup>17</sup>For God did not send His Son into the world to condemn the world, but to save the world through Him. <sup>18</sup>Whoever believes in Him is not condemned, but whoever does not believe has already been condemned, because he has not believed in the name of God's one and only Son.</p>
+        <p><sup>19</sup>And this is the verdict: The Light has come into the world, but men loved the darkness rather than the Light because their deeds were evil. <sup>20</sup>Everyone who does evil hates the Light, and does not come into the Light for fear that his deeds will be exposed. <sup>21</sup>But whoever practices the truth comes into the Light, so that it may be seen clearly that what he has done has been accomplished in God.</p>
+      </div>
+      <div class="text" id="john10" hidden>
+        <p><sup>14</sup>I am the good shepherd. I know My sheep and My sheep know Me, <sup>15</sup>just as the Father knows Me and I know the Father. And I lay down My life for the sheep. <sup>16</sup>I have other sheep that are not of this fold. I must bring them in as well, and they will listen to My voice. Then there will be one flock and one shepherd.</p>
+        <div class="passes">
+          <p style="color:#fff"><sup>17</sup>The reason the Father loves Me is that I lay down My life in order to take it up again. <sup>18</sup>No one takes it from Me, but I lay it down of My own accord. I have authority to lay it down and authority to take it up again. This charge I have received from My Father.</p>
+          <button class="pill fill" id="openSheet"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l6-8 4 4 6-12"/></svg>Aliyah № 2 passes through here</button>
+        </div>
+        <p><sup>19</sup>Again there was division among the Jews because of Jesus' message.</p>
+      </div>
+    </div>
+    <div class="scroll" id="studyPane" hidden><div id="studyBody"></div></div>
+
+    <div class="foot gold">
+      <button class="link" id="prevCh"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>John 2</span></button>
+      <button class="link" id="nextCh"><span>John 4</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </section>
+
+  <!-- JOURNEY (unchanged from the app) -->
+  <section class="screen" id="journey">
+    <div class="head">Journey</div>
+    <div class="scroll">
+      <div class="soft" style="font-size:14px">Prayer, reflection, and room to be still.</div>
+      <button class="card big" data-toast="Write: opens the Sacred Journal, unchanged."><b>Write</b><span>Put what is on your heart into words.</span></button>
+      <button class="card big" data-toast="Pray: opens the Throne Room, unchanged."><b>Pray</b><span>Find a prayer, revisit your own, or get help finding words.</span></button>
+      <div class="caps soft" style="margin-top:6px">ALSO ON THE WAY</div>
+      <button class="card item" data-toast="Sacred Stillness, unchanged."><div><b>Sacred Stillness</b><span>Make room to pause and be still with God.</span></div><span class="gold">›</span></button>
+      <button class="card item" data-go="chat"><div><b>Talk with Eliana</b><span>Bring a question, or what is on your mind.</span></div><span class="gold">›</span></button>
+      <button class="card item" data-toast="The Library, unchanged."><div><b>The Library</b><span>Foundations, Aliyah, and the guided studies.</span></div><span class="gold">›</span></button>
+      <div class="soft" style="font-size:13px;margin-top:8px">This screen is the same as the app today. No change is proposed here.</div>
+    </div>
+  </section>
+
+  <!-- ELIANA (unchanged from the app) -->
+  <section class="screen" id="chat">
+    <div class="head">Eliana</div>
+    <div class="scroll">
+      <div class="card intro">
+        <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="#F2B632"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+        <div style="font-size:21px;font-weight:700">I'm Eliana</div>
+        <div style="color:var(--text)">Your spiritual companion, here to walk with you through scripture, prayer, and whatever's on your heart.</div>
+        <div class="gold" style="font-style:italic">What's on your heart today?</div>
+      </div>
+      <div class="soft" style="font-size:13px;margin-top:14px">This screen is the same as the app today. No change is proposed here.</div>
+    </div>
+    <div class="starts"><button data-toast="Starts a chat about today's word.">Today's word</button><button data-toast="Starts a chat about your chapter.">The chapter I'm in</button><button data-toast="Starts a chat.">Ask a question</button></div>
+    <div class="card compose"><div>Share what's on your heart...</div><button class="mic" aria-label="Speak" data-toast="Voice, unchanged.">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+  </section>
+
+  <nav>
+    <button data-go="home" class="on"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button data-go="bible"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h5v17H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-5v17h5a2 2 0 0 1 2 2z"/></svg>Bible</button>
+    <button data-go="journey"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20l4-1L19 8l-3-3L5 16z"/></svg>Journey</button>
+    <button data-go="chat"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>Eliana</button>
+  </nav>
+
+  <div id="dim"></div>
+  <div id="sheet" role="dialog" aria-label="Study that passes through this verse">
+    <div class="grab"></div>
+    <div class="caps gold">AN ASCENT PASSES THROUGH JOHN 10:17–18</div>
+    <div><div class="gold" style="font-size:13px;font-weight:700">№ 2</div>
+      <div style="font-size:22px;font-weight:700">Who Raised Him?</div>
+      <div style="font-size:14px;font-style:italic;color:#c4c4c4">The Life No One Took Back</div></div>
+    <div class="refs"><span>Acts 2:24–36</span><span class="here">John 10:17–18 · you are here</span><span>Romans 8:11</span></div>
+    <p style="line-height:1.5;color:var(--text)">It is the simplest question Easter can be asked, and a child can ask it: who raised Yeshua from the dead?</p>
+    <button class="primary" style="margin-top:6px" id="openStudy">Open the study</button>
+    <button class="link" id="closeSheet" style="align-self:center">Keep reading</button>
+  </div>
+  <div id="toast" role="status"></div>
+</div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var phone = $('#phone');
+  var st = { tab: 'home', mode: 'read', ch: 3, rend: true, greek: true, sound: true, key: true, one: false, open: 16, picked: 11 };
+
+  var VERSES = [
+    { n: 16, key: 11,
+      r: '"For God loved the world in this way: he gave his one-and-only Son, so that everyone who believes in him would not perish but have eternal life."',
+      g: 'Οὕτως γὰρ ἠγάπησεν ὁ Θεὸς τὸν κόσμον ὥστε τὸν Υἱὸν τὸν μονογενῆ ἔδωκεν ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον',
+      t: 'Houtōs gar ēgapēsen ho Theos ton kosmon hōste ton Huion ton monogenē edōken hina pas ho pisteuōn eis auton mē apolētai all’ echē zōēn aiōnion' },
+    { n: 17, key: -1,
+      r: 'For God did not send His Son into the world to condemn the world, but to save the world through Him.',
+      g: 'οὐ γὰρ ἀπέστειλεν ὁ θεὸς τὸν υἱὸν εἰς τὸν κόσμον ἵνα κρίνῃ τὸν κόσμον ἀλλ’ ἵνα σωθῇ ὁ κόσμος δι’ αὐτοῦ',
+      t: 'ou gar apesteilen ho theos ton huion eis ton kosmon hina krinē ton kosmon all’ hina sōthē ho kosmos di’ autou' },
+    { n: 18, key: -1,
+      r: 'Whoever believes in Him is not condemned, but whoever does not believe has already been condemned, because he has not believed in the name of God\'s one and only Son.',
+      g: 'ὁ πιστεύων εἰς αὐτὸν οὐ κρίνεται ὁ δὲ μὴ πιστεύων ἤδη κέκριται ὅτι μὴ πεπίστευκεν εἰς τὸ ὄνομα τοῦ μονογενοῦς υἱοῦ τοῦ θεοῦ',
+      t: 'ho pisteuōn eis auton ou krinetai ho de mē pisteuōn ēdē kekritai hoti mē pepisteuken eis to onoma tou monogenous huiou tou theou' }
+  ];
+  var KEY_BODY = 'This adjective is often translated "only begotten," a rendering going back through the Latin Vulgate\'s <em>unigenitus</em>. That translation rests on reading the word as built from μόνος ("only") plus a form connected to γεννάω ("to beget").';
+  var CHEV = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+
+  function layersHtml(v) {
+    var h = '';
+    var gs = v.g.split(' '), ts = v.t.split(' ');
+    if (st.rend) h += '<p class="rend">' + v.r + '</p>';
+    if (st.greek) {
+      h += '<div class="words">';
+      gs.forEach(function (g, i) {
+        var cls = (v.n === 16 && i === st.picked ? 'sel ' : '') + (i === v.key ? 'key' : '');
+        h += '<button class="' + cls + '" data-v="' + v.n + '" data-w="' + i + '"><b>' + g + '</b>' + (st.sound ? '<small>' + ts[i] + '</small>' : '') + '</button>';
+      });
+      h += '</div>';
+    } else if (st.sound) {
+      h += '<p class="sound">' + v.t + '</p>';
+    }
+    if (st.key && v.key >= 0) {
+      var p = st.picked;
+      h += '<div class="card kw"><div><span class="g">' + gs[p] + '</span> <i class="soft" style="font-size:13px">' + ts[p] + '</i></div>' +
+        (p === v.key ? '<p>' + KEY_BODY + '</p>' : '<p class="soft">Tap the gold word for today\'s key word, or open this word\'s own study.</p>') +
+        '<button class="more" data-toast="Opens the full study, unchanged.">Read the full study' + CHEV + '</button></div>';
+    }
+    if (!h) h = '<p class="soft">Every layer is switched off. Turn one on above.</p>';
+    return h;
+  }
+
+  function renderStudy() {
+    var body = $('#studyBody'), h = '';
+    body.className = st.one ? 'one' : '';
+    VERSES.forEach(function (v) {
+      if (!st.one) {
+        h += '<article class="v"><div class="n">' + v.n + '</div>' + layersHtml(v) + '</article>';
+      } else if (st.open === v.n) {
+        h += '<article class="v open"><button class="row" data-open="0" aria-label="Close verse ' + v.n + '"><span class="n">' + v.n + '</span><span class="gold" style="transform:rotate(-90deg)">' + CHEV + '</span></button>' + layersHtml(v) +
+          '<div style="display:flex;gap:8px"><button class="primary" style="height:44px;flex:1" data-toast="Opens the full study, unchanged.">Full study</button><button class="outline" style="flex:1" data-go="chat">Ask Eliana</button></div></article>';
+      } else {
+        h += '<button class="rowv" data-open="' + v.n + '"><span class="n">' + v.n + '</span><span class="t">' + v.r + '</span><span class="soft" style="transform:rotate(90deg)">' + CHEV + '</span></button>';
+      }
+    });
+    body.innerHTML = h;
+  }
+
+  function render() {
+    $$('.screen').forEach(function (s) { s.classList.toggle('on', s.id === st.tab); });
+    $$('nav button').forEach(function (b) { b.classList.toggle('on', b.dataset.go === st.tab); });
+    var study = st.mode === 'study';
+    $('#segRead').classList.toggle('on', !study);
+    $('#segStudy').classList.toggle('on', study);
+    $('#layers').hidden = !study;
+    $('#readPane').hidden = study;
+    $('#studyPane').hidden = !study;
+    $('#john3').hidden = st.ch !== 3;
+    $('#john10').hidden = st.ch !== 10;
+    $('#chTitle').textContent = 'John ' + st.ch;
+    $('#prevCh span').textContent = 'John ' + (st.ch - 1);
+    $('#nextCh span').textContent = 'John ' + (st.ch + 1);
+    $$('#layers button').forEach(function (b) { b.classList.toggle('on', !!st[b.dataset.layer]); });
+    if (study) renderStudy();
+  }
+
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg; t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2200);
+  }
+  function sheet(on) { phone.classList.toggle('sheet-on', on); }
+
+  function go(where) {
+    sheet(false);
+    if (where === 'study') { st.tab = 'bible'; st.ch = 3; st.mode = 'study'; }
+    else if (where === 'read3') { st.tab = 'bible'; st.ch = 3; st.mode = 'read'; }
+    else if (where === 'read10') { st.tab = 'bible'; st.ch = 10; st.mode = 'read'; }
+    else { st.tab = where; }
+    render();
+  }
+
+  phone.addEventListener('click', function (e) {
+    var b = e.target.closest('button, #dim');
+    if (!b) return;
+    var d = b.dataset || {};
+    if (b.id === 'dim' || b.id === 'closeSheet') return sheet(false);
+    if (b.id === 'openSheet') return sheet(true);
+    if (b.id === 'openStudy') { sheet(false); return toast('Opens Aliyah № 2 in the Library, unchanged.'); }
+    if (b.id === 'prevCh' || b.id === 'nextCh') return toast('This mockup holds John 3 and John 10 only.');
+    if (d.go) return go(d.go);
+    if (d.mode) {
+      if (d.mode === 'study' && st.ch !== 3) { st.ch = 3; toast('Study in this mockup is John 3:16–18.'); }
+      st.mode = d.mode; return render();
+    }
+    if (d.layer) { st[d.layer] = !st[d.layer]; return render(); }
+    if (d.open !== undefined) { st.open = +d.open; return render(); }
+    if (d.w !== undefined) {
+      if (d.v === '16') { st.picked = +d.w; if (!st.key) st.key = true; return render(); }
+      return toast('Opens this word\'s study.');
+    }
+    if (d.toast) return toast(d.toast);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
