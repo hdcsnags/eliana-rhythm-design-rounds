@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eliana's Rhythm: design B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#1c1a17;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eee}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+textarea,input{font:inherit;color:inherit}
+
+.phone{position:relative;width:390px;height:844px;overflow:hidden;border-radius:40px;background:var(--bg);color:var(--text);
+  box-shadow:0 30px 80px rgba(0,0,0,.55);transition:background .5s,color .5s;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --orig:"SBL Greek","SBL Hebrew","Ezra SIL","Gentium Plus","Times New Roman",Georgia,serif}
+@media (min-width:431px) and (max-height:860px){
+  html,body{height:auto}
+  body{align-items:flex-start;padding:8px 0}
+  .phone{flex:none}
+}
+@media (max-width:430px){
+  body{align-items:stretch;justify-content:stretch}
+  .phone{width:100vw;height:100vh;height:100dvh;border-radius:0}
+}
+.phone[data-theme="night"]{--bg:#000;--surface:#11100e;--surface2:#1b1916;--line:rgba(242,182,50,.20);--hair:rgba(255,255,255,.09);
+  --text:#f4eee1;--muted:#a79d89;--gold:#f2b632;--ongold:#1a1200;--mark:rgba(242,182,50,.16);--tabbg:rgba(8,8,7,.94)}
+.phone[data-theme="day"]{--bg:#f5edde;--surface:#fcf7ec;--surface2:#ece1cc;--line:rgba(140,96,10,.30);--hair:rgba(60,40,10,.12);
+  --text:#221b11;--muted:#6f634b;--gold:#8f600a;--ongold:#fff8e8;--mark:rgba(190,140,30,.24);--tabbg:rgba(250,244,232,.95)}
+.phone[data-theme="night"][data-hour="morning"]{--sky:rgba(242,150,70,.20)}
+.phone[data-theme="night"][data-hour="midday"]{--sky:rgba(242,200,110,.15)}
+.phone[data-theme="night"][data-hour="evening"]{--sky:rgba(214,96,30,.26)}
+.phone[data-theme="night"][data-hour="night"]{--sky:rgba(242,182,50,.09)}
+.phone[data-theme="day"][data-hour="morning"]{--sky:rgba(244,176,96,.50)}
+.phone[data-theme="day"][data-hour="midday"]{--sky:rgba(250,222,150,.55)}
+.phone[data-theme="day"][data-hour="evening"]{--sky:rgba(226,132,70,.42)}
+.phone[data-theme="day"][data-hour="night"]{--sky:rgba(120,110,150,.28)}
+
+.screens{position:absolute;left:0;right:0;top:0;bottom:72px}
+.screen{position:absolute;inset:0;overflow-y:auto;display:none;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.active{display:block}
+.pad{padding:0 24px}
+.caps{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.gold{color:var(--gold)}
+.muted{color:var(--muted)}
+
+/* ---------- Home ---------- */
+.sky{position:absolute;left:0;right:0;top:0;height:250px;background:linear-gradient(var(--sky),transparent);pointer-events:none;transition:background .6s}
+.mast{position:relative;text-align:center;padding-top:20px}
+.mast h1{font-family:var(--serif);font-size:31px;line-height:1;color:var(--gold);font-weight:700;letter-spacing:.01em}
+.mast .means{font-size:12.5px;margin-top:5px;color:var(--text)}
+.gear{position:absolute;right:18px;top:18px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.greet{position:relative;text-align:center;margin-top:9px;color:var(--gold)}
+.greet button{margin-left:6px;text-decoration:underline;text-underline-offset:3px;color:var(--muted);font-size:10.5px;letter-spacing:.06em;text-transform:none}
+#arc{position:relative;display:block;width:100%;height:104px;margin-top:-4px}
+#arc .day{fill:none;stroke:var(--gold);stroke-width:1.2;opacity:.75}
+#arc .under{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:2 4;opacity:.8}
+#arc .horizon{stroke:var(--hair);stroke-width:1}
+#arc .stop{cursor:pointer}
+#arc .stop .hit{fill:transparent}
+#arc .stop .dot{fill:var(--bg);stroke:var(--muted);stroke-width:1.4;transition:fill .3s}
+#arc .stop.done .dot{fill:var(--gold);stroke:var(--gold)}
+#arc .stop text{fill:var(--muted);font-size:11px;text-anchor:middle;font-family:system-ui,sans-serif}
+#arc .stop text.verb{font-size:9.5px;opacity:.8}
+#arc .stop.on text{fill:var(--gold);font-weight:600}
+#sun{transition:transform .7s cubic-bezier(.4,0,.2,1)}
+#sun .halo{fill:var(--gold);opacity:.18}
+#sun .core{fill:var(--gold)}
+
+.wordrow{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.dayswitch{display:flex;align-items:center;gap:0;color:var(--muted);font-size:12px;white-space:nowrap}
+.dayswitch button{width:28px;height:36px;font-size:18px;color:var(--gold)}
+.dayswitch button:disabled{opacity:.25;cursor:default}
+.dayswitch .star{width:32px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.verse{font-family:var(--serif);font-size:23.5px;line-height:1.36;letter-spacing:-.005em;margin-top:2px}
+.verse .cp{color:var(--gold)}
+.verse .wd{border-bottom:1.5px dotted var(--gold);cursor:pointer;padding-bottom:1px}
+.srcrow{display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:var(--muted);gap:10px}
+.srcrow .src button{color:var(--muted);padding:6px 0}
+.srcrow .src button.on{color:var(--gold);font-weight:600}
+.peek{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--gold);font-size:12px;white-space:nowrap}
+.peek b{font-family:var(--orig);font-weight:400;font-size:15px;line-height:1}
+.carry{margin-top:16px;padding-left:14px;border-left:2px solid var(--gold)}
+.carry p{font-size:14px;line-height:1.5;margin-top:5px}
+.morelink{margin-top:6px;font-size:12.5px;color:var(--gold);font-weight:600;padding:4px 0}
+.more{display:none;margin-top:6px}
+.more.open{display:block}
+.more h4{margin-top:10px;color:var(--muted)}
+.step{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px 18px 18px}
+.step h3{font-family:var(--serif);font-weight:400;font-size:21px;margin-top:6px}
+.step p{font-size:13.5px;line-height:1.45;color:var(--muted);margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:var(--ongold);font-weight:650;font-size:14.5px;border-radius:999px;padding:12px 22px;margin-top:14px;min-height:46px}
+.btn.wide{width:100%}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--line)}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;margin-top:10px}
+.links button{font-size:13px;color:var(--text);padding:9px 8px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.rowlink{display:flex;align-items:center;width:100%;text-align:left;padding:15px 0;border-top:1px solid var(--hair);gap:12px}
+.rowlink .t{flex:1}
+.rowlink .t b{display:block;font-family:var(--serif);font-weight:400;font-size:17px;margin-top:3px}
+.rowlink .t small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.35}
+.chev{color:var(--gold);font-size:20px}
+.bless{text-align:center;padding:28px 0 36px;border-top:1px solid var(--hair)}
+.bless .he{font-family:var(--orig);font-size:23px;line-height:1.75;direction:rtl;margin-top:12px;color:var(--gold)}
+.bless .en{font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.55;margin-top:12px}
+.bless .ref{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* ---------- Bible ---------- */
+.bbar{position:sticky;top:0;z-index:3;background:var(--bg);padding:16px 20px 10px;border-bottom:1px solid var(--hair)}
+.bbar .top{display:flex;align-items:center;justify-content:space-between}
+.chap{font-family:var(--serif);font-size:19px;display:flex;align-items:baseline;gap:8px;padding:6px 0}
+.chap small{font-family:system-ui,sans-serif;font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.chap i{font-style:normal;color:var(--gold);font-size:13px}
+.aa{font-family:var(--serif);font-size:18px;width:44px;height:40px;color:var(--muted)}
+.seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;margin-top:8px}
+.seg button{flex:1;padding:9px 0;border-radius:10px;font-size:13.5px;color:var(--muted)}
+.seg button.on{background:var(--bg);color:var(--gold);font-weight:650;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.reading{padding:18px 24px 150px;font-family:var(--serif);line-height:1.72}
+.reading .num{float:left;font-size:60px;line-height:.9;color:var(--gold);margin:4px 12px 0 0}
+.reading .note{font-family:system-ui,sans-serif;font-size:11.5px;color:var(--muted);margin-bottom:12px;line-height:1.4}
+.v{cursor:pointer;border-radius:3px}
+.v sup{font-family:system-ui,sans-serif;font-size:.55em;color:var(--gold);margin-right:3px;vertical-align:.55em;line-height:0}
+.v.today{background:linear-gradient(transparent 62%,var(--mark) 62%)}
+.v.sel{background:var(--mark)}
+.vbar{position:absolute;left:14px;right:14px;bottom:112px;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:16px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.vbar.open{display:flex}
+.vbar button{flex:1;padding:14px 0;font-size:13px;color:var(--gold);font-weight:600}
+.vbar button+button{border-left:1px solid var(--hair)}
+.study{padding:16px 20px 80px}
+.scard{background:var(--surface);border:1px solid var(--hair);border-left:2px solid var(--gold);border-radius:6px 18px 18px 6px;padding:16px 16px 18px}
+.shead{display:flex;align-items:center;justify-content:space-between}
+.shead b{font-family:var(--serif);font-size:18px;color:var(--gold);font-weight:400}
+.shead button{width:36px;height:36px;font-size:20px;color:var(--gold)}
+.srend{font-family:var(--serif);font-size:18px;line-height:1.5;margin-top:6px}
+.sorig{font-family:var(--orig);font-size:21px;line-height:1.65;margin-top:14px;color:var(--text)}
+.sorig.he{direction:rtl;font-size:25px;line-height:1.8}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips button{border:1px solid var(--line);border-radius:12px;padding:7px 12px;text-align:left;min-height:44px}
+.chips button b{display:block;font-family:var(--orig);font-weight:400;font-size:17px;line-height:1.2;color:var(--text)}
+.chips button small{display:block;font-size:11px;color:var(--muted);font-style:italic}
+.chips button.on{background:var(--mark);border-color:var(--gold)}
+.chips button.on b{color:var(--gold)}
+.wnote{margin-top:14px;padding-top:14px;border-top:1px solid var(--hair)}
+.wnote .big{font-family:var(--orig);font-size:26px;color:var(--gold);line-height:1.2}
+.wnote .tr{font-style:italic;color:var(--muted);font-size:13.5px;margin-left:8px}
+.wnote .gl{font-family:var(--serif);font-size:17px;margin-top:4px}
+.wnote p{font-size:14px;line-height:1.5;color:var(--text);margin-top:6px}
+.door{display:block;width:100%;text-align:left;margin-top:14px;background:var(--surface2);border-radius:14px;padding:13px 14px}
+.door q{display:block;font-family:var(--serif);font-size:15px;line-height:1.5;margin-top:5px;quotes:none}
+.plain{margin-top:18px;padding:0 4px}
+.plain p{font-family:var(--serif);font-size:17px;line-height:1.6;margin-top:5px}
+
+/* ---------- Journey / Eliana ---------- */
+.ptitle{font-family:var(--serif);font-size:30px;color:var(--gold);font-weight:700;padding-top:26px}
+.psub{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
+.psub i{font-family:var(--serif);display:block;margin-top:4px;font-size:13px}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.big2 button{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;min-height:132px;display:flex;flex-direction:column}
+.big2 b{font-family:var(--serif);font-size:22px;color:var(--gold);font-weight:400}
+.big2 span{font-size:13px;color:var(--muted);line-height:1.4;margin-top:6px;flex:1}
+.big2 em{font-style:normal;font-size:12.5px;font-weight:650;color:var(--gold);margin-top:8px}
+.sect{margin-top:26px;color:var(--muted)}
+.entry{padding:14px 0;border-top:1px solid var(--hair)}
+.entry p{font-family:var(--serif);font-size:16px;line-height:1.5;margin-top:4px}
+.empty{font-size:13.5px;color:var(--muted);padding:14px 0;border-top:1px solid var(--hair);line-height:1.5}
+#s-eliana{display:none;flex-direction:column}
+#s-eliana.active{display:flex}
+.chat{flex:1;overflow-y:auto;padding:0 20px 10px;scrollbar-width:none}
+.chat::-webkit-scrollbar{display:none}
+.hello{text-align:center;padding:34px 16px 20px}
+.hello h2{font-family:var(--serif);font-weight:400;font-size:26px;margin-top:10px}
+.hello p{font-size:14px;color:var(--muted);line-height:1.5;margin-top:8px}
+.hello i{display:block;font-family:var(--serif);color:var(--gold);margin-top:14px;font-size:15px}
+.msg{max-width:86%;padding:11px 14px;border-radius:18px;font-size:14.5px;line-height:1.5;margin-top:10px}
+.msg.me{margin-left:auto;background:var(--gold);color:var(--ongold);border-bottom-right-radius:6px}
+.msg.el{background:var(--surface);border:1px solid var(--hair);border-bottom-left-radius:6px;font-family:var(--serif);font-size:15.5px}
+.sugg{display:flex;gap:8px;overflow-x:auto;padding:8px 20px;scrollbar-width:none}
+.sugg::-webkit-scrollbar{display:none}
+.sugg button{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-size:13px}
+.compose{display:flex;gap:10px;padding:6px 20px 44px;align-items:center}
+.compose input{flex:1;background:var(--surface);border:1px solid var(--hair);border-radius:999px;padding:13px 18px;font-size:14.5px;outline:none;min-width:0}
+.compose input:focus{border-color:var(--gold)}
+.compose button{width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--ongold);display:flex;align-items:center;justify-content:center;flex:none}
+
+/* ---------- Chrome ---------- */
+.ribbon{position:absolute;left:0;right:0;bottom:72px;height:32px;z-index:6;display:none;align-items:center;justify-content:center;gap:8px;width:100%;
+  background:linear-gradient(var(--tabbg),var(--tabbg)),var(--bg);border-top:1px solid var(--hair);font-size:11.5px;color:var(--muted)}
+.ribbon.show{display:flex}
+.ribbon b{font-family:var(--serif);font-weight:400;font-style:italic;font-size:13.5px;color:var(--gold)}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:72px;z-index:7;display:flex;background:var(--tabbg);border-top:1px solid var(--hair);padding-bottom:10px}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--muted)}
+.tabs button.on{color:var(--gold);font-weight:650}
+.tabs svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.scrim{position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;background:var(--surface);border-radius:26px 26px 0 0;border-top:1px solid var(--line);
+  padding:10px 24px 30px;max-height:82%;overflow-y:auto;transform:translateY(105%);transition:transform .3s cubic-bezier(.3,.8,.3,1)}
+.sheet.open{transform:none}
+.grab{width:38px;height:4px;border-radius:2px;background:var(--hair);margin:0 auto 16px}
+.sheet h2{font-family:var(--serif);font-weight:400;font-size:23px}
+.sheet .quote{font-family:var(--serif);font-size:16px;line-height:1.55;margin-top:10px;padding-left:12px;border-left:2px solid var(--gold)}
+.sheet textarea{width:100%;min-height:120px;margin-top:14px;background:var(--bg);border:1px solid var(--hair);border-radius:16px;padding:14px;font-family:var(--serif);font-size:16.5px;line-height:1.5;resize:none;outline:none}
+.sheet textarea:focus{border-color:var(--gold)}
+.opt{display:flex;align-items:center;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--hair);gap:12px}
+.opt .r{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--muted);flex:none}
+.opt.on .r{border-color:var(--gold);background:radial-gradient(var(--gold) 45%,transparent 50%)}
+.opt span{flex:1;font-size:15px}
+.opt small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.toast{position:absolute;left:50%;bottom:122px;z-index:40;transform:translate(-50%,20px);background:var(--text);color:var(--bg);font-size:13px;padding:10px 16px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:all .25s;max-width:330px;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Stillness ---------- */
+.still{position:absolute;inset:0;z-index:30;background:#000;color:#f4eee1;display:none;flex-direction:column;align-items:center;text-align:center;padding:26px 30px 40px}
+.still.open{display:flex}
+.still .x{align-self:flex-end;font-size:13px;color:#a79d89;padding:10px 4px}
+.still .ref{color:#f2b632;margin-top:8px}
+.orbwrap{flex:none;width:240px;height:240px;margin-top:44px;display:flex;align-items:center;justify-content:center;position:relative}
+.orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 50% 45%,rgba(242,182,50,.55),rgba(242,182,50,.06) 70%);border:1px solid rgba(242,182,50,.5)}
+.still.run .orb{animation:breathe 10s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.9)}}
+.orbwrap span{position:absolute;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#f4eee1}
+.phrase{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:25px;line-height:1.35;margin-top:44px;min-height:104px;transition:opacity .8s}
+.pips{display:flex;gap:8px;margin-top:14px}
+.pips i{width:6px;height:6px;border-radius:50%;background:rgba(244,238,225,.22)}
+.pips i.on{background:#f2b632}
+.still .end{margin-top:auto;border:1px solid rgba(242,182,50,.45);color:#f2b632;border-radius:999px;padding:12px 26px;font-size:14px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="phone" id="phone" data-theme="night" data-hour="night">
+
+  <div class="screens">
+
+    <!-- HOME -->
+    <section class="screen active" id="s-home">
+      <div class="sky"></div>
+      <div class="mast">
+        <h1>Eliana</h1>
+        <div class="means">God has answered</div>
+        <button class="gear" onclick="settingsSheet()" aria-label="Settings">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>
+        </button>
+      </div>
+      <div class="greet caps" id="greet"></div>
+      <svg id="arc" viewBox="0 0 390 104" role="group" aria-label="The hours of the day"></svg>
+
+      <div class="pad">
+        <div class="wordrow">
+          <div>
+            <div class="caps gold">Sacred Word</div>
+          </div>
+          <div class="dayswitch">
+            <button id="dprev" onclick="setDay('yesterday')" aria-label="Yesterday's word">&#8249;</button>
+            <span id="dlabel">Today</span>
+            <button id="dnext" onclick="setDay('today')" aria-label="Back to today">&#8250;</button>
+            <button class="star" id="star" onclick="toggleStar()" aria-label="Save this word">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="verse" id="verse"></div>
+        <div class="srcrow">
+          <div class="src" id="src"></div>
+          <button class="peek" id="peek" onclick="wordPeek()"></button>
+        </div>
+
+        <div class="carry">
+          <div class="caps gold">Carry it with you</div>
+          <p id="carry"></p>
+          <button class="morelink" id="morelink" onclick="toggleMore()">More: Notice This &middot; Why It Matters</button>
+          <div class="more" id="more">
+            <h4 class="caps">Notice this</h4><p id="notice"></p>
+            <h4 class="caps">Why it matters</h4><p id="why"></p>
+          </div>
+        </div>
+
+        <div class="step" id="step"></div>
+        <div class="links" id="links"></div>
+
+        <div style="margin-top:14px">
+          <button class="rowlink" onclick="openBible('john3','read',16)">
+            <span class="t"><span class="caps muted">Continue reading</span><b>John 3:16</b><small>For God so loved the world that He gave His one and only Son&hellip;</small></span>
+            <span class="chev">&#8250;</span>
+          </button>
+        </div>
+
+        <div class="bless">
+          <div class="caps muted">A blessing to end on</div>
+          <div class="he">יְבָרֶכְךָ יְהוָה וְיִשְׁמְרֶךָ<br>יָאֵר יְהוָה פָּנָיו אֵלֶיךָ וִיחֻנֶּךָּ<br>יִשָּׂא יְהוָה פָּנָיו אֵלֶיךָ וְיָשֵׂם לְךָ שָׁלוֹם</div>
+          <div class="en">The LORD bless you and keep you; the LORD make His face shine upon you and be gracious to you; the LORD lift up His countenance upon you and give you peace.</div>
+          <div class="ref">Numbers 6:24&ndash;26 &middot; BSB</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIBLE -->
+    <section class="screen" id="s-bible">
+      <div class="bbar">
+        <div class="top">
+          <button class="chap" onclick="chapterSheet()"><span id="chapname"></span><small id="chaptr"></small><i>&#9662;</i></button>
+          <button class="aa" onclick="cycleSize()" aria-label="Text size">Aa</button>
+        </div>
+        <div class="seg">
+          <button id="m-read" onclick="setMode('read')">Read</button>
+          <button id="m-study" onclick="setMode('study')">Study</button>
+        </div>
+      </div>
+      <div id="bbody"></div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="screen" id="s-journey">
+      <div class="pad" style="padding-bottom:60px">
+        <div class="ptitle">Journey</div>
+        <div class="psub">Prayer, reflection, and room to be still.
+          <i>&ldquo;Your word is a lamp to my feet and a light to my path.&rdquo; Psalm 119:105</i></div>
+        <div class="big2">
+          <button onclick="journalSheet()"><b>Write</b><span>Put what is on your heart into words.</span><em>Help me start</em></button>
+          <button onclick="praySheet()"><b>Pray</b><span>Pray today's word, or revisit your own prayers.</span><em>Pray this</em></button>
+        </div>
+        <div class="caps sect">Also on the way</div>
+        <div style="margin-top:8px">
+          <button class="rowlink" onclick="startStill()"><span class="t"><b>Sacred Stillness</b><small>One quiet minute, breathing through today's word.</small></span><span class="chev">&#8250;</span></button>
+          <button class="rowlink" onclick="go('eliana')"><span class="t"><b>Talk with Eliana</b><small>Bring a question, or what is on your mind.</small></span><span class="chev">&#8250;</span></button>
+          <button class="rowlink" onclick="toast('The Library is not built in this mockup')"><span class="t"><b>The Library</b><small>Foundations, Aliyah, and the guided studies.</small></span><span class="chev">&#8250;</span></button>
+        </div>
+        <div class="caps sect">Look back</div>
+        <div id="lookback" style="margin-top:8px"></div>
+      </div>
+    </section>
+
+    <!-- ELIANA -->
+    <section class="screen" id="s-eliana">
+      <div class="chat" id="chat">
+        <div class="hello">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" class="gold" style="color:var(--gold)"><path d="M10 3.5l1.8 4.7 4.7 1.8-4.7 1.8L10 16.5l-1.8-4.7L3.5 10l4.7-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg>
+          <h2>I'm Eliana</h2>
+          <p>Your spiritual companion, here to walk with you through Scripture, prayer, and whatever is on your heart.</p>
+          <i>What's on your heart today?</i>
+        </div>
+      </div>
+      <div class="sugg">
+        <button onclick="ask('word')">Today's word</button>
+        <button onclick="ask('chapter')">The chapter I'm in</button>
+        <button onclick="ask('question')">Ask a question</button>
+      </div>
+      <div class="compose">
+        <input id="cin" placeholder="Share what's on your heart&hellip;" onkeydown="if(event.key==='Enter')sendChat()">
+        <button onclick="sendChat()" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="vbar" id="vbar">
+    <button onclick="vAct('study')">Study</button>
+    <button onclick="vAct('pray')">Pray</button>
+    <button onclick="vAct('journal')">Journal</button>
+    <button onclick="vAct('save')">Save</button>
+  </div>
+
+  <button class="ribbon" id="ribbon" onclick="go('home')"></button>
+
+  <nav class="tabs">
+    <button id="t-home" class="on" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8.5a.5.5 0 0 1-.5.5H14v-6h-4v6H4.5a.5.5 0 0 1-.5-.5z"/></svg>Home</button>
+    <button id="t-bible" onclick="go('bible')"><svg viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.6 4 5v13c3-.4 6 0 8 1.5 2-1.500 5-1.900 8-1.500V5c-3-.4-6 0-8 1.500zM12 6.500V19.500"/></svg>Bible</button>
+    <button id="t-journey" onclick="go('journey')"><svg viewBox="0 0 24 24"><path d="M5 19c0-5 4-4 7-7s2-7 7-7"/><circle cx="5" cy="19" r="1.6"/><circle cx="19" cy="5" r="1.600"/></svg>Journey</button>
+    <button id="t-eliana" onclick="go('eliana')"><svg viewBox="0 0 24 24"><path d="M10 3.500l1.800 4.700 4.700 1.800-4.700 1.800L10 16.500l-1.800-4.700L3.500 10l4.700-1.800z"/><path d="M18 14l.9 2.100L21 17l-2.100.9L18 20l-.9-2.100L15 17l2.100-.9z"/></svg>Eliana</button>
+  </nav>
+
+  <div class="scrim" id="scrim" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet"></div>
+
+  <div class="still" id="still">
+    <button class="x" onclick="stopStill()">Close</button>
+    <div class="caps" style="color:#a79d89">Sacred Stillness</div>
+    <div class="caps ref" id="stref"></div>
+    <div class="orbwrap"><div class="orb"></div><span id="stbreath">Breathe in</span></div>
+    <div class="phrase" id="stphrase"></div>
+    <div class="pips" id="stpips"></div>
+    <button class="end" id="stend" onclick="stopStill()">End early</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var phone=$('phone');
+
+/* ---------------- content ---------------- */
+var DAYS={
+  today:{
+    label:'Today', ref:'Galatians 2:20', short:'Gal 2:20', ch:'gal2', v:20, phrase:'Christ lives in me',
+    texts:[
+      {name:'Eliana Bible', mark:true, html:'I have been <span class="wd" onclick="wordPeek()">crucified with Christ</span>, and I no longer live, but <span class="cp">Christ lives in me</span>. And the life I now live in the body, I live by faith in the Son of God, who loved me and gave himself up for me.'},
+      {name:'BSB', html:'I have been <span class="wd" onclick="wordPeek()">crucified with Christ</span>, and I no longer live, but <span class="cp">Christ lives in me</span>. The life I live in the body, I live by faith in the Son of God, who loved me and gave Himself up for me.'}
+    ],
+    carry:"Ask where you're still trying to run your life as though the old self were still in charge, rather than living out of the reality that Christ's love and self-giving for you is what now defines you.",
+    notice:'Paul says &ldquo;live&rdquo; four times in one sentence: I no longer live, Christ lives, the life I now live, I live by faith. The crucifixion is in the Greek perfect: done, and still standing.',
+    why:'The verse does not tell you to crucify yourself. It says the crucifixion has happened, with Christ, and that the life which follows is lived by trusting the Son of God who loved you and gave himself up for you.',
+    word:{w:'συνεσταύρωμαι', tr:'synestaurōmai', gl:'I have been crucified with', lang:'Greek', line:'One word in Greek where English needs five.'},
+    breaths:['I have been crucified with Christ,','and I no longer live,','but Christ lives in me.','And the life I now live in the body,','I live by faith in the Son of God,','who loved me and gave himself up for me.'],
+    prompt:'Where did the old self try to take charge today?'
+  },
+  yesterday:{
+    label:'Yesterday', ref:'Psalm 46:10', short:'Ps 46:10', ch:'ps46', v:10, phrase:'Be still and know',
+    texts:[
+      {name:'BSB', html:'&ldquo;<span class="wd" onclick="wordPeek()">Be still</span> and <span class="cp">know that I am God</span>; I will be exalted among the nations, I will be exalted over the earth.&rdquo;'}
+    ],
+    carry:'Name the one thing you have been gripping, and loosen your hand on it. The God who gives the command says in the same breath that he will be exalted over the earth.',
+    notice:'Before this line the psalm has mountains falling into the sea and nations in uproar. The Hebrew verb is harpu: let drop, slacken, stop.',
+    why:'The stillness rests on who God is. &ldquo;I will be exalted among the nations&rdquo;: the outcome is his, so the hands can open.',
+    word:{w:'הַרְפּוּ', tr:'harpu', gl:'let go, be still', lang:'Hebrew', he:true, line:'A command to stop striving, spoken to many at once.'},
+    breaths:['Be still','and know that I am God;','I will be exalted among the nations,','I will be exalted over the earth.','The LORD of Hosts is with us;','the God of Jacob is our fortress.'],
+    prompt:'What did you let go of, and what are you still holding?'
+  }
+};
+
+var CH={
+  gal2:{book:'Galatians',n:2,tr:'BSB',focus:20,note:'Verses 15 to 21 are set in this mockup.',verses:[
+    [15,'We who are Jews by birth and not Gentile &ldquo;sinners&rdquo;'],
+    [16,'know that a man is not justified by works of the law, but by faith in Jesus Christ. So we, too, have believed in Christ Jesus, that we may be justified by faith in Christ and not by works of the law, because by works of the law no one will be justified.'],
+    [17,'But if, while we seek to be justified in Christ, we ourselves are found to be sinners, does that make Christ a minister of sin? Certainly not!'],
+    [18,'If I rebuild what I have already torn down, I prove myself to be a lawbreaker.'],
+    [19,'For through the law I died to the law so that I might live to God.'],
+    [20,'I have been crucified with Christ, and I no longer live, but Christ lives in me. The life I live in the body, I live by faith in the Son of God, who loved me and gave Himself up for me.'],
+    [21,'I do not set aside the grace of God. For if righteousness comes through the law, Christ died for nothing.&rdquo;']
+  ]},
+  john3:{book:'John',n:3,tr:'BSB',focus:16,note:'Verses 14 to 17 are set in this mockup.',verses:[
+    [14,'Just as Moses lifted up the snake in the wilderness, so the Son of Man must be lifted up,'],
+    [15,'that everyone who believes in Him may have eternal life.'],
+    [16,'For God so loved the world that He gave His one and only Son, that everyone who believes in Him shall not perish but have eternal life.'],
+    [17,'For God did not send His Son into the world to condemn the world, but to save the world through Him.']
+  ]},
+  ps46:{book:'Psalms',n:46,tr:'BSB',focus:10,note:'Verses 8 to 11 are set in this mockup.',verses:[
+    [8,'Come, see the works of the LORD, who brings devastation upon the earth.'],
+    [9,'He makes wars to cease throughout the earth; He breaks the bow and shatters the spear; He burns the shields in the fire.'],
+    [10,'&ldquo;Be still and know that I am God; I will be exalted among the nations, I will be exalted over the earth.&rdquo;'],
+    [11,'The LORD of Hosts is with us; the God of Jacob is our fortress. <i>Selah</i>']
+  ]}
+};
+
+var STUDY={
+  'gal2:20':{ref:'Galatians 2:20',lang:'Greek',
+    eliana:'I have been crucified with Christ, and I no longer live, but Christ lives in me. And the life I now live in the body, I live by faith in the Son of God, who loved me and gave himself up for me.',
+    orig:'Χριστῷ συνεσταύρωμαι· ζῶ δὲ οὐκέτι ἐγώ, ζῇ δὲ ἐν ἐμοὶ Χριστός· ὃ δὲ νῦν ζῶ ἐν σαρκί, ἐν πίστει ζῶ τῇ τοῦ υἱοῦ τοῦ θεοῦ τοῦ ἀγαπήσαντός με καὶ παραδόντος ἑαυτὸν ὑπὲρ ἐμοῦ.',
+    words:[
+      {w:'συνεσταύρωμαι',tr:'synestaurōmai',gl:'I have been crucified with',note:'Perfect tense, passive voice: done to Paul, finished, and still in force. The same verb names the men crucified beside Jesus in Matthew 27:44.'},
+      {w:'ζῶ',tr:'zō',gl:'I live',note:'Forms of this verb come four times in the sentence: I no longer live, Christ lives, the life I now live, I live by faith.'},
+      {w:'πίστει',tr:'pistei',gl:'faith, trust',note:'Paul puts it first in its clause: &ldquo;in faith I live.&rdquo; Faith is the manner of the new life.'},
+      {w:'παραδόντος',tr:'paradontos',gl:'gave up, handed over',note:'From paradidōmi, the Gospels&rsquo; word for Jesus being handed over. Here he is the one who does it: he gave himself.'}
+    ],
+    door:{label:'The same word elsewhere &middot; Romans 6:6',q:'We know that our old self was crucified with Him so that the body of sin might be rendered powerless, that we should no longer be slaves to sin.'}
+  },
+  'john3:16':{ref:'John 3:16',lang:'Greek',
+    eliana:'For God loved the world in this way: he gave his one-and-only Son, so that everyone who believes in him would not perish but have eternal life.',
+    orig:'Οὕτως γὰρ ἠγάπησεν ὁ Θεὸς τὸν κόσμον ὥστε τὸν Υἱὸν τὸν μονογενῆ ἔδωκεν ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον.',
+    words:[
+      {w:'Οὕτως',tr:'houtōs',gl:'in this way',note:'Points to the manner of the love: this is how God loved the world, by giving.'},
+      {w:'ἠγάπησεν',tr:'ēgapēsen',gl:'loved',note:'The verb of the sentence. Its subject is God and its object is the world.'},
+      {w:'μονογενῆ',tr:'monogenē',gl:'one-and-only',note:'This adjective is often translated &ldquo;only begotten,&rdquo; a rendering going back through the Latin Vulgate&rsquo;s unigenitus.'},
+      {w:'αἰώνιον',tr:'aiōnion',gl:'eternal',note:'It describes the life: zōēn aiōnion, the life the believer has in him.'}
+    ]
+  },
+  'ps46:10':{ref:'Psalm 46:10',lang:'Hebrew',he:true,sub:'46:11 in Hebrew numbering',
+    orig:'הַרְפּוּ וּדְעוּ כִּי־אָנֹכִי אֱלֹהִים אָרוּם בַּגּוֹיִם אָרוּם בָּאָרֶץ',
+    words:[
+      {w:'הַרְפּוּ',tr:'harpu',gl:'let go, be still',note:'An imperative in the plural, addressed to many. From rapha: to slacken, to let drop.'},
+      {w:'וּדְעוּ',tr:'ude‘u',gl:'and know',note:'A second imperative joined to the first: stop, and know.'},
+      {w:'אָרוּם',tr:'arum',gl:'I will be exalted',note:'Said twice in the line: among the nations, in the earth.'}
+    ]
+  }
+};
+
+var HOURS=['morning','midday','evening','night'];
+var HMETA={
+  morning:{name:'Morning',verb:'Receive',greet:'Good morning',kick:'This morning &middot; Receive',act:'insight'},
+  midday:{name:'Midday',verb:'Read',greet:'Good afternoon',kick:'Midday &middot; Read',act:'read'},
+  evening:{name:'Evening',verb:'Reflect',greet:'Good evening',kick:'This evening &middot; Reflect',act:'journal'},
+  night:{name:'Night',verb:'Rest',greet:'Good night',kick:'Tonight &middot; Rest',act:'still'}
+};
+var ACT_LABEL={read:'Read in the Bible',insight:'Deeper insight',pray:'Pray this',journal:'Journal',still:'Stillness'};
+
+/* ---------------- state ---------------- */
+function clockHour(){var h=new Date().getHours();return h>=5&&h<11?'morning':h>=11&&h<16?'midday':h>=16&&h<21?'evening':'night';}
+var S={tab:'home',now:clockHour(),hour:null,day:'today',txt:0,atmos:'follow',done:{},starred:{},
+       ch:'gal2',mode:'read',sel:null,sv:20,wi:0,size:1,entries:[]};
+S.hour=S.now;
+function day(){return DAYS[S.day];}
+
+/* ---------------- arc ---------------- */
+var U={morning:.18,midday:.5,evening:.82,night:1.12};
+function pt(u){return [24+342*u/1.25, 54-38*Math.sin(Math.PI*u)];}
+function buildArc(){
+  var a='',b='',i,p;
+  for(i=0;i<=40;i++){p=pt(i/40);a+=(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}
+  for(i=0;i<=12;i++){p=pt(1+.25*i/12);b+=(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}
+  var h='<line class="horizon" x1="12" y1="54" x2="378" y2="54"/><path class="day" d="'+a+'"/><path class="under" d="'+b+'"/>';
+  h+='<g id="sun"><circle class="halo" r="13"/><circle class="core" r="6"/></g>';
+  HOURS.forEach(function(k){
+    p=pt(U[k]);
+    h+='<g class="stop" id="stop-'+k+'" onclick="setHour(\''+k+'\')"><rect class="hit" x="'+(p[0]-40)+'" y="0" width="80" height="104"/>'+
+       '<circle class="dot" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.6"/>'+
+       '<text x="'+p[0].toFixed(1)+'" y="86">'+HMETA[k].name+'</text><text class="verb" x="'+p[0].toFixed(1)+'" y="99">'+HMETA[k].verb+'</text></g>';
+  });
+  $('arc').innerHTML=h;
+}
+
+/* ---------------- rendering ---------------- */
+function applyTheme(){
+  var t=S.atmos==='night'?'night':S.atmos==='day'?'day':((S.hour==='morning'||S.hour==='midday')?'day':'night');
+  phone.setAttribute('data-theme',t);
+  phone.setAttribute('data-hour',S.hour);
+}
+function renderHome(){
+  var d=day(),m=HMETA[S.hour],p=pt(U[S.hour]);
+  applyTheme();
+  var date=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  $('greet').innerHTML=(S.hour===S.now?m.greet+' &middot; '+date:'Looking ahead to '+m.name.toLowerCase()+'<button onclick="setHour(\''+S.now+'\')">back to now</button>');
+  if(S.hour!==S.now&&HOURS.indexOf(S.hour)<HOURS.indexOf(S.now)){$('greet').innerHTML='Looking back at '+m.name.toLowerCase()+'<button onclick="setHour(\''+S.now+'\')">back to now</button>';}
+  $('sun').style.transform='translate('+p[0].toFixed(1)+'px,'+p[1].toFixed(1)+'px)';
+  HOURS.forEach(function(k){
+    var el=$('stop-'+k);
+    el.setAttribute('class','stop'+(k===S.hour?' on':'')+(S.done[HMETA[k].act]?' done':''));
+  });
+  /* the word */
+  $('dlabel').textContent=d.label+' · '+d.ref;
+  $('dprev').disabled=S.day==='yesterday';
+  $('dnext').disabled=S.day==='today';
+  var t=d.texts[Math.min(S.txt,d.texts.length-1)];
+  $('verse').innerHTML=t.html;
+  var src='';
+  d.texts.forEach(function(x,i){
+    src+=(i?' &middot; ':'')+'<button class="'+(i===Math.min(S.txt,d.texts.length-1)?'on':'')+'" onclick="setTxt('+i+')">'+(x.mark?'&#10022; ':'')+x.name+'</button>';
+  });
+  $('src').innerHTML=src;
+  $('peek').innerHTML='<b'+(d.word.he?' dir="rtl"':'')+'>'+d.word.w+'</b> '+d.word.lang+' &#8250;';
+  $('carry').textContent=d.carry;
+  $('notice').innerHTML=d.notice;
+  $('why').innerHTML=d.why;
+  $('star').firstElementChild.setAttribute('fill',S.starred[S.day]?'currentColor':'none');
+  /* the hour's step */
+  var c=CH[d.ch],title,body,btn;
+  if(m.act==='insight'){title='Look closer at the word';body='One '+d.word.lang+' word carries this verse: '+d.word.tr+', &ldquo;'+d.word.gl+'&rdquo;.';btn='Deeper insight';}
+  if(m.act==='read'){title='Read the chapter it lives in';body=c.book+' '+c.n+', with '+d.ref+' marked where it falls.';btn='Read '+c.book+' '+c.n;}
+  if(m.act==='journal'){title='Write one honest line';body=d.prompt+' Your journal will hold '+d.ref+' beside it.';btn='Open the journal';}
+  if(m.act==='still'){title='One quiet minute';body='Six slow breaths through the verse, a phrase at a time.';btn='Begin stillness';}
+  $('step').innerHTML='<div class="caps gold">'+m.kick+(S.done[m.act]?' &middot; done':'')+'</div><h3>'+title+'</h3><p>'+body+'</p>'+
+    '<button class="btn wide" onclick="act(\''+m.act+'\')">'+btn+'</button>';
+  var l='';
+  ['read','insight','pray','journal','still'].forEach(function(k){
+    if(k!==m.act)l+='<button onclick="act(\''+k+'\')">'+ACT_LABEL[k]+'</button>';
+  });
+  $('links').innerHTML=l;
+  $('ribbon').innerHTML='Carrying <b>'+d.phrase+'</b> '+d.short;
+}
+function renderBible(){
+  var c=CH[S.ch],h='',key=S.ch+':'+S.sv;
+  $('chapname').textContent=c.book+' '+c.n;
+  $('chaptr').textContent=c.tr;
+  $('m-read').className=S.mode==='read'?'on':'';
+  $('m-study').className=S.mode==='study'?'on':'';
+  $('vbar').className='vbar'+(S.mode==='read'&&S.sel!==null&&S.tab==='bible'?' open':'');
+  if(S.mode==='read'){
+    var fs=[17,19,21.5][S.size];
+    h='<div class="reading" style="font-size:'+fs+'px"><div class="note">'+c.note+'</div><span class="num">'+c.n+'</span>';
+    c.verses.forEach(function(v){
+      var isToday=(DAYS.today.ch===S.ch&&DAYS.today.v===v[0])||(DAYS.yesterday.ch===S.ch&&DAYS.yesterday.v===v[0]);
+      h+='<span class="v'+(isToday?' today':'')+(S.sel===v[0]?' sel':'')+'" id="v'+v[0]+'" onclick="selV('+v[0]+')"><sup>'+v[0]+'</sup>'+v[1]+' </span>';
+    });
+    h+='</div>';
+  }else{
+    var st=STUDY[key];
+    if(!st){S.sv=c.focus;key=S.ch+':'+S.sv;st=STUDY[key];}
+    var w=st.words[S.wi]||st.words[0],plain='';
+    c.verses.forEach(function(v){if(v[0]===S.sv)plain=v[1];});
+    h='<div class="study"><div class="scard"><div class="shead"><button onclick="stepV(-1)" aria-label="Previous verse">&#8249;</button><b>'+st.ref+'</b><button onclick="stepV(1)" aria-label="Next verse">&#8250;</button></div>';
+    if(st.sub)h+='<div class="muted" style="text-align:center;font-size:11.5px;margin-top:-4px">'+st.sub+'</div>';
+    if(st.eliana)h+='<div class="caps gold" style="margin-top:8px">&#10022; Eliana Bible</div><div class="srend">'+st.eliana+'</div>';
+    h+='<div class="sorig'+(st.he?' he':'')+'" lang="'+(st.he?'he':'el')+'">'+st.orig+'</div>';
+    h+='<div class="chips">';
+    st.words.forEach(function(x,i){h+='<button class="'+(i===S.wi?'on':'')+'" onclick="pickW('+i+')"><b'+(st.he?' dir="rtl"':'')+'>'+x.w+'</b><small>'+x.tr+'</small></button>';});
+    h+='</div><div class="wnote"><span class="big">'+w.w+'</span><span class="tr">'+w.tr+'</span><div class="gl">'+w.gl+'</div><p>'+w.note+'</p></div>';
+    if(st.door)h+='<button class="door" onclick="toast(\'Romans 6 opens here in the real app\')"><span class="caps gold">'+st.door.label+' &#8250;</span><q>'+st.door.q+'</q></button>';
+    h+='<button class="btn ghost wide" onclick="toast(\'The full study is not built in this mockup\')">Read the full study</button></div>';
+    h+='<div class="plain"><div class="caps muted">'+c.tr+'</div><p>'+plain+'</p></div></div>';
+  }
+  $('bbody').innerHTML=h;
+}
+function renderJourney(){
+  var h='';
+  if(!S.entries.length)h='<div class="empty">Your journal will appear here after your first entry.</div>';
+  S.entries.forEach(function(e){h+='<div class="entry"><div class="caps gold">'+e.kind+' &middot; '+e.ref+'</div><p></p></div>';});
+  $('lookback').innerHTML=h;
+  var ps=$('lookback').getElementsByTagName('p');
+  S.entries.forEach(function(e,i){ps[i].textContent=e.text;});
+}
+
+/* ---------------- navigation ---------------- */
+window.go=function(tab){
+  S.tab=tab;
+  ['home','bible','journey','eliana'].forEach(function(k){
+    $('s-'+k).className='screen'+(k===tab?' active':'');
+    $('t-'+k).className=k===tab?'on':'';
+  });
+  $('ribbon').className='ribbon'+(tab==='home'?'':' show');
+  if(tab==='home')renderHome();
+  if(tab==='bible')renderBible(); else $('vbar').className='vbar';
+  if(tab==='journey')renderJourney();
+};
+window.setHour=function(h){S.hour=h;renderHome();};
+window.setDay=function(k){S.day=k;S.txt=0;$('more').className='more';$('morelink').style.display='';renderHome();$('s-home').scrollTop=0;};
+window.setTxt=function(i){S.txt=i;renderHome();};
+window.toggleMore=function(){$('more').className='more open';$('morelink').style.display='none';};
+window.toggleStar=function(){S.starred[S.day]=!S.starred[S.day];renderHome();toast(S.starred[S.day]?'Saved to your words':'Removed from your words');};
+window.act=function(k){
+  var d=day();
+  if(k==='read'){S.done.read=true;openBible(d.ch,'read',d.v);}
+  if(k==='insight'){S.done.insight=true;openBible(d.ch,'study',d.v);}
+  if(k==='pray')praySheet();
+  if(k==='journal')journalSheet();
+  if(k==='still')startStill();
+};
+window.openBible=function(ch,mode,v){
+  S.ch=ch;S.mode=mode;S.sel=null;S.sv=v||CH[ch].focus;S.wi=0;
+  go('bible');
+  var sc=$('s-bible');
+  sc.scrollTop=0;
+  if(mode==='read'){var el=$('v'+S.sv);if(el)sc.scrollTop=Math.max(0,el.offsetTop-170);}
+};
+window.setMode=function(m){
+  S.mode=m;
+  if(m==='study'){if(S.sel!==null)S.sv=S.sel;if(!STUDY[S.ch+':'+S.sv])S.sv=CH[S.ch].focus;S.wi=0;}
+  S.sel=null;renderBible();$('s-bible').scrollTop=0;
+};
+window.selV=function(n){S.sel=S.sel===n?null:n;renderBible();};
+window.stepV=function(){toast('This mockup carries the study layer for '+STUDY[S.ch+':'+S.sv].ref+' only');};
+window.pickW=function(i){S.wi=i;var y=$('s-bible').scrollTop;renderBible();$('s-bible').scrollTop=y;};
+window.cycleSize=function(){S.size=(S.size+1)%3;if(S.mode==='read')renderBible();else toast('Text size applies in Read');};
+window.vAct=function(k){
+  var c=CH[S.ch],ref=c.book+' '+c.n+':'+S.sel;
+  if(k==='study'){
+    if(STUDY[S.ch+':'+S.sel]){setMode('study');}
+    else toast('This mockup carries the study layer for '+c.book+' '+c.n+':'+c.focus+' only');
+  }
+  if(k==='pray')praySheet(ref,verseText(S.ch,S.sel));
+  if(k==='journal')journalSheet(ref,verseText(S.ch,S.sel));
+  if(k==='save'){toast(ref+' saved');S.sel=null;renderBible();}
+};
+function verseText(ch,n){var t='';CH[ch].verses.forEach(function(v){if(v[0]===n)t=v[1];});return t;}
+function plainOf(d){var t=d.texts[Math.min(S.txt,d.texts.length-1)].html;return t.replace(/<[^>]+>/g,'');}
+
+/* ---------------- sheets ---------------- */
+function openSheet(html){$('sheet').innerHTML='<div class="grab"></div>'+html;$('sheet').className='sheet open';$('scrim').className='scrim open';$('sheet').scrollTop=0;}
+window.closeSheet=function(){$('sheet').className='sheet';$('scrim').className='scrim';};
+window.wordPeek=function(){
+  var d=day(),st=STUDY[d.ch+':'+d.v],w=st.words[0];
+  openSheet('<div class="caps gold">'+d.word.lang+' &middot; '+d.ref+'</div>'+
+    '<div style="font-family:var(--orig);font-size:'+(d.word.he?'44':'34')+'px;color:var(--gold);margin-top:10px;line-height:1.25"'+(d.word.he?' dir="rtl"':'')+'>'+w.w+'</div>'+
+    '<div class="muted" style="font-style:italic;margin-top:4px">'+w.tr+'</div>'+
+    '<h2 style="margin-top:12px">'+w.gl+'</h2>'+
+    '<p style="font-size:14.5px;line-height:1.55;margin-top:8px">'+w.note+'</p>'+
+    '<button class="btn wide" onclick="closeSheet();act(\'insight\')">Open the study of this verse</button>');
+};
+window.journalSheet=function(ref,text){
+  var d=day();ref=ref||d.ref;text=text||plainOf(d);
+  S._ref=ref;
+  openSheet('<div class="caps gold">Journal &middot; '+ref+'</div><h2 style="margin-top:8px">'+d.prompt+'</h2>'+
+    '<div class="quote">'+text+'</div>'+
+    '<textarea id="jtext" placeholder="One honest line is enough."></textarea>'+
+    '<button class="btn wide" onclick="saveEntry(\'Journal\',\'jtext\')">Keep this entry</button>');
+};
+window.praySheet=function(ref,text){
+  var d=day();ref=ref||d.ref;text=text||plainOf(d);
+  S._ref=ref;
+  openSheet('<div class="caps gold">Pray this &middot; '+ref+'</div><h2 style="margin-top:8px">Pray the verse back to God</h2>'+
+    '<div class="quote">'+text+'</div>'+
+    '<textarea id="ptext" placeholder="Begin in your own words&hellip;"></textarea>'+
+    '<button class="btn wide" onclick="saveEntry(\'Prayer\',\'ptext\')">Keep this prayer</button>'+
+    '<button class="btn ghost wide" style="margin-top:10px" onclick="toast(\'Eliana writes a prayer from the verse here in the real app\')">Help me find words</button>');
+};
+window.saveEntry=function(kind,id){
+  var t=$(id).value.replace(/^\s+|\s+$/g,'');
+  if(!t){toast('Write a line first');return;}
+  S.entries.unshift({kind:kind,ref:S._ref,text:t});
+  if(kind==='Journal')S.done.journal=true;
+  closeSheet();toast(kind==='Journal'?'Kept in your journal':'Kept with your prayers');
+  if(S.tab==='journey')renderJourney();
+  if(S.tab==='home')renderHome();
+};
+window.settingsSheet=function(){
+  function o(k,t,s){return '<button class="opt'+(S.atmos===k?' on':'')+'" onclick="setAtmos(\''+k+'\')"><i class="r"></i><span>'+t+'<small>'+s+'</small></span></button>';}
+  openSheet('<div class="caps gold">Settings</div><h2 style="margin-top:8px">Atmosphere</h2><div style="margin-top:12px">'+
+    o('follow','Follow the day','Vellum from morning to mid-afternoon, Shekinah black and gold from evening on.')+
+    o('night','Always Shekinah','Black and gold at every hour.')+
+    o('day','Always Vellum','Warm paper at every hour.')+'</div>');
+};
+window.setAtmos=function(k){S.atmos=k;applyTheme();settingsSheet();};
+window.chapterSheet=function(){
+  var h='<div class="caps gold">Bible &middot; BSB</div><h2 style="margin-top:8px">Chapters in this mockup</h2><div style="margin-top:12px">';
+  [['gal2','Today\'s word is here'],['john3','Where you left off'],['ps46','Yesterday\'s word is here']].forEach(function(x){
+    var c=CH[x[0]];
+    h+='<button class="opt'+(S.ch===x[0]?' on':'')+'" onclick="closeSheet();openBible(\''+x[0]+'\',\'read\')"><i class="r"></i><span>'+c.book+' '+c.n+'<small>'+x[1]+'</small></span></button>';
+  });
+  openSheet(h+'</div>');
+};
+
+/* ---------------- stillness ---------------- */
+var stT=null,stI=0;
+window.startStill=function(){
+  var d=day(),n=d.breaths.length,i,p='';
+  closeSheet();
+  for(i=0;i<n;i++)p+='<i></i>';
+  $('stpips').innerHTML=p;$('stref').textContent=d.ref;$('stend').textContent='End early';
+  $('still').className='still open run';
+  stI=0;tick();
+  stT=setInterval(function(){stI++;tick();},5000);
+};
+function tick(){
+  var d=day(),n=d.breaths.length,b=Math.floor(stI/2),pips=$('stpips').children,i;
+  if(b>=n){
+    clearInterval(stT);stT=null;
+    $('still').className='still open';
+    $('stbreath').textContent='Amen';
+    $('stphrase').innerHTML='The LORD bless you and keep you.<div class="caps" style="color:#a79d89;margin-top:12px;font-family:system-ui,sans-serif">Numbers 6:24</div>';
+    $('stend').textContent='Done';
+    S.done.still=true;
+    return;
+  }
+  $('stbreath').textContent=stI%2?'Breathe out':'Breathe in';
+  if(stI%2===0){$('stphrase').textContent=d.breaths[b];}
+  for(i=0;i<pips.length;i++)pips[i].className=i<=b?'on':'';
+}
+window.stopStill=function(){
+  if(stT){clearInterval(stT);stT=null;}
+  $('still').className='still';
+  if(S.tab==='home')renderHome();
+};
+
+/* ---------------- Eliana ---------------- */
+function bubble(cls,html,asText){
+  var el=document.createElement('div');el.className='msg '+cls;
+  if(asText)el.textContent=html;else el.innerHTML=html;
+  $('chat').appendChild(el);$('chat').scrollTop=$('chat').scrollHeight;
+}
+window.ask=function(k){
+  var d=day(),c=CH[S.ch];
+  if(k==='word'){bubble('me','Tell me about today\'s word.');bubble('el','<b style="font-weight:400;color:var(--gold)">'+d.ref+'</b><br>'+d.notice+'<br><br>'+d.why);}
+  if(k==='chapter'){bubble('me','Walk me through '+c.book+' '+c.n+'.');bubble('el','In the real app I answer here from '+c.book+' '+c.n+' itself. This mockup does not call the companion.');}
+  if(k==='question'){$('cin').focus();}
+};
+window.sendChat=function(){
+  var v=$('cin').value.replace(/^\s+|\s+$/g,'');
+  if(!v)return;
+  $('cin').value='';
+  bubble('me',v,true);
+  bubble('el','In the real app I answer here. This mockup does not call the companion.');
+};
+
+/* ---------------- toast ---------------- */
+var toT=null;
+window.toast=function(m){
+  var t=$('toast');t.textContent=m;t.className='toast show';
+  clearTimeout(toT);toT=setTimeout(function(){t.className='toast';},2200);
+};
+function toast(m){window.toast(m);}
+function praySheet(a,b){window.praySheet(a,b);}
+function journalSheet(a,b){window.journalSheet(a,b);}
+function startStill(){window.startStill();}
+function openBible(a,b,c){window.openBible(a,b,c);}
+function setMode(m){window.setMode(m);}
+function settingsSheet(){window.settingsSheet();}
+function closeSheet(){window.closeSheet();}
+function go(t){window.go(t);}
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeSheet();if($('still').className.indexOf('open')>-1)window.stopStill();}});
+
+buildArc();
+renderHome();
+})();
+</script>
+</body>
+</html>
